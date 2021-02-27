@@ -1,627 +1,327 @@
-/*
-Firmware for a segway-style robot using ESP8266.
-Copyright (C) 2017  Sakari Kapanen
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+   Copyright 2017 Dan Oprescu
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 */
-#include <WiFi.h>
-//#include <ESP8266WiFi.h>
-#include <ESPAsyncWebServer.h>
-#include <ArduinoOTA.h>
-#include <DNSServer.h>
 
-#include "src/flash_config.h"
-#include "src/motors.h"
-//#include "src/eyes.h"
+#include <Arduino.h>
+#include <main\include.h>
 
-extern "C" {
-#include "src/brzo_i2c/brzo_i2c.h"
-#include "src/mpu6050.h"
-#include "src/imu.h"
-#include "src/pid.h"
+#define PERIOD  4000    // loop period in micros
+#define PRINT_PERIOD  100000    // print period in micros
+
+//////////////// MOTORS ////////////////////////////
+
+#define MOT_R_ENB 32
+#define MOT_R_STP 33
+#define MOT_R_DIR 25
+#define MOT_R_CHANNEL 1   // for the ledc library
+
+#define MOT_L_ENB 26
+#define MOT_L_STP 14
+#define MOT_L_DIR 27
+#define MOT_L_CHANNEL 2   // for the ledc library
+
+#define MAX_SPEED 3200
+
+uint32_t prevSpeedStart;
+int16_t prevSpeed;
+int32_t currentPos = 0;
+
+///////////////// MPU-6050 //////////////////////////
+static int MPU_ADDR = 0x69; //AD0 is HIGH
+
+// MPU6050 specific
+#define MPU6050_FS_SEL0 3
+#define MPU6050_FS_SEL1 4
+#define MPU6050_AFS_SEL0 3
+#define MPU6050_AFS_SEL1 4
+
+// Combined definitions for the FS_SEL values.eg.  ±250 degrees/second
+#define MPU6050_FS_SEL_250  (0)
+#define MPU6050_FS_SEL_500  (bit(MPU6050_FS_SEL0))
+#define MPU6050_FS_SEL_1000 (bit(MPU6050_FS_SEL1))
+#define MPU6050_FS_SEL_2000 (bit(MPU6050_FS_SEL1) | bit(MPU6050_FS_SEL0))
+
+// Combined definitions for the AFS_SEL values
+#define MPU6050_AFS_SEL_2G  (0)
+#define MPU6050_AFS_SEL_4G  (bit(MPU6050_AFS_SEL0))
+#define MPU6050_AFS_SEL_8G  (bit(MPU6050_AFS_SEL1))
+#define MPU6050_AFS_SEL_16G (bit(MPU6050_AFS_SEL1)|bit(MPU6050_AFS_SEL0))
+
+// See page 12 & 13 of MPU-6050 datasheet for sensitivities config and corresponding output
+#define GYRO_FULL_SCALE_RANGE         MPU6050_FS_SEL_250
+#define GYRO_SCALE_FACTOR             131     // LSB / (degs per seconds)
+#define ACC_FULL_SCALE_RANGE          MPU6050_AFS_SEL_4G
+#define ACC_SCALE_FACTOR              8192    // LSB / g
+
+static float GYRO_RAW_TO_DEGS = 1.0 / (1000000.0 / PERIOD) / GYRO_SCALE_FACTOR;
+
+int16_t accX, accY, accZ;
+int16_t gyroX, gyroY, gyroZ;
+int16_t gyroX_calibration, gyroY_calibration, gyroZ_calibration;
+
+#define ACCEL_XOUT_H 0x3B
+#define ACCEL_XOUT_L 0x3C
+#define ACCEL_YOUT_H 0x3D
+#define ACCEL_YOUT_L 0x3E
+#define ACCEL_ZOUT_H 0x3F
+#define ACCEL_ZOUT_L 0x40
+
+#define GYRO_XOUT_H 0x43
+#define GYRO_XOUT_L 0x44
+#define GYRO_YOUT_H 0x45
+#define GYRO_YOUT_L 0x46
+#define GYRO_ZOUT_H 0x47
+#define GYRO_ZOUT_L 0x48
+
+//////// PID //////////
+
+#define MAX_PID_OUTPUT 1
+
+float BASE_Kp = 100.0, BASE_Ki = 5.0, BASE_Kd = 130.0;
+float Kp = BASE_Kp, Ki = BASE_Ki, Kd = BASE_Kd;
+float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
+float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
+
+float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
+float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
+#define MIN_CONTROL_ERR 1
+
+
+
+void disableL(bool orEnable) {
+  digitalWrite(MOT_L_ENB, orEnable);
+}
+void disableR(bool orEnable) {
+  digitalWrite(MOT_R_ENB, orEnable);
+}
+void forwardL(bool orBack) {
+  digitalWrite(MOT_L_DIR, !orBack); // If stepper is going wrong way, remove the "!"
+}
+void forwardR(bool orBack) {
+  digitalWrite(MOT_R_DIR, !orBack); // If stepper is going wrong way, remove the "!"
+}
+void setSpeed(int16_t s, int16_t rotation) {
+  int16_t sL = s - rotation;
+  int16_t sR = s + rotation;
+  boolean backwardL = sL < 0;
+  boolean backwardR = sR < 0;
+
+  if (backwardL) {
+    forwardL(false);
+    sL = -sL;
+  } else {
+    forwardL(true);
+  }
+  if (backwardR) {
+    forwardR(false);
+    sR = -sR;
+  } else {
+    forwardR(true);
+  }
+  disableL(sL < MAX_SPEED / 100);
+  disableR(sR < MAX_SPEED / 100);
+  if (sL > MAX_SPEED) sL = MAX_SPEED;
+  if (sR > MAX_SPEED) sR = MAX_SPEED;
+  // keep track of the position (in steps forward or backward)
+  currentPos += ((micros() - prevSpeedStart) / (float)1000000)  * prevSpeed;
+  prevSpeed = s;
+  prevSpeedStart = micros();
+  // set the new speed
+  ledcWriteTone(MOT_L_CHANNEL, sL);
+  ledcWriteTone(MOT_R_CHANNEL, sR);
 }
 
-#include "config.h"
-
-#define LOGMODE LOG_NONE
-
-#define FALL_LOWER_BOUND FLT_TO_Q16(STABLE_ANGLE - FALL_LIMIT)
-#define FALL_UPPER_BOUND FLT_TO_Q16(STABLE_ANGLE + FALL_LIMIT)
-#define RECOVER_LOWER_BOUND FLT_TO_Q16(STABLE_ANGLE - RECOVER_LIMIT)
-#define RECOVER_UPPER_BOUND FLT_TO_Q16(STABLE_ANGLE + RECOVER_LIMIT)
-#define ROLL_LOWER_BOUND FLT_TO_Q16(-ROLL_LIMIT)
-#define ROLL_UPPER_BOUND FLT_TO_Q16(ROLL_LIMIT)
-
-#define BATTERY_COEFFICIENT FLT_TO_Q16(100.0f / BATTERY_CALIBRATION_FACTOR)
-
-#define FREQUENCY_SAMPLES 1000
-#define QUAT_DELAY 50
-
-#define SAMPLE_TIME ((1.0f + MPU_RATE) / 1000.0f)
-
-#define CONFIG_VERSION 2
-
-const color_t RED = { 180, 0, 0 };
-const color_t YELLOW = { 180, 180, 0 };
-const color_t GREEN = { 0, 180, 0 };
-const color_t BLUE = { 0, 0, 180 };
-const color_t LILA = { 180, 0, 180 };
-const color_t BLACK = { 0, 0, 0 };
-
-enum logmode { LOG_FREQ, LOG_RAW, LOG_PITCH, LOG_NONE };
-enum state { STABILIZING_ORIENTATION, RUNNING, FALLEN, WOUND_UP };
-
-enum ws_msg_t {
-    STEERING = 0,
-
-    REQ_QUATERNION = 1,
-    RES_QUATERNION = 2,
-
-    BATTERY = 3,
-    BATTERY_CUTOFF = 4,
-
-    REQ_SET_PID_PARAMS = 5,
-    RES_SET_PID_PARAMS_ACK = 6,
-    REQ_GET_PID_PARAMS = 7,
-    RES_PID_PARAMS = 8,
-
-    REQ_SET_GYRO_OFFSETS = 9,
-    RES_SET_GYRO_OFFSETS_FAILURE = 10,
-    RES_SET_GYRO_OFFSETS_SUCCESS = 11,
-
-    REQ_SAVE_CONFIG = 12,
-    RES_SAVE_CONFIG_FAILURE = 13,
-    RES_SAVE_CONFIG_SUCCESS = 14,
-
-    REQ_CLEAR_CONFIG = 15,
-    RES_CLEAR_CONFIG_FAILURE = 16,
-    RES_CLEAR_CONFIG_SUCCESS = 17,
-
-    REQ_LOAD_FLASH_CONFIG = 18,
-    RES_LOAD_FLASH_CONFIG_DONE = 19,
-
-    REQ_ENABLE_MOTORS = 20,
-    REQ_DISABLE_MOTORS = 21
-};
-
-enum pid_controller_index {
-    ANGLE = 0,
-    ANGLE_HIGH = 1,
-    VEL = 2
-};
-
-struct espway_config {
-    pid_coeffs pid_coeffs_arr[3];
-    int16_t gyro_offsets[3];
-};
-
-const espway_config DEFAULT_CONFIG = {
-    .pid_coeffs_arr = {
-        { FLT_TO_Q16(ANGLE_KP), FLT_TO_Q16(ANGLE_KI), FLT_TO_Q16(ANGLE_KD) },
-        { FLT_TO_Q16(ANGLE_HIGH_KP), FLT_TO_Q16(ANGLE_HIGH_KI), FLT_TO_Q16(ANGLE_HIGH_KD) },
-        { FLT_TO_Q16(VEL_KP), FLT_TO_Q16(VEL_KI), FLT_TO_Q16(VEL_KD) }
-    },
-    .gyro_offsets = { GYRO_X_OFFSET, GYRO_Y_OFFSET, GYRO_Z_OFFSET }
-};
-
-madgwickparams imuparams;
-pidstate vel_pid_state;
-pidstate angle_pid_state;
-
-pidsettings pid_settings_arr[3];
-
-q16 target_speed = 0;
-q16 steering_bias = 0;
-
-bool mpu_online = false;
-bool send_quat = false;
-bool ota_started = false;
-bool save_config = false;
-bool clear_config = false;
-bool load_default_config = false;
-
-espway_config my_config;
-
-IPAddress apIP(192, 168, 4, 1);
-
-AsyncWebServer server(80);
-AsyncWebSocket ws("/ws");
-
-const uint8_t DNS_PORT = 53;
-DNSServer dnsServer;
-
-void pretty_print_config() {
-    Serial.printf_P(PSTR(
-            "\n\nESPway current config:\n\n"
-            "#define ANGLE_KP %d\n"
-            "#define ANGLE_KI %d\n"
-            "#define ANGLE_KD %d\n"
-            "#define ANGLE_HIGH_KP %d\n"
-            "#define ANGLE_HIGH_KI %d\n"
-            "#define ANGLE_HIGH_KD %d\n"
-            "#define VEL_KP %d\n"
-            "#define VEL_KI %d\n"
-            "#define VEL_KD %d\n"
-            "#define GYRO_X_OFFSET %d\n"
-            "#define GYRO_Y_OFFSET %d\n"
-            "#define GYRO_Z_OFFSET %d\n"
-            "\n\n"
-        ),
-        my_config.pid_coeffs_arr[ANGLE].p,
-        my_config.pid_coeffs_arr[ANGLE].i,
-        my_config.pid_coeffs_arr[ANGLE].d,
-        my_config.pid_coeffs_arr[ANGLE_HIGH].p,
-        my_config.pid_coeffs_arr[ANGLE_HIGH].i,
-        my_config.pid_coeffs_arr[ANGLE_HIGH].d,
-        my_config.pid_coeffs_arr[VEL].p,
-        my_config.pid_coeffs_arr[VEL].i,
-        my_config.pid_coeffs_arr[VEL].d,
-        my_config.gyro_offsets[0],
-        my_config.gyro_offsets[1],
-        my_config.gyro_offsets[2]
-    );
+void setup_motors() {
+  ledcAttachPin(MOT_L_STP, MOT_L_CHANNEL);
+  ledcSetup(MOT_L_CHANNEL, 0, 10);  // these will be updated later by the ledcWriteNote()
+  ledcAttachPin(MOT_R_STP, MOT_R_CHANNEL);
+  ledcSetup(MOT_R_CHANNEL, 0, 10);  // these will be updated later by the ledcWriteNote()
+  pinMode(MOT_L_ENB, OUTPUT);
+  pinMode(MOT_L_DIR, OUTPUT);
+  disableL(true);
+  pinMode(MOT_R_ENB, OUTPUT);
+  pinMode(MOT_R_DIR, OUTPUT);
+  disableR(true);
 }
 
-void load_hardcoded_config() {
-    my_config = DEFAULT_CONFIG;
+
+
+void getRotation(int16_t* x, int16_t* y, int16_t* z) {
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(GYRO_XOUT_H);
+  Wire.endTransmission();
+  Wire.requestFrom(MPU_ADDR, 6);
+  *x = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroX_calibration;
+  *y = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroY_calibration;
+  *z = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroZ_calibration;
 }
 
-void load_stored_config() {
-    if (!read_flash_config<espway_config>(my_config, CONFIG_VERSION)) {
-        load_hardcoded_config();
-    }
+void calibrateGyro() {
+  int32_t x = 0, y = 0, z = 0; // Compiler warning if not set.
+
+  for (int i = 0; i < 500; i++) {
+    getRotation(&gyroX, &gyroY, &gyroZ);
+    x += gyroX;
+    y += gyroY;
+    z += gyroZ;
+    delayMicroseconds(PERIOD); // simulate the main program loop time ??
+  }
+  gyroX_calibration = x / 500;
+  gyroY_calibration = y / 500;
+  gyroZ_calibration = z / 500;
 }
 
-void apply_config_params() {
-    pid_initialize(&my_config.pid_coeffs_arr[ANGLE],
-        FLT_TO_Q16(SAMPLE_TIME),
-        -Q16_ONE, Q16_ONE, false, &pid_settings_arr[ANGLE]);
-    pid_initialize(&my_config.pid_coeffs_arr[ANGLE_HIGH],
-        FLT_TO_Q16(SAMPLE_TIME),
-        -Q16_ONE, Q16_ONE, false, &pid_settings_arr[ANGLE_HIGH]);
-    pid_initialize(&my_config.pid_coeffs_arr[VEL],
-        FLT_TO_Q16(SAMPLE_TIME), FALL_LOWER_BOUND, FALL_UPPER_BOUND, true,
-        &pid_settings_arr[VEL]);
+void setup_mpu() {
+  Wire.begin();
+  Wire.setClock(400000L);
 
-    mpu_set_gyro_offsets(my_config.gyro_offsets);
+  //By default the MPU-6050 sleeps. So we have to wake it up.
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x6B);                     //We want to write to the PWR_MGMT_1 register (6B hex)
+  Wire.write(0x00);                     //Set the register bits as 00000000 to activate the gyro
+  Wire.endTransmission();
+
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x1B);                     //We want to write to the GYRO_CONFIG register (1B hex)
+  Wire.write(GYRO_FULL_SCALE_RANGE);
+  Wire.endTransmission();
+
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x1C);                     //We want to write to the ACCEL_CONFIG register (1A hex)
+  Wire.write(ACC_FULL_SCALE_RANGE);
+  Wire.endTransmission();
+  //Set some filtering to improve the raw data.
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x1A);                     //We want to write to the CONFIG register (1A hex)
+  Wire.write(0x03);                     //Set the register bits as 00000011 (Set Digital Low Pass Filter to ~43Hz)
+  Wire.endTransmission();
+  calibrateGyro();
 }
 
-bool do_save_config() {
-    uint8_t response;
-    bool success = write_flash_config<espway_config>(my_config, CONFIG_VERSION);
-    if (success) {
-        response = RES_SAVE_CONFIG_SUCCESS;
-    } else {
-        response = RES_SAVE_CONFIG_FAILURE;
-    }
-    ws.binaryAll(&response, 1);
-    return success;
+// on ESP32 Arduino constrain doesn't work
+int16_t constr(int16_t value, int16_t mini, int16_t maxi) {
+  if (value < mini) return mini;
+  else if (value > maxi) return maxi;
+  return value;
+}
+float constrf(float value, float mini, float maxi) {
+  if (value < mini) return mini;
+  else if (value > maxi) return maxi;
+  return value;
 }
 
-bool do_clear_config() {
-    uint8_t response;
-    // Clear the configuration by writing config version zero
-    bool success = clear_flash_config();
-    if (success) {
-        response = RES_CLEAR_CONFIG_SUCCESS;
-        load_hardcoded_config();
-    } else {
-        response = RES_CLEAR_CONFIG_FAILURE;
-    }
-    ws.binaryAll(&response, 1);
-    return success;
+void getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(ACCEL_XOUT_H);
+  Wire.endTransmission();
+  Wire.requestFrom(MPU_ADDR, 6);
+  *x = constr((((int16_t)Wire.read()) << 8) | Wire.read(), -ACC_SCALE_FACTOR, ACC_SCALE_FACTOR);
+  *y = constr((((int16_t)Wire.read()) << 8) | Wire.read(), -ACC_SCALE_FACTOR, ACC_SCALE_FACTOR);
+  *z = constr((((int16_t)Wire.read()) << 8) | Wire.read(), -ACC_SCALE_FACTOR, ACC_SCALE_FACTOR);
 }
 
-void update_pid_controller(pid_controller_index idx, q16 p, q16 i, q16 d) {
-    if (idx > 2) {
-        return;
-    }
+//////// MAIN //////////
 
-    pid_coeffs *p_coeffs = &my_config.pid_coeffs_arr[idx];
-    p_coeffs->p = p;
-    p_coeffs->i = i;
-    p_coeffs->d = d;
-    pid_update_params(p_coeffs, &pid_settings_arr[idx]);
+// populated in the SerialControl part
+uint8_t joystickX;
+uint8_t joystickY;
+uint32_t loop_timer;
+uint32_t print_timer;
+float roll, pitch, rollAcc, pitchAcc;
+float speeed;
 
-    if (idx == ANGLE) {
-        // If ANGLE PID coefficients are updated, automatically update the
-        // high gain PID
-        pid_coeffs *p_coeffs = &my_config.pid_coeffs_arr[ANGLE_HIGH];
-        p_coeffs->p = q16_mul(FLT_TO_Q16(1.5f), p);
-        p_coeffs->i = i;
-        p_coeffs->d = d;
-        pid_update_params(p_coeffs, &pid_settings_arr[ANGLE_HIGH]);
-    }
-}
-
-void send_pid_params(pid_controller_index idx) {
-    uint8_t payload[14];
-    payload[0] = RES_PID_PARAMS;
-    payload[1] = idx;
-    int32_t *params = (int32_t *)(&payload[2]);
-    params[0] = my_config.pid_coeffs_arr[idx].p;
-    params[1] = my_config.pid_coeffs_arr[idx].i;
-    params[2] = my_config.pid_coeffs_arr[idx].d;
-    ws.binaryAll(payload, 14);
-}
-
-void websocket_recv_cb(AsyncWebSocket * server, AsyncWebSocketClient * client,
-    AwsEventType type, void * arg, uint8_t *data, size_t len) {
-    if (len == 0 || type != WS_EVT_DATA) {
-        return;
-    }
-    AwsFrameInfo * info = (AwsFrameInfo*)arg;
-    if (!info->final || info->index != 0 || info->len != len ||
-        info->opcode != WS_BINARY) {
-        return;
-    }
-
-    uint8_t msgtype = data[0];
-    uint8_t *payload = &data[1];
-    int data_len = len - 1;
-    int8_t *signed_data;
-    pid_controller_index pid_index;
-    int32_t *i32_data;
-    uint8_t res;
-
-    switch (msgtype) {
-        case STEERING:
-            // Parameters: velocity (int8_t), turn rate (int8_t)
-            if (data_len != 2) {
-                break;
-            }
-            signed_data = (int8_t *)payload;
-            steering_bias = (FLT_TO_Q16(STEERING_FACTOR) * signed_data[0]) / 128;
-            target_speed = (FLT_TO_Q16(SPEED_CONTROL_FACTOR) * signed_data[1]) / 128;
-            break;
-
-        case REQ_QUATERNION:
-            send_quat = true;
-            break;
-
-        case REQ_SET_PID_PARAMS:
-            // Parameters: pid index (uint8_t), P (q16/int32_t), I (q16), D (q16)
-            if (data_len != 13 || load_default_config) {
-                // Ignore the request if we are about to load the default config
-                break;
-            }
-
-            pid_index = (pid_controller_index)payload[0];
-            i32_data = (int32_t *)(&payload[1]);
-            if (pid_index <= 2) {
-                update_pid_controller(pid_index, i32_data[0], i32_data[1],
-                    i32_data[2]);
-
-                res = RES_SET_PID_PARAMS_ACK;
-                ws.binaryAll(&res, 1);
-            }
-
-            break;
-
-        case REQ_GET_PID_PARAMS:
-            if (data_len != 1) {
-                break;
-            }
-
-            if (payload[0] <= 2) {
-                send_pid_params((pid_controller_index)payload[0]);
-            }
-
-            break;
-
-        case REQ_LOAD_FLASH_CONFIG:
-            if (data_len != 0) {
-                break;
-            }
-
-            load_default_config = true;
-
-            break;
-
-        case REQ_SAVE_CONFIG:
-            if (data_len != 0) {
-                break;
-            }
-            save_config = true;
-            break;
-
-        case REQ_CLEAR_CONFIG:
-            if (data_len != 0) {
-                break;
-            }
-            clear_config = true;
-            break;
-    }
-}
-
-void send_quaternion(const quaternion_fix * const quat) {
-    uint8_t buf[9];
-    buf[0] = RES_QUATERNION;
-    int16_t *qdata = (int16_t *)&buf[1];
-    qdata[0] = quat->q0 / 2;
-    qdata[1] = quat->q1 / 2;
-    qdata[2] = quat->q2 / 2;
-    qdata[3] = quat->q3 / 2;
-    ws.binaryAll(buf, 9);
-    send_quat = false;
-}
-
-void send_battery_reading(uint16_t battery_reading) {
-    uint8_t buf[3];
-    buf[0] = BATTERY;
-    uint16_t *payload = (uint16_t *)&buf[1];
-    payload[0] = q16_mul(battery_reading, BATTERY_COEFFICIENT);
-    ws.binaryAll(buf, 3);
-}
-
-void do_log(int16_t *raw_accel, int16_t *raw_gyro, q16 sin_pitch) {
-    static unsigned long last_call_time = 0;
-    static unsigned int call_counter = 0;
-
-    if (LOGMODE == LOG_RAW) {
-        Serial.printf("%d, %d, %d, %d, %d, %d\n",
-            raw_accel[0], raw_accel[1], raw_accel[2],
-            raw_gyro[0], raw_gyro[1], raw_gyro[2]);
-    } else if (LOGMODE == LOG_PITCH) {
-        Serial.printf("%d\n", sin_pitch);
-    } else if (LOGMODE == LOG_FREQ) {
-        unsigned long ms = millis();
-        if (++call_counter == FREQUENCY_SAMPLES) {
-            Serial.printf("%lu\n",
-                FREQUENCY_SAMPLES * 1000 / (ms - last_call_time));
-            call_counter = 0;
-            last_call_time = ms;
-        }
-    }
+void setup() {
+  Serial.begin(115200);
+  delay(100);
+  Serial.println("Starting");
+  setup_mpu();
+  setup_motors();
+//  setup_serial_control();
+//  setup_wifi();
+  loop_timer = micros() + PERIOD;
+  print_timer = micros() + PRINT_PERIOD;
+  Serial.println("Started");
 }
 
 void loop() {
-    if (ota_started) {
-        ArduinoOTA.handle();
-        return;
-    }
+  getAcceleration(&accX, &accY, &accZ);
+  rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+  pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+  getRotation(&gyroX, &gyroY, &gyroZ);
+  // roll vs pitch depends on how the MPU is installed in the robot
+  roll -= gyroY * GYRO_RAW_TO_DEGS;
+  pitch += gyroX * GYRO_RAW_TO_DEGS;
+  // sin() has to be applied on radians
+  //  roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+  //  pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
 
-    if (!mpu_online) {
-        set_motors(0, 0);
-//        set_both_eyes(RED);
-        return;
-    }
+  roll = roll * 0.999 + rollAcc * 0.001;
+  pitch = pitch * 0.999 + pitchAcc * 0.001;
 
-    static unsigned long last_battery_check = 0;
-    static unsigned long mpu_last_online = 0;
-    static unsigned int battery_value = 1024;
-    static bool send_battery = false;
+  // apply PID algo
+  // The selfBalanceAngleSetpoint variable is automatically changed to make sure that the robot stays balanced all the time.
+  positionErr = constrf(currentPos / (float)1000, -MAX_CONTROL_OR_POSITION_ERR, MAX_CONTROL_OR_POSITION_ERR);
+  serialControlErr = 0;
+//  if (isValidJoystickValue(joystickY)) {
+//    serialControlErr = constrf((joystickY - 130) / (float)15, -MAX_CONTROL_OR_POSITION_ERR, MAX_CONTROL_OR_POSITION_ERR);
+//    // this control has to change slowly/gradually to avoid shaking the robot
+//    if (serialControlErr < prevSerialControlErr) {
+//      serialControlErr = max(serialControlErr, prevSerialControlErr - MAX_CONTROL_ERR_INCREMENT);
+//    } else {
+//      serialControlErr = min(serialControlErr, prevSerialControlErr + MAX_CONTROL_ERR_INCREMENT);
+//    }
+//    prevSerialControlErr = serialControlErr;
+//  }
+  pidError = pitch - angleSetpoint - selfBalanceAngleSetpoint;
+  // either no manual / serial control -> try to keep the position or follow manual control
+  if (abs(serialControlErr) > MIN_CONTROL_ERR) {
+    pidError += serialControlErr > 0 ? serialControlErr - MIN_CONTROL_ERR : serialControlErr + MIN_CONTROL_ERR;
+    // re-init position so it doesn't try to go back when getting out of manual control mode
+    currentPos = 0;
+  } else {
+    pidError += positionErr;
+  }
+  integralErr = constrf(integralErr + Ki * pidError, -MAX_PID_OUTPUT, MAX_PID_OUTPUT);
+  errorDerivative = pidError - pidLastError;
+  pidOutput = Kp * pidError + integralErr + Kd * errorDerivative;
+  if (pidOutput < 5 && pidOutput > -5) pidOutput = 0; //Create a dead-band to stop the motors when the robot is balanced
+  if (pitch > 30 || pitch < -30) {   //If the robot tips over
+    pidOutput = 0;
+    integralErr = 0;
+    selfBalanceAngleSetpoint = 0;
+  }
+  // store error for next loop
+  pidLastError = pidError;
+  int16_t rotation = 0;
+//  if (isValidJoystickValue(joystickX)) {
+//    rotation = constrf((float)(joystickX - 130), -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT);
+//  }
+  if (micros() >= print_timer) {
+    //Serial.print(positionErr); Serial.print("  -  "); Serial.print(rotation); Serial.print(" / "); Serial.println(serialControlErr);
+    Serial.print(pitch); Serial.print(" / "); Serial.print(errorDerivative); Serial.print(" - "); Serial.println(selfBalanceAngleSetpoint);
+    //Serial.print(accX); Serial.print(" / "); Serial.print(accY); Serial.print(" / "); Serial.print(accZ); Serial.print(" / "); Serial.print(gyroX); Serial.print(" / "); Serial.print(gyroY); Serial.print(" / "); Serial.println(gyroZ);
+    print_timer += PRINT_PERIOD;
+  }
 
-    unsigned long current_time = millis();
-
-    if (ENABLE_BATTERY_CHECK &&
-        current_time - last_battery_check > BATTERY_CHECK_INTERVAL) {
-        last_battery_check = current_time;
-        battery_value = q16_exponential_smooth(battery_value, analogRead(A0),
-            FLT_TO_Q16(0.25f));
-        send_battery = true;
-
-        if (ENABLE_BATTERY_CUTOFF && battery_value <
-            (unsigned int)(BATTERY_THRESHOLD * BATTERY_CALIBRATION_FACTOR)) {
-//            set_both_eyes(BLACK);
-            // Put MPU6050 to sleep
-            mpu_go_to_sleep();
-            set_motors(0, 0);
-            ESP.deepSleep(UINT32_MAX);
-            return;
-        }
-    }
-
-    while ((mpu_read_int_status(MPU_ADDR) & MPU_DATA_RDY_INT) == 0) {
-        if (millis() - mpu_last_online > 100) {
-            mpu_online = false;
-            return;
-        }
-        yield();
-    }
-
-    // Perform MPU quaternion update
-    static int16_t raw_data[6];
-    mpu_read_raw_data(MPU_ADDR, raw_data);
-    // Update orientation estimate
-    static quaternion_fix quat = { Q16_ONE, 0, 0, 0 };
-    madgwick_ahrs_update_imu(&imuparams, &raw_data[0], &raw_data[3], &quat);
-    // Calculate sine of pitch angle from quaternion
-    q16 sin_pitch = -gravity_z(&quat);
-    q16 sin_roll = gravity_y(&quat);
-
-    static q16 travel_speed = 0;
-    static q16 smoothed_target_speed = 0;
-
-    // Exponential smoothing of target speed
-    smoothed_target_speed = q16_exponential_smooth(smoothed_target_speed,
-        target_speed, FLT_TO_Q16(TARGET_SPEED_SMOOTHING));
-
-    static state my_state = STABILIZING_ORIENTATION;
-    static unsigned long stage_started = 0;
-    static unsigned long last_wind_up = 0;
-    current_time = millis();
-    mpu_last_online = current_time;
-    if (my_state == STABILIZING_ORIENTATION) {
-        if (current_time - stage_started > ORIENTATION_STABILIZE_DURATION) {
-            my_state = RUNNING;
-            stage_started = current_time;
-        }
-    } else if (my_state == RUNNING || my_state == WOUND_UP) {
-        if (sin_pitch < FALL_UPPER_BOUND && sin_pitch > FALL_LOWER_BOUND &&
-            sin_roll < ROLL_UPPER_BOUND && sin_roll > ROLL_LOWER_BOUND) {
-            // Perform PID update
-            q16 target_angle = pid_compute(travel_speed, smoothed_target_speed,
-                &pid_settings_arr[VEL], &vel_pid_state);
-            bool use_high_pid =
-                sin_pitch < (target_angle - FLT_TO_Q16(HIGH_PID_LIMIT)) ||
-                sin_pitch > (target_angle + FLT_TO_Q16(HIGH_PID_LIMIT));
-            q16 motor_speed = pid_compute(sin_pitch, target_angle,
-                use_high_pid ? &pid_settings_arr[ANGLE_HIGH] :
-                               &pid_settings_arr[ANGLE],
-                &angle_pid_state);
-
-            if (motor_speed < FLT_TO_Q16(MOTOR_DEADBAND) &&
-                motor_speed > -FLT_TO_Q16(MOTOR_DEADBAND)) {
-                motor_speed = 0;
-            }
-
-            if (my_state == WOUND_UP) {
-                set_motors(0, 0);
-            } else {
-                set_motors(motor_speed + steering_bias,
-                    motor_speed - steering_bias);
-            }
-
-            if (motor_speed != Q16_ONE && motor_speed != -Q16_ONE) {
-                last_wind_up = current_time;
-            } else if (current_time - last_wind_up > WINDUP_TIMEOUT) {
-                my_state = WOUND_UP;
-//                set_both_eyes(BLUE);
-            }
-
-            // Estimate travel speed by exponential smoothing
-            travel_speed = q16_exponential_smooth(travel_speed, motor_speed,
-                FLT_TO_Q16(TRAVEL_SPEED_SMOOTHING));
-        } else {
-            my_state = FALLEN;
-//            set_both_eyes(BLUE);
-            travel_speed = 0;
-            set_motors(0, 0);
-        }
-    } else if (my_state == FALLEN) {
-        if (sin_pitch < RECOVER_UPPER_BOUND &&
-            sin_pitch > RECOVER_LOWER_BOUND &&
-            sin_roll < ROLL_UPPER_BOUND && sin_roll > ROLL_LOWER_BOUND) {
-            my_state = RUNNING;
-//            set_both_eyes(GREEN);
-            pid_reset(sin_pitch, 0, &pid_settings_arr[ANGLE], &angle_pid_state);
-            pid_reset(0, FLT_TO_Q16(STABLE_ANGLE), &pid_settings_arr[VEL],
-                &vel_pid_state);
-        }
-    }
-
-    if (LOGMODE != LOG_NONE) {
-        do_log(&raw_data[0], &raw_data[3], sin_pitch);
-    }
-
-    if (send_battery) {
-        send_battery = false;
-        send_battery_reading(battery_value);
-    }
-
-    static unsigned long last_sent_quat = 0;
-    if (send_quat && current_time - last_sent_quat > QUAT_DELAY) {
-        send_quaternion(&quat);
-        last_sent_quat = current_time;
-    }
-
-    if (save_config) {
-        do_save_config();
-        save_config = false;
-    }
-
-    if (clear_config) {
-        do_clear_config();
-        clear_config = false;
-    }
-
-    if (load_default_config) {
-        load_stored_config();
-        uint8_t response = RES_LOAD_FLASH_CONFIG_DONE;
-        ws.binaryAll(&response, 1);
-        load_default_config = false;
-    }
-
-    dnsServer.processNextRequest();
-    ArduinoOTA.handle();
-}
-
-void wifi_init() {
-    WiFi.mode(WIFI_AP);
-    WiFi.softAPConfig(
-        apIP, apIP,
-        IPAddress(255, 255, 255, 0)  // mask
-    );
-    WiFi.softAP(WIFI_SSID, "", WIFI_CHANNEL, 0, 1);
-}
-
-void onRequest(AsyncWebServerRequest *request) {
-    //Handle Unknown Request
-    request->send(404);
-}
-
-void onBody(AsyncWebServerRequest *request, uint8_t *, size_t, size_t, size_t) {
-    //Handle body
-    request->send(404);
-}
-
-void onUpload(AsyncWebServerRequest *request, String, size_t, uint8_t *,
-    size_t, bool) {
-    //Handle upload
-    request->send(404);
-}
-
-void setup() {
-    motors_init();
-
-    Serial.begin(115200);
-
-    flash_config_begin();
-
-    brzo_i2c_setup(4, 5, 2000);
-    int ret;
-    mpu_online = mpu_init(&ret);
-    if (ret != 0) {
-      Serial.print("brzo_i2c error: ");
-      Serial.println(ret);
-    }
-
-    load_stored_config();
-    apply_config_params();
-    pretty_print_config();
-
-    // Parameter calculation & initialization
-    pid_reset(0, 0, &pid_settings_arr[ANGLE], &angle_pid_state);
-    pid_reset(0, 0, &pid_settings_arr[VEL], &vel_pid_state);
-    calculate_madgwick_params(&imuparams, MADGWICK_BETA,
-        2.0f * M_PI / 180.0f * 2000.0f, SAMPLE_TIME);
-
-    pinMode(A0, INPUT);
-//    eyes_init();
-//    set_both_eyes(mpu_online ? YELLOW : RED);
-
-    SPIFFS.begin();
-
-    wifi_init();
-
-    dnsServer.start(DNS_PORT, "*", apIP);
-
-    ws.onEvent(websocket_recv_cb);
-    server.addHandler(&ws);
-    server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
-    server.serveStatic("/pid", SPIFFS, "/pid.html");
-    server.serveStatic("/cube", SPIFFS, "/cube.html");
-    server.onNotFound(onRequest);
-    server.onFileUpload(onUpload);
-    server.onRequestBody(onBody);
-    server.begin();
-
-    ArduinoOTA.onStart([]() {
-        ota_started = true;
-        set_motors(0, 0);
-//        set_both_eyes(LILA);
-    });
-    ArduinoOTA.begin();
+  //The self balancing point is adjusted when there is not forward or backwards movement from the transmitter. This way the robot will always find it's balancing point
+//  if (angleSetpoint == 0) {                                 //If the setpoint is zero degrees
+//    if (pidOutput < 0) selfBalanceAngleSetpoint -= 0.0015;  //Increase the self_balance_pid_setpoint if the robot is still moving forward
+//    if (pidOutput > 0) selfBalanceAngleSetpoint += 0.0015;  //Decrease the self_balance_pid_setpoint if the robot is still moving backward
+//  }
+  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+  // The angle calculations are tuned for a loop time of PERIOD milliseconds.
+  // To make sure every loop is exactly that, a wait loop is created by setting the loop_timer
+  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
+  while (loop_timer > micros());
+  loop_timer += PERIOD;
 }

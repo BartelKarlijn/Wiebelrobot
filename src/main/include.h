@@ -1,13 +1,13 @@
 // Arduino library includes
 #include <Arduino.h>
-#include <WiFi.h>
-#include <WebServer.h>
 #include <Wire.h>
-#include <I2Cdev.h>
+//#include <WiFi.h>
+//#include <WebServer.h>
+//#include <I2Cdev.h>
 #include <MPU6050.h>
-#include <math.h>
-#include <analogWrite.h>
-#include <ESP32TimerInterrupt.h>
+//#include <math.h>
+//#include <analogWrite.h>
+//#include <ESP32TimerInterrupt.h>
 
 // //Configuratie
 #include <configuration.h>
