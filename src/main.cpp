@@ -37,7 +37,8 @@ int16_t prevSpeed;
 int32_t currentPos = 0;
 
 ///////////////// MPU-6050 //////////////////////////
-static int MPU_ADDR = 0x69; //AD0 is HIGH
+// Used I2Cscanner to find adress.  It's 0x68
+static int MPU_ADDR = 0x68; //AD0 is HIGH
 
 // MPU6050 specific
 #define MPU6050_FS_SEL0 3
@@ -244,6 +245,7 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   Serial.println("Starting");
+
   setup_mpu();
   setup_motors();
 //  setup_serial_control();
@@ -254,6 +256,8 @@ void setup() {
 }
 
 void loop() {
+//i2cscan();
+
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;

@@ -17,6 +17,7 @@
 // #include <main/arraydefine.h>
 
 // // eigen subprogrammas
+#include <main\i2cscanner.h>
 // #include <main/printdebug.h>
 // #include <wifi/wifidefinitions.h>
 // #include <wifi/htmlbutton.h>
