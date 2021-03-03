@@ -18,6 +18,9 @@
 
 // // eigen subprogrammas
 #include <main\i2cscanner.h>
+#include <setup\setup_dcmotors.h>
+#include <main\testmotor.h>
+
 // #include <main/printdebug.h>
 // #include <wifi/wifidefinitions.h>
 // #include <wifi/htmlbutton.h>

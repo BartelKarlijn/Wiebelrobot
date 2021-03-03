@@ -13,7 +13,7 @@
 */
 
 #include <Arduino.h>
-#include <main\include.h>
+#include <setup\include.h>
 
 #define PERIOD  4000    // loop period in micros
 #define PRINT_PERIOD  100000    // print period in micros
@@ -37,9 +37,6 @@ int16_t prevSpeed;
 int32_t currentPos = 0;
 
 ///////////////// MPU-6050 //////////////////////////
-// Used I2Cscanner to find adress.  It's 0x68
-static int MPU_ADDR = 0x68; //AD0 is HIGH
-
 // MPU6050 specific
 #define MPU6050_FS_SEL0 3
 #define MPU6050_FS_SEL1 4
@@ -247,7 +244,8 @@ void setup() {
   Serial.println("Starting");
 
   setup_mpu();
-  setup_motors();
+  setup_dcmotors();
+//  setup_motors();
 //  setup_serial_control();
 //  setup_wifi();
   loop_timer = micros() + PERIOD;
@@ -257,7 +255,7 @@ void setup() {
 
 void loop() {
 //i2cscan();
-
+testmotorPWM();
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
@@ -322,7 +320,7 @@ void loop() {
 //    if (pidOutput < 0) selfBalanceAngleSetpoint -= 0.0015;  //Increase the self_balance_pid_setpoint if the robot is still moving forward
 //    if (pidOutput > 0) selfBalanceAngleSetpoint += 0.0015;  //Decrease the self_balance_pid_setpoint if the robot is still moving backward
 //  }
-  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+//  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
   // The angle calculations are tuned for a loop time of PERIOD milliseconds.
   // To make sure every loop is exactly that, a wait loop is created by setting the loop_timer
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
