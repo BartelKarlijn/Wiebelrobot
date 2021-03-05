@@ -23,12 +23,10 @@
 #define MOT_R_ENB 32
 #define MOT_R_STP 33
 #define MOT_R_DIR 25
-#define MOT_R_CHANNEL 1   // for the ledc library
 
 #define MOT_L_ENB 26
 #define MOT_L_STP 14
 #define MOT_L_DIR 27
-#define MOT_L_CHANNEL 2   // for the ledc library
 
 #define MAX_SPEED 3200
 
@@ -96,12 +94,6 @@ float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 
 
 
-void disableL(bool orEnable) {
-  digitalWrite(MOT_L_ENB, orEnable);
-}
-void disableR(bool orEnable) {
-  digitalWrite(MOT_R_ENB, orEnable);
-}
 void forwardL(bool orBack) {
   digitalWrite(MOT_L_DIR, !orBack); // If stepper is going wrong way, remove the "!"
 }
@@ -254,8 +246,9 @@ void setup() {
 }
 
 void loop() {
-//i2cscan();
-testmotorPWM();
+// i2cscan();
+// testmotor();
+  testmotorPWM();
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
