@@ -19,17 +19,6 @@
 #define PRINT_PERIOD  100000    // print period in micros
 
 //////////////// MOTORS ////////////////////////////
-
-#define MOT_R_ENB 32
-#define MOT_R_STP 33
-#define MOT_R_DIR 25
-
-#define MOT_L_ENB 26
-#define MOT_L_STP 14
-#define MOT_L_DIR 27
-
-#define MAX_SPEED 3200
-
 uint32_t prevSpeedStart;
 int16_t prevSpeed;
 int32_t currentPos = 0;
@@ -93,58 +82,18 @@ float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 #define MIN_CONTROL_ERR 1
 
 
-
-void forwardL(bool orBack) {
-  digitalWrite(MOT_L_DIR, !orBack); // If stepper is going wrong way, remove the "!"
-}
-void forwardR(bool orBack) {
-  digitalWrite(MOT_R_DIR, !orBack); // If stepper is going wrong way, remove the "!"
-}
 void setSpeed(int16_t s, int16_t rotation) {
   int16_t sL = s - rotation;
   int16_t sR = s + rotation;
-  boolean backwardL = sL < 0;
-  boolean backwardR = sR < 0;
 
-  if (backwardL) {
-    forwardL(false);
-    sL = -sL;
-  } else {
-    forwardL(true);
-  }
-  if (backwardR) {
-    forwardR(false);
-    sR = -sR;
-  } else {
-    forwardR(true);
-  }
-  disableL(sL < MAX_SPEED / 100);
-  disableR(sR < MAX_SPEED / 100);
-  if (sL > MAX_SPEED) sL = MAX_SPEED;
-  if (sR > MAX_SPEED) sR = MAX_SPEED;
   // keep track of the position (in steps forward or backward)
   currentPos += ((micros() - prevSpeedStart) / (float)1000000)  * prevSpeed;
   prevSpeed = s;
   prevSpeedStart = micros();
   // set the new speed
-  ledcWriteTone(MOT_L_CHANNEL, sL);
-  ledcWriteTone(MOT_R_CHANNEL, sR);
+  forwardL(sL);
+  forwardR(sR);
 }
-
-void setup_motors() {
-  ledcAttachPin(MOT_L_STP, MOT_L_CHANNEL);
-  ledcSetup(MOT_L_CHANNEL, 0, 10);  // these will be updated later by the ledcWriteNote()
-  ledcAttachPin(MOT_R_STP, MOT_R_CHANNEL);
-  ledcSetup(MOT_R_CHANNEL, 0, 10);  // these will be updated later by the ledcWriteNote()
-  pinMode(MOT_L_ENB, OUTPUT);
-  pinMode(MOT_L_DIR, OUTPUT);
-  disableL(true);
-  pinMode(MOT_R_ENB, OUTPUT);
-  pinMode(MOT_R_DIR, OUTPUT);
-  disableR(true);
-}
-
-
 
 void getRotation(int16_t* x, int16_t* y, int16_t* z) {
   Wire.beginTransmission(MPU_ADDR);
@@ -237,7 +186,6 @@ void setup() {
 
   setup_mpu();
   setup_dcmotors();
-//  setup_motors();
 //  setup_serial_control();
 //  setup_wifi();
   loop_timer = micros() + PERIOD;
@@ -246,9 +194,9 @@ void setup() {
 }
 
 void loop() {
-// i2cscan();
-// testmotor();
-  testmotorPWM();
+// i2cscan();       // used to find I2C port of gyro
+// testmotor();     // used to test DC motors (on/off)
+//  testmotorPWM(); // used to understand ledc for driving motors
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
