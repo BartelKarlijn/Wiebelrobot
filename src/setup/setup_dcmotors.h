@@ -4,14 +4,16 @@ void  setup_dcmotors() {
   pinMode(motorRpin1, OUTPUT);
   pinMode(motorRpin2, OUTPUT);
 
-  ledcAttachPin(motorLpin1, MOT_L_CHANNEL); 
-  ledcAttachPin(motorLpin2, MOT_L_CHANNEL);
-  ledcAttachPin(motorRpin1, MOT_R_CHANNEL);
-  ledcAttachPin(motorRpin2, MOT_R_CHANNEL);
+  ledcSetup(motorLcha1, freq, resolution);  
+  ledcSetup(motorLcha2, freq, resolution);  
+  ledcSetup(motorRcha1, freq, resolution);  
+  ledcSetup(motorRcha2, freq, resolution);  
 
-  ledcSetup(motorLpin1, freq, resolution);  // these will be updated later by the ledcWriteNote()
-  ledcSetup(motorLpin2, freq, resolution);  // these will be updated later by the ledcWriteNote()
+  ledcAttachPin(motorLpin1, motorLcha1); 
+  ledcAttachPin(motorLpin2, motorLcha2);
+  ledcAttachPin(motorRpin1, motorRcha1); 
+  ledcAttachPin(motorRpin2, motorRcha2);
 
-  disableL(true);
-  disableR(true);
+  forwardL(0);
+  forwardR(0);
 }

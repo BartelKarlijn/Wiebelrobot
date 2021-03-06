@@ -15,8 +15,13 @@ static int MPU_ADDR = 0x68; //AD0 is HIGH
 #define motorRpin2 33
 
 //ledc library
-#define MOT_R_CHANNEL 1   // for the ledc library
-#define MOT_L_CHANNEL 2   // for the ledc library
-#define freq 20000        //pwm frequency
-#define resolution 8      // 8bit
+#define motorLcha1 0   // for the ledc library
+#define motorLcha2 1   // for the ledc library
+#define motorRcha1 2   // for the ledc library
+#define motorRcha2 3   // for the ledc library
+#define freq 20000          //pwm frequency 20000
+#define resolution 10     // 8bit
 
+// speed
+#define MAX_SPEED 1024   // 10bit dus tot 1024
+#define MIN_SPEED 660    // 10bit  Hieronder gebeurt er niets

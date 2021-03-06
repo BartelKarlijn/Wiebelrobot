@@ -1,34 +1,32 @@
 void testmotorPWM() {
 // Move the DC motor forward at maximum speed
-  Serial.println("Moving Forward");
-  digitalWrite(motorLpin1, LOW);
-  digitalWrite(motorLpin2, HIGH); 
-  digitalWrite(motorRpin1, LOW);
-  digitalWrite(motorRpin2, LOW); 
-  delay(2000);
+  Serial.println("Moving full");
+    ledcWrite(motorLcha1, MAX_SPEED);
+    ledcWrite(motorLcha2, 0);
+    ledcWrite(motorRcha1, 0);
+    ledcWrite(motorRcha2, MAX_SPEED );
+    delay(2000);
 
-// stop
+for (int i=MIN_SPEED; i<MAX_SPEED; i++) {
+    Serial.println(i);
+    ledcWrite(motorLcha1, 0);
+    ledcWrite(motorLcha2, i);
+    ledcWrite(motorRcha1, i);
+    ledcWrite(motorRcha2, 0 );
+    delay(20);
+  }
+
   Serial.println("Stop");
-  digitalWrite(motorLpin1, LOW);
-  digitalWrite(motorLpin2, LOW); 
-  digitalWrite(motorRpin1, HIGH);
-  digitalWrite(motorRpin2, LOW); 
-  delay(2000);
+    ledcWrite(motorLcha1, 0);
+    ledcWrite(motorLcha2, 0);
+    ledcWrite(motorRcha1, 0);
+    ledcWrite(motorRcha2, 0);
+    delay(2000);
 
-// Move the DC motor backward at maximum speed
-  Serial.println("Moving backward");
-  digitalWrite(motorLpin1, HIGH); 
-  digitalWrite(motorLpin2, LOW);
-  digitalWrite(motorRpin1, LOW);
-  digitalWrite(motorRpin2, LOW); 
-  delay(2000);
-
-// stop
-  Serial.println("Stop2");
-  digitalWrite(motorLpin2, LOW);
-  digitalWrite(motorLpin1, LOW); 
-  digitalWrite(motorRpin1, LOW);
-  digitalWrite(motorRpin2, HIGH); 
-  delay(2000);
-
+  Serial.println("Min");
+    ledcWrite(motorLcha1, MIN_SPEED);
+    ledcWrite(motorLcha2, 0);
+    ledcWrite(motorRcha1, MIN_SPEED);
+    ledcWrite(motorRcha2, 0);
+    delay(2000);
 }
