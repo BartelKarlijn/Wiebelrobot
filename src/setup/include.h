@@ -11,18 +11,21 @@
 
 // //Configuratie
 #include <configuration.h>
-// #include <main/globalvariables.h>
+#include <main/globalvariables.h>
 
 // // define
 // #include <main/arraydefine.h>
 
 // // eigen subprogrammas
-#include <main\i2cscanner.h>
+#include <main\i2cscanner.h>   
 #include <main\dcmotors.h>
 #include <setup\setup_dcmotors.h>
-#include <main\testmotor.h>
-#include <main\testmotorPWM.h>
-
+#include <main\gyro.h>
+#include <setup\setup_mpu.h>
+//#include <main\testmotor.h>      // om motors te testen (aan/uit)
+//#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
+#include <main\testmotorPWM2.h>    // tweede versie met functies
+#include <main\testgyro.h>         // MPU6050 uittesten en printen
 // #include <main/printdebug.h>
 // #include <wifi/wifidefinitions.h>
 // #include <wifi/htmlbutton.h>

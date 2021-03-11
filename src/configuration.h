@@ -3,7 +3,7 @@
 ///////////////// MPU-6050 //////////////////////////
 
 // Used I2Cscanner to find adress.  It's 0x68
-static int MPU_ADDR = 0x68; //AD0 is HIGH
+static int MPU_ADDR = 0x68;  
 
 
 //////////////// MOTORS ////////////////////////////
@@ -25,3 +25,8 @@ static int MPU_ADDR = 0x68; //AD0 is HIGH
 // speed
 #define MAX_SPEED 1024   // 10bit dus tot 1024
 #define MIN_SPEED 660    // 10bit  Hieronder gebeurt er niets
+
+// PID ?
+#define PERIOD  4000    // loop period in micros
+#define PRINT_PERIOD  100000    // print period in micros
+
