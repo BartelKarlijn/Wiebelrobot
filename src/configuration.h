@@ -1,5 +1,12 @@
 // Configuration file
 
+///////////////// I2C  //////////////////////////////
+
+// Used default I2C pins
+// SDA gpio21
+// SCL gpio22
+
+
 ///////////////// MPU-6050 //////////////////////////
 
 // Used I2Cscanner to find adress.  It's 0x68

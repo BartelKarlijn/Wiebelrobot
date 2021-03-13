@@ -8,11 +8,11 @@ accX = Wire.read()<<8|Wire.read();
 accY = Wire.read()<<8|Wire.read(); 
 accZ = Wire.read()<<8|Wire.read(); 
 
-Serial.print("accX");
+Serial.print("accX ");
 Serial.println(accX);
-Serial.print("accY");
+Serial.print("accY ");
 Serial.println(accY);
-Serial.print("accXZ");
+Serial.print("accZ ");
 Serial.println(accZ);
 
 delay(500);

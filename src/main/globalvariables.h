@@ -51,3 +51,30 @@ int16_t gyroX_calibration, gyroY_calibration, gyroZ_calibration;
 #define GYRO_ZOUT_H 0x47
 #define GYRO_ZOUT_L 0x48
 
+uint8_t retval;   //Return value mpu6050
+
+
+//////// Controller //////////
+
+// populated in the SerialControl part
+uint8_t joystickX;
+uint8_t joystickY;
+uint32_t loop_timer;
+uint32_t print_timer;
+float roll, pitch, rollAcc, pitchAcc;
+float speeed;
+
+
+//////// PID //////////
+
+#define MAX_PID_OUTPUT 1
+
+float BASE_Kp = 100.0, BASE_Ki = 5.0, BASE_Kd = 130.0;
+float Kp = BASE_Kp, Ki = BASE_Ki, Kd = BASE_Kd;
+float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
+float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
+
+float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
+float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
+#define MIN_CONTROL_ERR 1
+
