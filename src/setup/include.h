@@ -5,16 +5,12 @@
 //#include <WebServer.h>
 //#include <I2Cdev.h>
 #include <MPU6050.h>
-//#include <math.h>
-//#include <analogWrite.h>
-//#include <ESP32TimerInterrupt.h>
 
 // //Configuratie
 #include <configuration.h>
 #include <main/globalvariables.h>
 
 // // define
-// #include <main/arraydefine.h>
 
 // // eigen subprogrammas
 #include <main\i2cscanner.h>   
@@ -22,26 +18,15 @@
 #include <setup\setup_dcmotors.h>
 #include <main\gyro.h>
 #include <setup\setup_mpu.h>
+#include <setup\setup_task.h>
 //#include <main\testmotor.h>      // om motors te testen (aan/uit)
 //#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
-#include <main\testmotorPWM2.h>    // tweede versie met functies
-#include <main\testgyro.h>         // MPU6050 uittesten en printen
-// #include <main/printdebug.h>
+//#include <main\testmotorPWM2.h>    // tweede versie met functies
+//#include <main\testgyro.h>         // MPU6050 uittesten en printen
+
 // #include <wifi/wifidefinitions.h>
 // #include <wifi/htmlbutton.h>
 // #include <wifi/sendhtml.h>
 // #include <wifi/handle.h>
 // #include <wifi/setupwifi.h>
-// #include <pixels/setcolor.h>
-// #include <pixels/pixelneon.h>
-// #include <pixels/pixeldrl.h>
-// #include <pixels/pixelsweep.h>
-// #include <pixels/pixelprocessdim.h>
-// //#include <pixels/pixeldim.h>
-// //#include <pixels/pixelstop.h>
-// //#include <pixels/pixelpinkersweep.h>
-// #include <pixels/pixeltest.h>
-// #include <pixels/showpixels.h>
-// #include <main/setuppins.h>
-// #include <main/setupleds.h>
 

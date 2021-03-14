@@ -13,8 +13,8 @@
 */
 
 #include <Arduino.h>
+TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 #include <setup\include.h>
-
 
 //////// MAIN //////////
 
@@ -24,6 +24,7 @@ void setup() {
   Serial.println("Starting");
 
 //  i2cscan_setup();
+  setupTask1();
   setup_mpu();
   setup_dcmotors();
   loop_timer = micros() + PERIOD;
