@@ -22,7 +22,7 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   Serial.println("Starting");
-
+//  setupwifi();
 //  i2cscan_setup();
   setupTask1();
   setup_mpu();
@@ -43,7 +43,8 @@ void loop() {
 // testmotor();     // used to test DC motors (on/off)
 // testmotorPWM(); // used to understand ledc for driving motors
 // testmotorPWM2();  // driving motor with function
-//  testgyro();
+// testgyro();
+//  server.handleClient();
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;

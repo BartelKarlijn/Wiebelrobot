@@ -69,7 +69,6 @@ float speeed;
 
 #define MAX_PID_OUTPUT 1
 
-float BASE_Kp = 100.0, BASE_Ki = 5.0, BASE_Kd = 130.0;
 float Kp = BASE_Kp, Ki = BASE_Ki, Kd = BASE_Kd;
 float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
 float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
@@ -77,4 +76,11 @@ float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControl
 float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
 float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 #define MIN_CONTROL_ERR 1
+
+
+//////// Wifi //////////
+const char* oms_Kpup = "KP+";
+const char* hdl_Kpup = "butkpup";
+const char* oms_Kpdo = "KP-";
+const char* hdl_Kpdo = "butkpdo";
 

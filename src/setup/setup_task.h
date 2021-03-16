@@ -1,9 +1,11 @@
 void Task1code( void * pvParameters ) {
   Serial.print("Task1 running on core ");
   Serial.println(xPortGetCoreID());
+
   for(;;) {
-    Serial.println("Testing core2");
-    delay(2500);
+//  handle all wifi requests in endless loop
+//    server.handleClient();
+
   }
 }
 
@@ -17,7 +19,7 @@ void setupTask1() {
                     1,           /* priority of the task. 0=idle, 1=lowest prio*/
                     &Task1,      /* Task handle to keep track of created task */
                     1);          /* pin task to core 1 instead of default 0 */                  
-  Serial.println("Task1 setup on core 2"); 
-  delay(500); 
+   Serial.println("Second Core setup");
+  
 }
 

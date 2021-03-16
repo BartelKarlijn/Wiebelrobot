@@ -34,6 +34,14 @@ static int MPU_ADDR = 0x68;
 #define MIN_SPEED 660    // 10bit  Hieronder gebeurt er niets
 
 // PID ?
-#define PERIOD  4000    // loop period in micros
+float BASE_Kp = 100.0;
+float BASE_Ki = 5.0;
+float BASE_Kd = 130.0;
+#define Kp_change 10      // Elke druk in wifi app, verhoogt/verlaagt met waarde
+#define Ki_change 0.5 
+#define Kd_change 10 
+
+#define PERIOD  5000    // loop period in micros
 #define PRINT_PERIOD  100000    // print period in micros
+
 
