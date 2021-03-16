@@ -22,8 +22,9 @@ String SendHTML(){
   ptr +="<h3>Using Access Point(AP) Mode on ESP32</h3>\n";
 
 //knoppen
-  ptr +=htmlbutton(true, oms_Kpup, hdl_Kpup);
-  ptr +=htmlbutton(true, oms_Kpdo, hdl_Kpdo);
+  ptr +=html_configbutton(oms_Kp, Kp, hdl_Kpdo, hdl_Kpup);
+  ptr +=html_configbutton(oms_Ki, Ki, hdl_Kido, hdl_Kiup);
+  ptr +=html_configbutton(oms_Kd, Kd, hdl_Kddo, hdl_Kdup);
 
   ptr +="</body>\n";
   ptr +="</html>\n";

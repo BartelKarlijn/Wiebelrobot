@@ -41,7 +41,7 @@ float BASE_Kd = 130.0;
 #define Ki_change 0.5 
 #define Kd_change 10 
 
-#define PERIOD  5000    // loop period in micros
+#define PERIOD  9000    // loop period in micros default 4000
 #define PRINT_PERIOD  100000    // print period in micros
 
 

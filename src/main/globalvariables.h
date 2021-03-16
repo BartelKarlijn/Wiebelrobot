@@ -69,7 +69,9 @@ float speeed;
 
 #define MAX_PID_OUTPUT 1
 
-float Kp = BASE_Kp, Ki = BASE_Ki, Kd = BASE_Kd;
+volatile float Kp = BASE_Kp;  // Volatile is necessary so that variables can be shared between cores
+volatile float Ki = BASE_Ki;
+volatile float Kd = BASE_Kd;    
 float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
 float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
@@ -79,8 +81,14 @@ float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 
 
 //////// Wifi //////////
-const char* oms_Kpup = "KP+";
+const char* oms_Kp = "Kp proportioneel";
 const char* hdl_Kpup = "butkpup";
-const char* oms_Kpdo = "KP-";
 const char* hdl_Kpdo = "butkpdo";
 
+const char* oms_Ki = "Ki Integraal";
+const char* hdl_Kiup = "butkiup";
+const char* hdl_Kido = "butkido";
+
+const char* oms_Kd = "Kd Derivation";
+const char* hdl_Kdup = "butkdup";
+const char* hdl_Kddo = "butkddo";

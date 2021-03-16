@@ -5,8 +5,13 @@ void setupwifi() {
   delay(100);
 
   server.on("/",        handle_OnConnect);
+
   server.on("/butkpup", handle_Kpup);
   server.on("/butkpdo", handle_Kpdo);
+  server.on("/butkiup", handle_Kiup);
+  server.on("/butkido", handle_Kido);
+  server.on("/butkdup", handle_Kdup);
+  server.on("/butkddo", handle_Kddo);
 
   server.onNotFound    (handle_NotFound);
 

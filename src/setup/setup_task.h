@@ -4,7 +4,7 @@ void Task1code( void * pvParameters ) {
 
   for(;;) {
 //  handle all wifi requests in endless loop
-//    server.handleClient();
+    server.handleClient();
 
   }
 }
