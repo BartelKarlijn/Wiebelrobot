@@ -69,9 +69,9 @@ float speeed;
 
 #define MAX_PID_OUTPUT 1
 
-volatile float Kp = BASE_Kp;  // Volatile is necessary so that variables can be shared between cores
-volatile float Ki = BASE_Ki;
-volatile float Kd = BASE_Kd;    
+volatile float Kp;  // Volatile is necessary so that variables can be shared between cores
+volatile float Ki;
+volatile float Kd;
 float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
 float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
@@ -92,3 +92,6 @@ const char* hdl_Kido = "butkido";
 const char* oms_Kd = "Kd Derivation";
 const char* hdl_Kdup = "butkdup";
 const char* hdl_Kddo = "butkddo";
+
+const char* oms_Save = "Save PID";
+const char* hdl_Save = "butSave";

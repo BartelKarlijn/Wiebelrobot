@@ -13,8 +13,9 @@
 */
 
 #include <Arduino.h>
-TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
+
 #include <setup\include.h>
+
 
 //////// MAIN //////////
 
@@ -29,6 +30,7 @@ void setup() {
   setup_dcmotors();
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
+  get_datafrom_eeprom ();
 //  setup_serial_control();
 //  setup_wifi();
   Serial.println("Started");
@@ -44,7 +46,6 @@ void loop() {
 // testmotorPWM(); // used to understand ledc for driving motors
 // testmotorPWM2();  // driving motor with function
 // testgyro();
-//  server.handleClient();
   getAcceleration(&accX, &accY, &accZ);
   rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
@@ -99,7 +100,8 @@ void loop() {
   }
   if (micros() >= print_timer) {
     //Serial.print(positionErr); Serial.print("  -  "); Serial.print(rotation); Serial.print(" / "); Serial.println(serialControlErr);
-    Serial.print(pitch); Serial.print(" / "); Serial.print(errorDerivative); Serial.print(" - "); Serial.println(selfBalanceAngleSetpoint);
+//even onderstaand uitgesterd    
+//    Serial.print(pitch); Serial.print(" / "); Serial.print(errorDerivative); Serial.print(" - "); Serial.println(selfBalanceAngleSetpoint);
     //Serial.print(accX); Serial.print(" / "); Serial.print(accY); Serial.print(" / "); Serial.print(accZ); Serial.print(" / "); Serial.print(gyroX); Serial.print(" / "); Serial.print(gyroY); Serial.print(" / "); Serial.println(gyroZ);
     print_timer += PRINT_PERIOD;
   }
@@ -112,6 +114,7 @@ void loop() {
   setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
   // The angle calculations are tuned for a loop time of PERIOD milliseconds.
   // To make sure every loop is exactly that, a wait loop is created by setting the loop_timer
+
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;

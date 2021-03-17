@@ -1,7 +1,9 @@
 // Arduino library includes
 #include <Arduino.h>
+TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 #include <Wire.h>
-//#include <WiFi.h>
+#include <Preferences.h>
+Preferences pref_eeprom;
 #include <WebServer.h>
 #include <MPU6050.h>
 
@@ -17,6 +19,7 @@
 #include <setup\setup_dcmotors.h>
 #include <main\gyro.h>
 #include <setup\setup_mpu.h>
+#include <setup\save_eprom.h>
 //#include <main\testmotor.h>      // om motors te testen (aan/uit)
 //#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
 //#include <main\testmotorPWM2.h>    // tweede versie met functies
@@ -28,5 +31,6 @@
 #include <wifi/sendhtml.h>
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>
+
 
 #include <setup\setup_task.h>

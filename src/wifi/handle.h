@@ -38,6 +38,11 @@ void handle_Kddo() {
   Serial.println(Kd);
   server.send(200, "text/html", SendHTML()); 
 }
+void handle_Save() {
+  save_datato_eeprom ();  
+  Serial.print("Paramters stored to eeprom");
+  server.send(200, "text/html", SendHTML()); 
+}
 void handle_NotFound(){
   server.send(404, "text/plain", "Not found");
 }
