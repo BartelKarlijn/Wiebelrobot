@@ -13,25 +13,22 @@ void get_datafrom_eeprom () {
   // Note: Key name is limited to 15 chars.
   float Kp_eeprom = pref_eeprom.getFloat("Kp_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kp = ");
-  Serial.println(Kp);
+  Serial.println(Kp_eeprom);
   float Ki_eeprom = pref_eeprom.getFloat("Ki_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Ki = ");
-  Serial.println(Ki);
+  Serial.println(Ki_eeprom);
   float Kd_eeprom = pref_eeprom.getFloat("Kd_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kd = ");
-  Serial.println(Kd);
+  Serial.println(Kd_eeprom);
 
   
   // geen data van eeprom: neem uit code
-  if(Kp_eeprom ==0) {  
-      Kp = BASE_Kp;
-  }
-  if(Ki_eeprom ==0) {
-      Ki = BASE_Ki;
-  }
-  if(Kd_eeprom ==0) {
-      Kd_eeprom = BASE_Kd;
-  }
+  if(Kp_eeprom ==0) { Kp = BASE_Kp;   }
+  else              { Kp = Kp_eeprom; }
+  if(Ki_eeprom ==0) { Ki = BASE_Ki;   }
+  else              { Ki = Ki_eeprom; }
+  if(Kd_eeprom ==0) { Kd = BASE_Kd;   }
+  else              { Kd = Kd_eeprom; }
 }
 
 void save_datato_eeprom () {

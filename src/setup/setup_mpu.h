@@ -38,7 +38,7 @@ void setup_mpu() {
   Wire.write(0x03);                     //Set the register bits as 00000011 (Set Digital Low Pass Filter to ~43Hz)
   retval = Wire.endTransmission(true);
   if (retval) { 
-    Serial.print("config ");
+    Serial.print("Gyro setting some filtering mislukt.  Returncode = ");
     Serial.println(retval);
     delay(2000);
   }
