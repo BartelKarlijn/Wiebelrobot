@@ -1,228 +1,121 @@
-#include <Arduino.h>
-#include <main/include.h>
 
-String inputString = "";         // a String to hold incoming data
-boolean stringComplete = false;  // whether the string is complete
-
-float Kp= 10.0;
-float Kd= 0  ;
-float Ki= 0;
-float targetAngle = 0;
-
-float motorADutyOffset=1;
-float motorBDutyOffset=1;
-
-#define sampleTime  0.005
-
-MPU6050 mpu;
-
-int16_t accY, accZ, gyroX;
-volatile int motorPower, gyroRate;
-volatile float accAngle, gyroAngle, currentAngle, prevAngle=0, error, prevError=0, errorSum=0;
-volatile byte count=0;
-
-portMUX_TYPE synch = portMUX_INITIALIZER_UNLOCKED;
-
-
-void setMotors(int leftMotorSpeed, int rightMotorSpeed) {
-  if(leftMotorSpeed >= 0) {
-    analogWrite( leftMotorPWMPin, leftMotorSpeed * motorADutyOffset );
-    analogWrite( leftMotorDirPin, 0 );
-  }
-  else {
-    analogWrite( leftMotorPWMPin,0 );
-    analogWrite( leftMotorDirPin,  -leftMotorSpeed * motorADutyOffset );
-  }
-  if(rightMotorSpeed >= 0) {
-    analogWrite( rightMotorPWMPin, rightMotorSpeed*motorBDutyOffset );
-    analogWrite( rightMotorDirPin, 0 );
-  }
-  else {
-    analogWrite( rightMotorPWMPin, 0 );
-    analogWrite( rightMotorDirPin, -rightMotorSpeed*motorBDutyOffset );
-  }
-}
-
-void init_PID() {  
-  // initialize Timer1
-  cli();          // disable global interrupts
-/*  TCCR1A = 0;     // set entire TCCR1A register to 0
-  TCCR1B = 0;     // same for TCCR1B    
-  // set compare match register to set sample time 5ms
-  OCR1A = 9999;    
-  // turn on CTC mode
-  TCCR1B |= (1 << WGM12);
-  // Set CS11 bit for prescaling by 8
-  TCCR1B |= (1 << CS11);
-  // enable timer compare interrupt
-  TIMSK1 |= (1 << OCIE1A);
+/**
+   Copyright 2017 Dan Oprescu
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 */
-  sei();          // enable global interrupts
-}
+
+#include <Arduino.h>
+
+#include <setup\include.h>
 
 
- // The ISR will be called every 5 milliseconds
-ISR(TIMER1_COMPA_vect)
-{
-  // calculate the angle of inclination
-  accAngle = atan2(accY, accZ)*RAD_TO_DEG;
-  gyroRate = map(gyroX, -32768, 32767, -250, 250);
-  gyroAngle = (float)gyroRate*sampleTime;  
-  currentAngle = 0.9934*(prevAngle + gyroAngle) + 0.0066*(accAngle);
-  
-  error = currentAngle - targetAngle;
-  errorSum = errorSum + error;  
-  errorSum = constrain(errorSum, -300, 300);
-  //Serial.print("error sum:");Serial.println(errorSum);
-  //calculate output from P, I and D values
-  motorPower = Kp*(error) + Ki*(errorSum)*sampleTime - Kd*(currentAngle-prevAngle)/sampleTime;
-  //Serial.print("motor power:");Serial.println(motorPower);
-  prevAngle = currentAngle;
-  // toggle the led on pin13 every second
-  count++;
-  if(count == 200)  {
-    count = 0;
-    digitalWrite(13, !digitalRead(13));
-  }
-}
-
+//////// MAIN //////////
 
 void setup() {
   Serial.begin(115200);
-  delay(2000);
-  inputString.reserve(200);
-  // set the motor control and PWM pins to output mode
-  pinMode(leftMotorPWMPin, OUTPUT);
-  pinMode(leftMotorDirPin, OUTPUT);
-  pinMode(rightMotorPWMPin, OUTPUT);
-  pinMode(rightMotorDirPin, OUTPUT);
-  // set the status LED to output mode 
-  pinMode(13, OUTPUT);
-  // initialize the MPU6050 and set offset values
-  mpu.initialize();
-  mpu.setXAccelOffset(-2816);
-  mpu.setYAccelOffset(562);
-  mpu.setZAccelOffset(1633);
-  mpu.setXGyroOffset(-7);
-  mpu.setYGyroOffset(33);
-  mpu.setZGyroOffset(91);  
-  // initialize PID sampling loop
-  init_PID();
+  delay(100);
+  Serial.println("Starting");
+  setupwifi();
+//  i2cscan_setup();
+  setupTask1();
+  setup_mpu();
+  setup_dcmotors();
+  loop_timer = micros() + PERIOD;
+  print_timer = micros() + PRINT_PERIOD;
+  get_datafrom_eeprom ();
+//  setup_serial_control();
+//  setup_wifi();
+  Serial.println("Started");
 }
 
+boolean isValidJoystickValue(uint8_t joystick) {
+  return joystick > 20 && joystick < 230;
+}
 
 void loop() {
-  // read acceleration and gyroscope values
-  accY = mpu.getAccelerationY();
-  accZ = mpu.getAccelerationZ();  
-  gyroX = mpu.getRotationX();
-  // set motor power after constraining it
-  motorPower = constrain(motorPower, -255, 255);
-  setMotors(motorPower, motorPower);
-  if (stringComplete) {
-    if(inputString.equals("angle:H\r\n"))
-    {
-     targetAngle+=0.5;
+// i2cscan();       // used to find I2C port of gyro
+// testmotor();     // used to test DC motors (on/off)
+// testmotorPWM(); // used to understand ledc for driving motors
+// testmotorPWM2();  // driving motor with function
+// testgyro();
+  getAcceleration(&accX, &accY, &accZ);
+  rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+  pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+  getRotation(&gyroX, &gyroY, &gyroZ);
+  // roll vs pitch depends on how the MPU is installed in the robot
+  roll -= gyroY * GYRO_RAW_TO_DEGS;
+  pitch += gyroX * GYRO_RAW_TO_DEGS;
+  // sin() has to be applied on radians
+    roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+    pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+
+  roll = roll * 0.999 + rollAcc * 0.001;
+  pitch = pitch * 0.999 + pitchAcc * 0.001;
+
+  // apply PID algo
+  // The selfBalanceAngleSetpoint variable is automatically changed to make sure that the robot stays balanced all the time.
+  positionErr = constrf(currentPos / (float)1000, -MAX_CONTROL_OR_POSITION_ERR, MAX_CONTROL_OR_POSITION_ERR);
+  serialControlErr = 0;
+  if (isValidJoystickValue(joystickY)) {
+    serialControlErr = constrf((joystickY - 130) / (float)15, -MAX_CONTROL_OR_POSITION_ERR, MAX_CONTROL_OR_POSITION_ERR);
+    // this control has to change slowly/gradually to avoid shaking the robot
+    if (serialControlErr < prevSerialControlErr) {
+      serialControlErr = max(serialControlErr, prevSerialControlErr - MAX_CONTROL_ERR_INCREMENT);
+    } else {
+      serialControlErr = min(serialControlErr, prevSerialControlErr + MAX_CONTROL_ERR_INCREMENT);
     }
-    else if(inputString.equals("angle:L\r\n"))
-    {
-      targetAngle-=0.5;
-    }
-    else if(inputString.equals("i:H\r\n"))
-    {
-      Ki+=0.5;
-    }    
-    else if(inputString.equals("i:L\r\n"))
-    {
-      Ki-=0.5;      
-    }
-    else if(inputString.equals("d:H\r\n"))
-    {
-      Kd+=0.01;
-    }
-    else if(inputString.equals("d:L\r\n"))
-    {
-      Kd-=0.01;
-    }
-    else if(inputString.equals("p:H\r\n"))
-    {
-      Kp+=0.5;
-    }    
-    else if(inputString.equals("p:L\r\n"))
-    {
-      Kp-=0.5;
-    }	
-  	else if(inputString.equals("da:H\r\n"))
-    {
-      motorADutyOffset+=1;
-    }    
-    else if(inputString.equals("da:L\r\n"))
-    {      
-      motorADutyOffset-=1;
-    }
-	 else if(inputString.equals("db:H\r\n"))
-    {
-      motorBDutyOffset+=1;
-    }    
-    else if(inputString.equals("db:L\r\n"))
-    {
-      motorBDutyOffset-=1;
-    }  	
-    else if(inputString.indexOf("angle:")!=-1)
-    {
-      targetAngle=(inputString.substring(6)).toFloat();
-    }
-    else if(inputString.indexOf("p:")!=-1)
-    {
-      Kp=(inputString.substring(2)).toFloat();
-    }
-    else if(inputString.indexOf("d:")!=-1)
-    {      
-      Kd=(inputString.substring(2)).toFloat();
-    }
-    else if(inputString.indexOf("i:")!=-1)
-    {      
-      Ki=(inputString.substring(2)).toFloat();
-    }
-    else if(inputString.indexOf("dutyA:")!=-1)
-    {
-  	motorADutyOffset=(inputString.substring(6)).toFloat();
-    }
-    else if(inputString.indexOf("dutyB:")!=-1)
-    {
-  	motorBDutyOffset=(inputString.substring(6)).toFloat();
-    }
-    else if(inputString.equals("ok:1\r\n"))
-    {
-      Serial.print(" Kp:");
-      Serial.print(Kp);
-      Serial.print(" Ki:");
-      Serial.print(Ki);
-      Serial.print(" Kd:");
-      Serial.print(Kd);
-      Serial.print(" targetAngle:");
-      Serial.print(targetAngle);
-      Serial.print(" A offset:");
-      Serial.print(motorADutyOffset);
-      Serial.print(" B offset:");
-      Serial.println(motorBDutyOffset);	 
-    }
-    inputString = "";
-    stringComplete = false;
+    prevSerialControlErr = serialControlErr;
   }
+  pidError = pitch - angleSetpoint - selfBalanceAngleSetpoint;
+  // either no manual / serial control -> try to keep the position or follow manual control
+  if (abs(serialControlErr) > MIN_CONTROL_ERR) {
+    pidError += serialControlErr > 0 ? serialControlErr - MIN_CONTROL_ERR : serialControlErr + MIN_CONTROL_ERR;
+    // re-init position so it doesn't try to go back when getting out of manual control mode
+    currentPos = 0;
+  } else {
+    pidError += positionErr;
+  }
+  integralErr = constrf(integralErr + Ki * pidError, -MAX_PID_OUTPUT, MAX_PID_OUTPUT);
+  errorDerivative = pidError - pidLastError;
+  pidOutput = Kp * pidError + integralErr + Kd * errorDerivative;
+  if (pidOutput < 5 && pidOutput > -5) pidOutput = 0; //Create a dead-band to stop the motors when the robot is balanced
+  if (pitch > 30 || pitch < -30) {   //If the robot tips over
+    pidOutput = 0;
+    integralErr = 0;
+    selfBalanceAngleSetpoint = 0;
+  }
+  // store error for next loop
+  pidLastError = pidError;
+  int16_t rotation = 0;
+  if (isValidJoystickValue(joystickX)) {
+    rotation = constrf((float)(joystickX - 130), -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT);
+  }
+  if (micros() >= print_timer) {
+    //Serial.print(positionErr); Serial.print("  -  "); Serial.print(rotation); Serial.print(" / "); Serial.println(serialControlErr);
+//even onderstaand uitgesterd    
+//    Serial.print(pitch); Serial.print(" / "); Serial.print(errorDerivative); Serial.print(" - "); Serial.println(selfBalanceAngleSetpoint);
+    //Serial.print(accX); Serial.print(" / "); Serial.print(accY); Serial.print(" / "); Serial.print(accZ); Serial.print(" / "); Serial.print(gyroX); Serial.print(" / "); Serial.print(gyroY); Serial.print(" / "); Serial.println(gyroZ);
+    print_timer += PRINT_PERIOD;
+  }
+
+  //The self balancing point is adjusted when there is not forward or backwards movement from the transmitter. This way the robot will always find it's balancing point
+  if (angleSetpoint == 0) {                                 //If the setpoint is zero degrees
+    if (pidOutput < 0) selfBalanceAngleSetpoint -= 0.0015;  //Increase the self_balance_pid_setpoint if the robot is still moving forward
+    if (pidOutput > 0) selfBalanceAngleSetpoint += 0.0015;  //Decrease the self_balance_pid_setpoint if the robot is still moving backward
+  }
+  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+  // The angle calculations are tuned for a loop time of PERIOD milliseconds.
+  // To make sure every loop is exactly that, a wait loop is created by setting the loop_timer
+
+  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
+  while (loop_timer > micros());
+  loop_timer += PERIOD;
 }
-
-
-void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // add it to the inputString:
-    inputString += inChar;
-    // if the incoming character is a newline, set a flag so the main loop can
-    // do something about it:
-    if (inChar == '\n') {
-      stringComplete = true;
-    }
-  }
-} 
