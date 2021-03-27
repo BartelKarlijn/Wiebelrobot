@@ -32,6 +32,6 @@ Preferences pref_eeprom;
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>
 #include <wifi/OTA.h>
-
+#include <wifi/credentials.h>      //added to gitignore
 
 #include <setup\setup_task.h>
