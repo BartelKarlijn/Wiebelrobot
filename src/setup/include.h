@@ -12,6 +12,7 @@ Preferences pref_eeprom;
 #include <main/globalvariables.h>
 
 // // define
+#include <wifi/credentials.h>      //added to gitignore
 
 // // eigen subprogrammas
 #include <main\i2cscanner.h>   
@@ -32,6 +33,5 @@ Preferences pref_eeprom;
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>
 #include <wifi/OTA.h>
-#include <wifi/credentials.h>      //added to gitignore
 
 #include <setup\setup_task.h>
