@@ -31,6 +31,7 @@ Preferences pref_eeprom;
 #include <wifi/sendhtml.h>
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>
+#include <wifi/OTA.h>
 
 
 #include <setup\setup_task.h>
