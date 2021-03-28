@@ -58,10 +58,12 @@ void loop() {
 
   roll = roll * 0.999 + rollAcc * 0.001;
   pitch = pitch * 0.999 + pitchAcc * 0.001;
-Serial.print("Roll; ");
-Serial.print(roll);
-Serial.print("    Pitch: ");
-Serial.print(pitch);
+Serial.print("gyro X Y Z: ");
+Serial.print(gyroX + gyroX_calibration);
+Serial.print(" - ");
+Serial.print(gyroY + gyroY_calibration);
+Serial.print(" - ");
+Serial.println(gyroZ + gyroZ_calibration);
 delay(1000);
 
   // apply PID algo
