@@ -4,15 +4,16 @@ TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 #include <Wire.h>
 #include <Preferences.h>
 Preferences pref_eeprom;
-#include <WebServer.h>
+#include <WebServer.h>      //Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
+#include <DNSServer.h>      //Local WebServer used to serve the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
 #include <MPU6050.h>
 
 // //Configuratie
 #include <configuration.h>
-#include <main/globalvariables.h>
 
-// // define
+// // define & variables
 #include <wifi/credentials.h>      //added to gitignore
+#include <main/globalvariables.h>
 
 // // eigen subprogrammas
 #include <main\i2cscanner.h>   
@@ -26,12 +27,16 @@ Preferences pref_eeprom;
 //#include <main\testmotorPWM2.h>    // tweede versie met functies
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
+//#include <WiFiManager.h>   // WiFi Configuration Magic (  https://github.com/zhouhan0126/DNSServer---esp32  )
+//#include <ESP_WiFiManager.h>              //https://github.com/khoih-prog/ESP_WiFiManager
+#include <ESPAsync_WiFiManager.h> 
 #include <wifi/wifidefinitions.h>
 #include <wifi/htmlbutton.h>
 #include <wifi/html_configbutton.h>
 #include <wifi/sendhtml.h>
 #include <wifi/handle.h>
-#include <wifi/setupwifi.h>
+//#include <wifi/setupwifi.h>
+#include <wifi/setupwifiManager.h>
 #include <wifi/OTA.h>
 
 #include <setup\setup_task.h>

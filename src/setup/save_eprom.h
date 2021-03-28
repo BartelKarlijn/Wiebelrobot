@@ -36,12 +36,5 @@ void save_datato_eeprom () {
   pref_eeprom.putFloat("Ki_eeprom", Ki);
   pref_eeprom.putFloat("Kd_eeprom", Kd);
 
-  Serial.println("Data opgeslagen, nu uitlezen");
-  pref_eeprom.end();
-  pref_eeprom.begin("wiebelrobot", false);
-  float Kp_TEST;
-  Kp_TEST = 9999;
-  Kp_TEST = pref_eeprom.getFloat("Kp_eeprom", 0);
-  Serial.print("Data uitlezen----------------Kp=");
-  Serial.println(Kp_TEST);
+  Serial.println("Data opgeslagen");
 }

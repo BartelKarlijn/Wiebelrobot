@@ -45,3 +45,5 @@ float BASE_Kd = 130.0;
 #define PRINT_PERIOD  100000    // print period in micros
 
 
+///////////////// wifi  //////////////////////////////
+#define ESP32

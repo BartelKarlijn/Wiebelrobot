@@ -23,7 +23,8 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   Serial.println("Starting");
-  setupwifi();
+//  setupwifi();         // eerste poging
+  setupwifiManager();  // nu met wifi manager, maar werkt (nog?) niet
 //  i2cscan_setup();
   setupTask1();
   setup_mpu();

@@ -1,7 +1,10 @@
 // Wifi
 // SSID settings
-const char* ssid = "WiebelRobot";  // Enter SSID here
-const char* password = "wiebelrobot";  //Enter Password here
+const char* ssid = mySSID;
+const char* password = myPASSWORD;
+
+//const char* ssid = "WiebelRobot";  // Enter SSID here
+//const char* password = "wiebelrobot";  //Enter Password here
 
 /* Put IP Address details */
 IPAddress local_ip(192,168,1,1);
