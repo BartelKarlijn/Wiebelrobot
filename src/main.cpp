@@ -23,8 +23,8 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   Serial.println("Starting");
-//  setupwifi();         // eerste poging
-  setupwifiManager();  // nu met wifi manager, maar werkt (nog?) niet
+  setupwifiManager();  // Autoconfiguratie 
+  setupwifi();         // handles en dergelijke
 //  i2cscan_setup();
   setupTask1();
   setup_mpu();
@@ -32,8 +32,6 @@ void setup() {
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
   get_datafrom_eeprom ();
-//  setup_serial_control();
-//  setup_wifi();
   Serial.println("Started");
 }
 
@@ -60,6 +58,11 @@ void loop() {
 
   roll = roll * 0.999 + rollAcc * 0.001;
   pitch = pitch * 0.999 + pitchAcc * 0.001;
+Serial.print("Roll; ");
+Serial.print(roll);
+Serial.print("    Pitch: ");
+Serial.print(pitch);
+delay(1000);
 
   // apply PID algo
   // The selfBalanceAngleSetpoint variable is automatically changed to make sure that the robot stays balanced all the time.

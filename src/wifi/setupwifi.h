@@ -1,10 +1,9 @@
 void setupwifi() {
   
-
-  WiFi.softAP(ssid, password);
-  delay(100);
-  WiFi.softAPConfig(local_ip, gateway, subnet);
-  delay(100);
+//  WiFi.softAP(ssid, password);
+//  delay(100);
+//  WiFi.softAPConfig(local_ip, gateway, subnet);
+//  delay(100);
 
   server.on("/",        handle_OnConnect);
 

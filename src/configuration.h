@@ -46,4 +46,10 @@ float BASE_Kd = 130.0;
 
 
 ///////////////// wifi  //////////////////////////////
-#define ESP32
+#define autoConnectAP "WiebelRobotAP"    //ssid access point voor als je niet aan wifi geraakt
+#define autoConnectName "WiebelRobot"      //naam op het wifi netwerk, als het werkt
+#define autoConnectIP IPAddress(192,168,1,1)     // ip adress
+#define autoConnectGW IPAddress(192,168,1,1)     // gateway
+#define autoConnectSN IPAddress(255,255,255,0)   // subnet
+
+#define autoConnectReset false                   // om alle gegevens van autoconnect te herzeten

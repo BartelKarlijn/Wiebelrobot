@@ -27,15 +27,13 @@ Preferences pref_eeprom;
 //#include <main\testmotorPWM2.h>    // tweede versie met functies
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
-//#include <WiFiManager.h>   // WiFi Configuration Magic (  https://github.com/zhouhan0126/DNSServer---esp32  )
-//#include <ESP_WiFiManager.h>              //https://github.com/khoih-prog/ESP_WiFiManager
 #include <ESPAsync_WiFiManager.h> 
 #include <wifi/wifidefinitions.h>
 #include <wifi/htmlbutton.h>
 #include <wifi/html_configbutton.h>
 #include <wifi/sendhtml.h>
 #include <wifi/handle.h>
-//#include <wifi/setupwifi.h>
+#include <wifi/setupwifi.h>          
 #include <wifi/setupwifiManager.h>
 #include <wifi/OTA.h>
 
