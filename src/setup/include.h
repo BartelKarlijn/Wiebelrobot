@@ -28,6 +28,7 @@ Preferences pref_eeprom;
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
 #include <ESPAsync_WiFiManager.h> 
+#include <wifi/OTA.h>
 #include <wifi/wifidefinitions.h>
 #include <wifi/htmlbutton.h>
 #include <wifi/html_configbutton.h>
@@ -35,6 +36,5 @@ Preferences pref_eeprom;
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>          
 #include <wifi/setupwifiManager.h>
-#include <wifi/OTA.h>
 
 #include <setup\setup_task.h>

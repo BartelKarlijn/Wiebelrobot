@@ -61,19 +61,19 @@ uint8_t joystickX;
 uint8_t joystickY;
 uint32_t loop_timer;
 uint32_t print_timer;
-float roll, pitch, rollAcc, pitchAcc;
+float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand
+float currentAngle, prevAngle;
+volatile int16_t rotation = 0;         // om te kunnen draaien
 float speeed;
 
 
 //////// PID //////////
 
-#define MAX_PID_OUTPUT 1
-
 volatile float Kp;  // Volatile is necessary so that variables can be shared between cores
 volatile float Ki;
 volatile float Kd;
-float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
-float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
+volatile float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
+volatile float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
 float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
 float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;

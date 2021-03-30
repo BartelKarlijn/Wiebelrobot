@@ -52,10 +52,6 @@ void setSpeed(int16_t s, int16_t rotation) {
   int16_t sL = s - rotation;
   int16_t sR = s + rotation;
 
-  // keep track of the position (in steps forward or backward)
-  currentPos += ((micros() - prevSpeedStart) / (float)1000000)  * prevSpeed;
-  prevSpeed = s;
-  prevSpeedStart = micros();
   // set the new speed
   forwardL(sL);
   forwardR(sR);

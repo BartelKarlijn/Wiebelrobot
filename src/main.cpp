@@ -45,19 +45,47 @@ void loop() {
 // testmotorPWM(); // used to understand ledc for driving motors
 // testmotorPWM2();  // driving motor with function
 // testgyro();
-  getAcceleration(&accX, &accY, &accZ);
-  rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
-  pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+//  getAcceleration(&accX, &accY, &accZ);
+//  rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
+//  pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
   getRotation(&gyroX, &gyroY, &gyroZ);
   // roll vs pitch depends on how the MPU is installed in the robot
-  roll -= gyroY * GYRO_RAW_TO_DEGS;
-  //pitch += gyroX * GYRO_RAW_TO_DEGS;
-  // sin() has to be applied on radians
-  //  roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
-  //  pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+  currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
-//  roll = roll * 0.999 + rollAcc * 0.001;
-//  pitch = pitch * 0.999 + pitchAcc * 0.001;
+  // apply PID algo
+  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
+  integralErr += pidError;                                         // het I gedeelte  
+  errorDerivative = pidError - pidLastError;                       // het D gedeelte
+  pidLastError = pidError;
+
+  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+Serial.print("PID output");
+Serial.print("  ");
+Serial.print(pidError);
+Serial.print("  ");
+Serial.print(integralErr);
+Serial.print("  ");
+Serial.print(errorDerivative);
+Serial.print("  ");
+Serial.println(pidOutput);
+
+// zorgen dat we vaste loop lengte hebben
+  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
+  while (loop_timer > micros());
+  loop_timer += PERIOD;
+//  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+
+
+  
+/*
+  roll -= gyroY * GYRO_RAW_TO_DEGS;
+  pitch += gyroY * GYRO_RAW_TO_DEGS;
+  //sin() has to be applied on radians
+  roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+  pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+
+  roll = roll * 0.999 + rollAcc * 0.001;
+  pitch = pitch * 0.999 + pitchAcc * 0.001;
 //Serial.print("roll X Y Z: ");
 //Serial.print(gyroX * GYRO_RAW_TO_DEGS );
 //Serial.print("  ");
@@ -124,4 +152,7 @@ void loop() {
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
+*/
+
+
 }
