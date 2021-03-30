@@ -40,9 +40,9 @@ float BASE_Kd = 0.0;
 #define Kp_change 1      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 #define Ki_change 0.1
 #define Kd_change 1 
-#define MAX_PID_OUTPUT 100  // bepaalt hoe groot PID params kunnen zijn
+#define MAX_PID_OUTPUT 1000  // bepaalt hoe groot PID params kunnen zijn
 
-#define PERIOD  100000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
+#define PERIOD  4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
 #define PRINT_PERIOD  100000    // print period in microsec
 
 

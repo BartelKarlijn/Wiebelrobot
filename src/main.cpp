@@ -59,6 +59,7 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+/*
 Serial.print("PID output");
 Serial.print("  ");
 Serial.print(pidError);
@@ -67,13 +68,16 @@ Serial.print(integralErr);
 Serial.print("  ");
 Serial.print(errorDerivative);
 Serial.print("  ");
-Serial.println(pidOutput);
+Serial.print(pidOutput);
+Serial.print(" /max ");
+Serial.println(MAX_PID_OUTPUT);
+*/
 
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
-//  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
 
   
