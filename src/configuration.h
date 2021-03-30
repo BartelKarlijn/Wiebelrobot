@@ -37,12 +37,12 @@ static int MPU_ADDR = 0x68;
 float BASE_Kp = 100.0;
 float BASE_Ki = 5.0;
 float BASE_Kd = 130.0;
-#define Kp_change 10      // Elke druk in wifi app, verhoogt/verlaagt met waarde
+#define Kp_change 1      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 #define Ki_change 0.5 
-#define Kd_change 10 
+#define Kd_change 1 
 
-#define PERIOD  9000    // loop period in micros default 4000
-#define PRINT_PERIOD  100000    // print period in micros
+#define PERIOD  9000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
+#define PRINT_PERIOD  100000    // print period in microsec
 
 
 ///////////////// wifi  //////////////////////////////

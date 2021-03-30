@@ -93,5 +93,8 @@ const char* oms_Kd = "Kd Derivation";
 const char* hdl_Kdup = "butkdup";
 const char* hdl_Kddo = "butkddo";
 
-const char* oms_Save = "Save PID";
-const char* hdl_Save = "butSave";
+const char* oms_SaveConfig = "Save PID";
+const char* hdl_SaveConfig = "butSaveConfig";
+
+const char* oms_CalibrateGyro = "Calibrate Gyro";
+const char* hdl_CalibrateGyro = "butCalibrateGyro";

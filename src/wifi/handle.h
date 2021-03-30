@@ -38,9 +38,14 @@ void handle_Kddo() {
   Serial.println(Kd);
   server.send(200, "text/html", SendHTML()); 
 }
-void handle_Save() {
+void handle_SaveConfig() {
   save_datato_eeprom ();  
   Serial.print("Paramters stored to eeprom");
+  server.send(200, "text/html", SendHTML()); 
+}
+void handle_CalibrateGyro() {
+  calibrateGyro ();  
+  Serial.print("Gyro calibrated");
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_NotFound(){

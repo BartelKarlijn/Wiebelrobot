@@ -51,20 +51,20 @@ void loop() {
   getRotation(&gyroX, &gyroY, &gyroZ);
   // roll vs pitch depends on how the MPU is installed in the robot
   roll -= gyroY * GYRO_RAW_TO_DEGS;
-  pitch += gyroX * GYRO_RAW_TO_DEGS;
+  //pitch += gyroX * GYRO_RAW_TO_DEGS;
   // sin() has to be applied on radians
-    roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
-    pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+  //  roll += pitch * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
+  //  pitch -= roll * sin((float)gyroZ * GYRO_RAW_TO_DEGS * DEG_TO_RAD);
 
-  roll = roll * 0.999 + rollAcc * 0.001;
-  pitch = pitch * 0.999 + pitchAcc * 0.001;
-Serial.print("gyro X Y Z: ");
-Serial.print(gyroX + gyroX_calibration);
-Serial.print(" - ");
-Serial.print(gyroY + gyroY_calibration);
-Serial.print(" - ");
-Serial.println(gyroZ + gyroZ_calibration);
-delay(1000);
+//  roll = roll * 0.999 + rollAcc * 0.001;
+//  pitch = pitch * 0.999 + pitchAcc * 0.001;
+//Serial.print("roll X Y Z: ");
+//Serial.print(gyroX * GYRO_RAW_TO_DEGS );
+//Serial.print("  ");
+//Serial.print(gyroY* GYRO_RAW_TO_DEGS);
+//Serial.print("  ");
+//Serial.println(gyroZ * GYRO_RAW_TO_DEGS);
+//delay(1000);
 
   // apply PID algo
   // The selfBalanceAngleSetpoint variable is automatically changed to make sure that the robot stays balanced all the time.

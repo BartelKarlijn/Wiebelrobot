@@ -14,7 +14,8 @@ void setupwifi() {
   server.on("/butkdup", handle_Kdup);
   server.on("/butkddo", handle_Kddo);
 
-  server.on("/butSave", handle_Save);
+  server.on("/butSaveConfig", handle_SaveConfig);
+  server.on("/butCalibrateGyro", handle_CalibrateGyro);
   
   server.onNotFound    (handle_NotFound);
 
