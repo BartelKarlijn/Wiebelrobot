@@ -20,15 +20,19 @@ Preferences pref_eeprom;
 #include <main\dcmotors.h>
 #include <setup\setup_dcmotors.h>
 #include <main\gyro.h>
+#include <setup\setup_intled.h>
 #include <setup\setup_mpu.h>
 #include <setup\save_eprom.h>
 #include <main/resetPID.h>
 //#include <main\testmotor.h>      // om motors te testen (aan/uit)
 //#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
-//#include <main\testmotorPWM2.h>    // tweede versie met functies
+#include <main\testmotorPWM2.h>    // tweede versie met functies
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
 #include <ESPAsync_WiFiManager.h> 
+#include <AsyncTCP.h>
+//#include <ESPAsyncWebServer.h>
+//#include <AsyncElegantOTA.h>
 #include <wifi/OTA.h>
 #include <wifi/wifidefinitions.h>
 #include <wifi/htmlbutton.h>
@@ -37,4 +41,6 @@ Preferences pref_eeprom;
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>          
 #include <wifi/setupwifiManager.h>
+#include <main\printPIDparams.h>
 #include <setup\setup_task.h>
+#include <wifi\setupOTA.h>

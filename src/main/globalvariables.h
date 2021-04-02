@@ -79,6 +79,8 @@ float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
 float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 #define MIN_CONTROL_ERR 1
 
+uint8_t PrintPIDLoops = PrintPIDMillis * 1000 / PERIOD ;   //hoeveel loops overslaan om serial print te doen van PID parameteters?
+uint8_t PrintPIDloopCounter = 0;
 
 //////// Wifi //////////
 const char* oms_Kp = "Kp proportioneel";

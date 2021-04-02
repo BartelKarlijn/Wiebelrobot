@@ -6,6 +6,8 @@ void Task1code( void * pvParameters ) {
 //  handle all wifi requests in endless loop
     server.handleClient();
 
+// Af en toe OTA checken
+     ArduinoOTA.handle();
   }
 }
 

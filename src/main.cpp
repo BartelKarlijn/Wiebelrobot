@@ -32,6 +32,7 @@ void setup() {
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
   get_datafrom_eeprom ();
+  digitalWrite(INTLED, HIGH);
   Serial.println("Started");
 }
 
@@ -55,28 +56,20 @@ void loop() {
   // apply PID algo
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
+  constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
   errorDerivative = pidError - pidLastError;                       // het D gedeelte
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
 
-Serial.print("PID output");
-Serial.print("  ");
-Serial.print(pidError);
-Serial.print("  ");
-Serial.print(integralErr);
-Serial.print("  ");
-Serial.print(errorDerivative);
-Serial.print("  ");
-Serial.print(pidOutput);
-Serial.print(" /max ");
-Serial.println(MAX_PID_OUTPUT);
+  printPIDparams();
 
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
-  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
+  setSpeed(pidOutput, rotation);
+//  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
 
   

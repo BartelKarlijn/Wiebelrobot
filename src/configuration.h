@@ -5,6 +5,8 @@
 // Used default I2C pins
 // SDA gpio21
 // SCL gpio22
+#define INTLED 2   // ESP32 Pin to which onboard LED is connected
+//#define MODE_TESTMOTORPWM   // uncomment om motors te testen
 
 
 ///////////////// MPU-6050 //////////////////////////
@@ -31,7 +33,9 @@ static int MPU_ADDR = 0x68;
 
 // speed
 #define MAX_SPEED 1024   // 10bit dus tot 1024
-#define MIN_SPEED 660    // 10bit  Hieronder gebeurt er niets
+#define MIN_SPEEDL 680    // 10bit  Hieronder draait motortje niet
+#define MIN_SPEEDR 690    // 10bit  Hieronder draait motortje niet
+#define RUST_SPEED 100   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
 
 // PID ?
 float BASE_Kp = 1.0;
@@ -40,11 +44,13 @@ float BASE_Kd = 0.0;
 #define Kp_change 1      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 #define Ki_change 0.1
 #define Kd_change 1 
-#define MAX_PID_OUTPUT 1000  // bepaalt hoe groot PID params kunnen zijn
+#define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
+float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
 
-#define PERIOD  4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
+#define PERIOD          4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
 #define PRINT_PERIOD  100000    // print period in microsec
-#define SerialSpeed   230400 //was 115200
+#define SerialSpeed   230400    // was 115200
+#define PrintPIDMillis  1000    // Hoe dikwijls PIDparameters Serial printen?
 
 ///////////////// wifi  //////////////////////////////
 #define autoConnectAP "WiebelRobot"    //ssid access point voor als je niet aan wifi geraakt
