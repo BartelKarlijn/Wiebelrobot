@@ -44,10 +44,10 @@ float BASE_Kd = 0.0;
 
 #define PERIOD  4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
 #define PRINT_PERIOD  100000    // print period in microsec
-
+#define SerialSpeed   230400 //was 115200
 
 ///////////////// wifi  //////////////////////////////
-#define autoConnectAP "WiebelRobotAP"    //ssid access point voor als je niet aan wifi geraakt
+#define autoConnectAP "WiebelRobot"    //ssid access point voor als je niet aan wifi geraakt
 #define autoConnectName "WiebelRobot"      //naam op het wifi netwerk, als het werkt
 #define autoConnectIP IPAddress(192,168,1,1)     // ip adress
 #define autoConnectGW IPAddress(192,168,1,1)     // gateway

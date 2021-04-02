@@ -22,6 +22,7 @@ Preferences pref_eeprom;
 #include <main\gyro.h>
 #include <setup\setup_mpu.h>
 #include <setup\save_eprom.h>
+#include <main/resetPID.h>
 //#include <main\testmotor.h>      // om motors te testen (aan/uit)
 //#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
 //#include <main\testmotorPWM2.h>    // tweede versie met functies
@@ -36,5 +37,4 @@ Preferences pref_eeprom;
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>          
 #include <wifi/setupwifiManager.h>
-
 #include <setup\setup_task.h>

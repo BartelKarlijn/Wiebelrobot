@@ -20,7 +20,7 @@
 //////// MAIN //////////
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(SerialSpeed);
   delay(100);
   Serial.println("Starting");
   setupwifiManager();  // Autoconfiguratie 
@@ -59,7 +59,7 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
-/*
+
 Serial.print("PID output");
 Serial.print("  ");
 Serial.print(pidError);
@@ -71,7 +71,6 @@ Serial.print("  ");
 Serial.print(pidOutput);
 Serial.print(" /max ");
 Serial.println(MAX_PID_OUTPUT);
-*/
 
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");

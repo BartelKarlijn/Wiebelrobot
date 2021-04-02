@@ -40,13 +40,12 @@ void handle_Kddo() {
 }
 void handle_SaveConfig() {
   save_datato_eeprom ();  
+  resetPID();
   Serial.println("Paramters stored to eeprom");
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_CalibrateGyro() {
-  pidError = 0;
-  integralErr = 0;
-  errorDerivative = 0;
+  resetPID();
   Serial.println("Gyro calibrated aka PID waarden op 0 gezet");
   server.send(200, "text/html", SendHTML()); 
 }
