@@ -41,7 +41,7 @@ static int MPU_ADDR = 0x68;
 float BASE_Kp = 1.0;
 float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
-#define Kp_change 1      // Elke druk in wifi app, verhoogt/verlaagt met waarde
+#define Kp_change 5      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 #define Ki_change 0.1
 #define Kd_change 1 
 #define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
