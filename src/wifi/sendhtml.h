@@ -19,14 +19,14 @@ String SendHTML(){
 // bodytitel
   ptr += "<body>\n";
   ptr +="<h1>Wiebelrobot instellen</h1>\n";
-  ptr +="<h3>Using Access Point(AP) Mode on ESP32</h3>\n";
 
 //knoppen
   ptr +=html_configbutton(oms_Kp, Kp, hdl_Kpdo, hdl_Kpup);
   ptr +=html_configbutton(oms_Ki, Ki, hdl_Kido, hdl_Kiup);
   ptr +=html_configbutton(oms_Kd, Kd, hdl_Kddo, hdl_Kdup);
+  ptr +=html_configbutton(oms_Angle, selfBalanceAngleSetpoint, hdl_Angledo, hdl_Angleup);
   ptr +=htmlbutton(true, oms_SaveConfig, hdl_SaveConfig);
-  ptr +=htmlbutton(true, oms_CalibrateGyro, hdl_CalibrateGyro);
+  ptr +=htmlbutton(true, oms_Restart, hdl_Restart);
   
   ptr +="</body>\n";
   ptr +="</html>\n";

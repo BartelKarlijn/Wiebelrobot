@@ -20,6 +20,9 @@ void get_datafrom_eeprom () {
   float Kd_eeprom = pref_eeprom.getFloat("Kd_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kd = ");
   Serial.println(Kd_eeprom);
+  float Angle_eeprom = pref_eeprom.getFloat("Angle_eeprom", 0);
+  Serial.print("Uit eprom uitgelezen waarde voor Angle = ");
+  Serial.println(Angle_eeprom);
 
   
   // geen data van eeprom: neem uit code
@@ -29,12 +32,15 @@ void get_datafrom_eeprom () {
   else              { Ki = Ki_eeprom; }
   if(Kd_eeprom ==0) { Kd = BASE_Kd;   }
   else              { Kd = Kd_eeprom; }
+  if(Angle_eeprom ==0) { selfBalanceAngleSetpoint = BASE_Angle;   }
+  else              { selfBalanceAngleSetpoint = Angle_eeprom; }
 }
 
 void save_datato_eeprom () {
   pref_eeprom.putFloat("Kp_eeprom", Kp);
   pref_eeprom.putFloat("Ki_eeprom", Ki);
   pref_eeprom.putFloat("Kd_eeprom", Kd);
+  pref_eeprom.putFloat("Angle_eeprom", selfBalanceAngleSetpoint);
 
   Serial.println("Data opgeslagen");
 }

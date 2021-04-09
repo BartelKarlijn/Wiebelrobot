@@ -23,6 +23,7 @@ void setup() {
   Serial.begin(SerialSpeed);
   delay(100);
   Serial.println("Starting");
+  setup_intled();
   setupwifiManager();  // Autoconfiguratie 
   setupwifi();         // handles en dergelijke
 //  i2cscan_setup();
@@ -32,7 +33,8 @@ void setup() {
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
   get_datafrom_eeprom ();
-  digitalWrite(INTLED, HIGH);
+
+  digitalWrite(ledpin, HIGH);
   Serial.println("Started");
 }
 
@@ -56,8 +58,8 @@ void loop() {
   // apply PID algo
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
-  constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
-  errorDerivative = pidError - pidLastError;                       // het D gedeelte
+  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
+  errorDerivative = (pidError - pidLastError)*10;                       // het D gedeelte
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;

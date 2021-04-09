@@ -38,16 +38,31 @@ void handle_Kddo() {
   Serial.println(Kd);
   server.send(200, "text/html", SendHTML()); 
 }
+void handle_Angleup() {
+  selfBalanceAngleSetpoint += Angle_change;
+  Serial.print("Changing via wifi Angle, new value ");
+  Serial.println(selfBalanceAngleSetpoint);
+  server.send(200, "text/html", SendHTML()); 
+}
+void handle_Angledo() {
+  selfBalanceAngleSetpoint -= Angle_change;
+  Serial.print("Changing via wifi Angle, new value ");
+  Serial.println(selfBalanceAngleSetpoint);
+  server.send(200, "text/html", SendHTML()); 
+}
 void handle_SaveConfig() {
   save_datato_eeprom ();  
   resetPID();
   Serial.println("Paramters stored to eeprom");
   server.send(200, "text/html", SendHTML()); 
 }
-void handle_CalibrateGyro() {
-  resetPID();
-  Serial.println("Gyro calibrated aka PID waarden op 0 gezet");
-  server.send(200, "text/html", SendHTML()); 
+void handle_Restart() {
+  digitalWrite(ledpin, LOW);
+  Serial.println("Restarting ESP");
+  forwardL(0);
+  forwardR(0);
+  delay(100);
+  ESP.restart();
 }
 void handle_NotFound(){
   server.send(404, "text/plain", "Not found");

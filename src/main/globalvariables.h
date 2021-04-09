@@ -72,7 +72,8 @@ float speeed;
 volatile float Kp;  // Volatile is necessary so that variables can be shared between cores
 volatile float Ki;
 volatile float Kd;
-volatile float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
+volatile float selfBalanceAngleSetpoint;
+volatile float angleSetpoint = 0;
 volatile float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
 float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
@@ -95,8 +96,12 @@ const char* oms_Kd = "Kd Derivation";
 const char* hdl_Kdup = "butkdup";
 const char* hdl_Kddo = "butkddo";
 
+const char* oms_Angle = "Balanceer Hoek";
+const char* hdl_Angleup = "butAngleup";
+const char* hdl_Angledo = "butAngledo";
+
 const char* oms_SaveConfig = "Save PID";
 const char* hdl_SaveConfig = "butSaveConfig";
 
-const char* oms_CalibrateGyro = "Calibrate Gyro";
-const char* hdl_CalibrateGyro = "butCalibrateGyro";
+const char* oms_Restart = "Restart";
+const char* hdl_Restart = "butRestart";

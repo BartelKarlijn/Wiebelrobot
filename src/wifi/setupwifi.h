@@ -13,9 +13,11 @@ void setupwifi() {
   server.on("/butkido", handle_Kido);
   server.on("/butkdup", handle_Kdup);
   server.on("/butkddo", handle_Kddo);
+  server.on("/butAngleup", handle_Angleup);
+  server.on("/butAngledo", handle_Angledo);
 
   server.on("/butSaveConfig", handle_SaveConfig);
-  server.on("/butCalibrateGyro", handle_CalibrateGyro);
+  server.on("/butRestart", handle_Restart);
   
   server.onNotFound    (handle_NotFound);
 

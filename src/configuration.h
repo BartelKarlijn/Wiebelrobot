@@ -5,7 +5,7 @@
 // Used default I2C pins
 // SDA gpio21
 // SCL gpio22
-#define INTLED 2   // ESP32 Pin to which onboard LED is connected
+#define ledpin 2   // ESP32 Pin to which onboard LED is connected
 //#define MODE_TESTMOTORPWM   // uncomment om motors te testen
 
 
@@ -37,13 +37,15 @@ static int MPU_ADDR = 0x68;
 #define MIN_SPEEDR 690    // 10bit  Hieronder draait motortje niet
 #define RUST_SPEED 100   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
 
-// PID ?
+// PID
 float BASE_Kp = 1.0;
 float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
+float BASE_Angle = 0.0;
 #define Kp_change 5      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 #define Ki_change 0.1
 #define Kd_change 1 
+#define Angle_change 1
 #define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
 float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
 
