@@ -14,14 +14,20 @@
 // Used I2Cscanner to find adress.  It's 0x68
 static int MPU_ADDR = 0x68;  
 #define gyroCalibrationLoops 200    //Hoeveel loops om te calibreren?
+// we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
+//#define CalibrateGyro     // Uncomment als je toch wil calibreren
+#define gyroX_preset -19
+#define gyroY_preset 180
+#define gyroZ_preset -84
+
 
 //////////////// MOTORS ////////////////////////////
 
 //Pins
 #define motorLpin1 26
 #define motorLpin2 27
-#define motorRpin1 25
-#define motorRpin2 33
+#define motorRpin1 33
+#define motorRpin2 25
 
 //ledc library
 #define motorLcha1 0   // for the ledc library

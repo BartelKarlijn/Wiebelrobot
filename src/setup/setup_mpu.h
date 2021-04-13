@@ -43,8 +43,12 @@ void setup_mpu() {
     delay(2000);
   }
 
-  // calibrateGyro();
-  calibrateGyro();
+  #ifdef flagCalibrateGyro
+    calibrateGyro();
+  #else
+    getCalibrationParams();
+  #endif
+  
   Serial.println("Gyro calibrated");
  
 }

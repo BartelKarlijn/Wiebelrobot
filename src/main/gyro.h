@@ -8,6 +8,18 @@ void getRotation(int16_t* x, int16_t* y, int16_t* z) {
   *z = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroZ_calibration;
 }
 
+void getCalibrationParams() {
+  gyroX_calibration = gyroX_preset;
+  gyroY_calibration = gyroY_preset;
+  gyroZ_calibration = gyroZ_preset;
+  
+  Serial.print("gyroX_calibration: ");
+  Serial.println(gyroX_calibration);
+  Serial.print("gyroY_calibration: ");
+  Serial.println(gyroY_calibration);
+  Serial.print("gyroZ_calibration: ");
+  Serial.println(gyroZ_calibration);
+}
 
 void calibrateGyro() {
   int32_t x = 0, y = 0, z = 0; // Compiler warning if not set.
