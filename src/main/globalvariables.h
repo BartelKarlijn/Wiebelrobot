@@ -63,6 +63,7 @@ uint32_t loop_timer;
 uint32_t print_timer;
 float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand
 float currentAngle, prevAngle;
+float AngleX, AngleY, AngleZ;
 volatile int16_t rotation = 0;         // om te kunnen draaien
 float speeed;
 

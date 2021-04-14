@@ -28,6 +28,7 @@ static int MPU_ADDR = 0x68;
 #define motorLpin2 27
 #define motorRpin1 33
 #define motorRpin2 25
+#define FlagNotMotor true  //true: motoren niet laten draaien
 
 //ledc library
 #define motorLcha1 0   // for the ledc library

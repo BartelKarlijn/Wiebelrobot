@@ -55,6 +55,22 @@ void loop() {
   // roll vs pitch depends on how the MPU is installed in the robot
   currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
+  getAcceleration(&accX, &accY, &accZ);
+  AngleX = RAD_TO_DEG * (atan2(-accY, -accZ)+PI);
+  AngleY = RAD_TO_DEG * (atan2(-accX, -accZ)+PI);
+  AngleZ = RAD_TO_DEG * (atan2(-accY, -accX)+PI);
+Serial.print("gyroY ");
+Serial.print(gyroY);
+Serial.print(" currAngl ");
+Serial.print(currentAngle);
+Serial.print(" AngleX ");
+Serial.print(AngleX);
+Serial.print(" AngleY ");
+Serial.print(AngleY);
+Serial.print(" AngleZ ");
+Serial.print(AngleZ);
+
+
   // apply PID algo
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  

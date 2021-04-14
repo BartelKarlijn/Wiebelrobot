@@ -62,6 +62,11 @@ void setSpeed(int16_t s, int16_t rotation) {
   int16_t sR = s + rotation;
 
   // set the new speed
+  if(FlagNotMotor) {
+    sL = 0;
+    sR = 0;
+  }
   forwardL(sL);
   forwardR(sR);
+  
 }
