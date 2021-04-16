@@ -16,7 +16,7 @@ void handle_Kpdo() {
 }
 void handle_Kpch() {
   Kp_change = Kp_change * 10;
-  if (Kp_change > 100.0 ) {Kp_change = 1;}
+  if (Kp_change >= 100.0 ) {Kp_change = 0.1;}
   Serial.print("Changing via wifi Kp_Change, new value ");
   Serial.println(Kp_change);
   server.send(200, "text/html", SendHTML()); 

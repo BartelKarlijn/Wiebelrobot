@@ -34,7 +34,7 @@ int32_t currentPos = 0;
 #define ACC_FULL_SCALE_RANGE          MPU6050_AFS_SEL_4G
 #define ACC_SCALE_FACTOR              8192    // LSB / g
 
-static float GYRO_RAW_TO_DEGS = 1.0 / (1000000.0 / PERIOD) / GYRO_SCALE_FACTOR;
+//static float GYRO_RAW_TO_DEGS = 1.0 / (1000000.0 / PERIOD) / GYRO_SCALE_FACTOR;
 
 int16_t accX, accY, accZ;
 int16_t gyroX, gyroY, gyroZ;
@@ -65,7 +65,8 @@ uint8_t joystickY;
 uint32_t loop_timer;
 uint32_t print_timer;
 float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand
-float currentAngle, prevAngle;
+volatile float currentAngle;
+float prevAngle;
 float AngleX, AngleY, AngleZ;
 volatile int16_t rotation = 0;         // om te kunnen draaien
 float speeed;
@@ -104,14 +105,14 @@ const char* oms_Angle = "Balanceer Hoek";
 const char* hdl_Angleup = "butAngleup";
 const char* hdl_Angledo = "butAngledo";
 
+const char* oms_ShowAngle = "Gemeten Hoek= ";
+const char* hdl_ShowAngle = "butShowAngle";
+
 const char* oms_SaveConfig = "Save PID";
 const char* hdl_SaveConfig = "butSaveConfig";
 
 const char* oms_Restart = "Restart";
 const char* hdl_Restart = "butRestart";
-
-const char* oms_ShowAngle = "Gemeten Hoek= ";
-const char* hdl_ShowAngel = "butShowAngle";
 
 volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 volatile float Ki_change = 1.0;

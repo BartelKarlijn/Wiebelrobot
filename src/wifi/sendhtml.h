@@ -22,14 +22,14 @@ String SendHTML(){
 
 //knoppen
   ptr +=html_configbuttonTEST(oms_Kp, Kp, hdl_Kpdo, hdl_Kpup, Kp_change, hdl_Kpch);
-  ptr +=html_configbutton(oms_Kp, Kp, hdl_Kpdo, hdl_Kpup);
+  
   ptr +=html_configbutton(oms_Ki, Ki, hdl_Kido, hdl_Kiup);
   ptr +=html_configbutton(oms_Kd, Kd, hdl_Kddo, hdl_Kdup);
   ptr +=html_configbutton(oms_Angle, selfBalanceAngleSetpoint, hdl_Angledo, hdl_Angleup);
-  ptr +=htmlbutton(true, oms_ShowAngle, hdl_ShowAngel);
+  ptr +=htmlbutton(true, oms_ShowAngle + String(currentAngle), hdl_ShowAngle);
   ptr +=htmlbutton(true, oms_SaveConfig, hdl_SaveConfig);
   ptr +=htmlbutton(true, oms_Restart, hdl_Restart);
-    
+
   ptr +="</body>\n";
   ptr +="</html>\n";
   return ptr;
