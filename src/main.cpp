@@ -34,7 +34,9 @@ void setup() {
   print_timer = micros() + PRINT_PERIOD;
   get_datafrom_eeprom ();
 
-  digitalWrite(ledpin, HIGH);
+  if ( not startupError ) {
+    digitalWrite(ledpin, HIGH);
+  }
   Serial.println("Started");
 }
 
@@ -48,34 +50,21 @@ void loop() {
 // testmotorPWM(); // used to understand ledc for driving motors
 // testmotorPWM2();  // driving motor with function
 // testgyro();
-//  getAcceleration(&accX, &accY, &accZ);
-//  rollAcc = asin((float)accX / ACC_SCALE_FACTOR) * RAD_TO_DEG;
-//  pitchAcc = asin((float)accY / ACC_SCALE_FACTOR) * RAD_TO_DEG;
-  getRotation(&gyroX, &gyroY, &gyroZ);
+
+  // wellicht een van beide afzetten?
+  //getRotation(&gyroX, &gyroY, &gyroZ);
   // roll vs pitch depends on how the MPU is installed in the robot
-  currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
+  //currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
   getAcceleration(&accX, &accY, &accZ);
-  AngleX = RAD_TO_DEG * (atan2(-accY, -accZ)+PI);
   AngleY = RAD_TO_DEG * (atan2(-accX, -accZ)+PI);
-  AngleZ = RAD_TO_DEG * (atan2(-accY, -accX)+PI);
-Serial.print("gyroY ");
-Serial.print(gyroY);
-Serial.print(" currAngl ");
-Serial.print(currentAngle);
-Serial.print(" AngleX ");
-Serial.print(AngleX);
-Serial.print(" AngleY ");
-Serial.print(AngleY);
-Serial.print(" AngleZ ");
-Serial.print(AngleZ);
-
+  currentAngle = AngleY;
 
   // apply PID algo
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
   integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
-  errorDerivative = (pidError - pidLastError)*10;                       // het D gedeelte
+  errorDerivative = pidError - pidLastError;                       // het D gedeelte
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
@@ -100,13 +89,6 @@ Serial.print(AngleZ);
 
   roll = roll * 0.999 + rollAcc * 0.001;
   pitch = pitch * 0.999 + pitchAcc * 0.001;
-//Serial.print("roll X Y Z: ");
-//Serial.print(gyroX * GYRO_RAW_TO_DEGS );
-//Serial.print("  ");
-//Serial.print(gyroY* GYRO_RAW_TO_DEGS);
-//Serial.print("  ");
-//Serial.println(gyroZ * GYRO_RAW_TO_DEGS);
-//delay(1000);
 
   // apply PID algo
   // The selfBalanceAngleSetpoint variable is automatically changed to make sure that the robot stays balanced all the time.

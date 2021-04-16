@@ -14,6 +14,13 @@ void handle_Kpdo() {
   Serial.println(Kp);
   server.send(200, "text/html", SendHTML()); 
 }
+void handle_Kpch() {
+  Kp_change = Kp_change * 10;
+  if (Kp_change > 100.0 ) {Kp_change = 1;}
+  Serial.print("Changing via wifi Kp_Change, new value ");
+  Serial.println(Kp_change);
+  server.send(200, "text/html", SendHTML()); 
+}
 void handle_Kiup() {
   Ki += Ki_change;
   Serial.print("Changing via wifi Ki, new value ");
@@ -48,6 +55,10 @@ void handle_Angledo() {
   selfBalanceAngleSetpoint -= Angle_change;
   Serial.print("Changing via wifi Angle, new value ");
   Serial.println(selfBalanceAngleSetpoint);
+  server.send(200, "text/html", SendHTML()); 
+}
+void handle_ShowAngle() {
+  Serial.println("Do nothing");
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_SaveConfig() {

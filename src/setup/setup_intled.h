@@ -1,7 +1,8 @@
 void setup_intled() {
 
   pinMode(ledpin, OUTPUT);
-
+  startupError = false;
+  
   digitalWrite(ledpin, LOW);    //ledje uitzetten, en pas aanzetten nadat alles is opgestart
   delay(200);
   digitalWrite(ledpin, HIGH); 

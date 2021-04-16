@@ -1,5 +1,8 @@
 // Global variables
 
+//////////////// LED ///////////////////////
+boolean startupError;
+
 //////////////// MOTORS ////////////////////////////
 uint32_t prevSpeedStart;
 int16_t prevSpeed;
@@ -74,7 +77,6 @@ volatile float Kp;  // Volatile is necessary so that variables can be shared bet
 volatile float Ki;
 volatile float Kd;
 volatile float selfBalanceAngleSetpoint;
-volatile float angleSetpoint = 0;
 volatile float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
 float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
@@ -88,6 +90,7 @@ uint8_t PrintPIDloopCounter = 0;
 const char* oms_Kp = "Kp proportioneel";
 const char* hdl_Kpup = "butkpup";
 const char* hdl_Kpdo = "butkpdo";
+const char* hdl_Kpch = "butkpch";
 
 const char* oms_Ki = "Ki Integraal";
 const char* hdl_Kiup = "butkiup";
@@ -106,3 +109,10 @@ const char* hdl_SaveConfig = "butSaveConfig";
 
 const char* oms_Restart = "Restart";
 const char* hdl_Restart = "butRestart";
+
+const char* oms_ShowAngle = "Gemeten Hoek= ";
+const char* hdl_ShowAngel = "butShowAngle";
+
+volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt met waarde
+volatile float Ki_change = 1.0;
+volatile float Kd_change = 1.0; 

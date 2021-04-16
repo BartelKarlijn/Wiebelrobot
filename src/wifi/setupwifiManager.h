@@ -20,6 +20,8 @@ void setupwifiManager () {
       Serial.println(autoConnectName);
   }
   else { 
-    Serial.println(ESPAsync_wifiManager.getStatus(WiFi.status())); }
+    Serial.println(ESPAsync_wifiManager.getStatus(WiFi.status())); 
+    startupError = true;
+  }
 
 }

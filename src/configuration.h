@@ -28,7 +28,7 @@ static int MPU_ADDR = 0x68;
 #define motorLpin2 27
 #define motorRpin1 33
 #define motorRpin2 25
-#define FlagNotMotor true  //true: motoren niet laten draaien
+#define FlagNotMotor false  //true: motoren niet laten draaien
 
 //ledc library
 #define motorLcha1 0   // for the ledc library
@@ -49,12 +49,10 @@ float BASE_Kp = 1.0;
 float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
 float BASE_Angle = 0.0;
-#define Kp_change 5      // Elke druk in wifi app, verhoogt/verlaagt met waarde
-#define Ki_change 0.1
-#define Kd_change 1 
 #define Angle_change 1
 #define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
 float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
+volatile float angleSetpoint = 90;  //rechtop staan.
 
 #define PERIOD          4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
 #define PRINT_PERIOD  100000    // print period in microsec

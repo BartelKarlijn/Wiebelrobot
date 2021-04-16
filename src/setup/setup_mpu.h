@@ -29,6 +29,7 @@ void setup_mpu() {
   if (retval) { 
     Serial.print("Gyro Acc full scale range mislukt.  Returncode ");
     Serial.println(retval);
+    startupError = true;
     delay(2000);
   }
 
@@ -40,6 +41,7 @@ void setup_mpu() {
   if (retval) { 
     Serial.print("Gyro setting some filtering mislukt.  Returncode = ");
     Serial.println(retval);
+    startupError = true;
     delay(2000);
   }
 

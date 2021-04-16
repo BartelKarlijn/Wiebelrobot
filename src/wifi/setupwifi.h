@@ -9,6 +9,7 @@ void setupwifi() {
 
   server.on("/butkpup", handle_Kpup);
   server.on("/butkpdo", handle_Kpdo);
+  server.on("/butkpch", handle_Kpch);
   server.on("/butkiup", handle_Kiup);
   server.on("/butkido", handle_Kido);
   server.on("/butkdup", handle_Kdup);
