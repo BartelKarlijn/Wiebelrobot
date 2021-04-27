@@ -20,12 +20,12 @@ String SendHTML(){
   ptr += "<body>\n";
   ptr +="<h1>Wiebelrobot instellen</h1>\n";
 
-//knoppen
-  ptr +=html_configbuttonTEST(oms_Kp, Kp, hdl_Kpdo, hdl_Kpup, Kp_change, hdl_Kpch);
-  
-  ptr +=html_configbutton(oms_Ki, Ki, hdl_Kido, hdl_Kiup);
-  ptr +=html_configbutton(oms_Kd, Kd, hdl_Kddo, hdl_Kdup);
-  ptr +=html_configbutton(oms_Angle, selfBalanceAngleSetpoint, hdl_Angledo, hdl_Angleup);
+  //variabele knoppen
+  ptr +=html_configbutton(oms_Kp, Kp                      , hdl_Kpdo, hdl_Kpup, Kp_change, hdl_Kpch);
+  ptr +=html_configbutton(oms_Ki, Ki                      , hdl_Kido, hdl_Kiup, Ki_change, hdl_Kich);
+  ptr +=html_configbutton(oms_Kd, Kd                      , hdl_Kddo, hdl_Kdup, Kd_change, hdl_Kdch);
+  ptr +=html_configbutton(oms_An, selfBalanceAngleSetpoint, hdl_Ando, hdl_Anup, An_change, hdl_Anch);
+  //vaste knoppen
   ptr +=htmlbutton(true, oms_ShowAngle + String(currentAngle), hdl_ShowAngle);
   ptr +=htmlbutton(true, oms_SaveConfig, hdl_SaveConfig);
   ptr +=htmlbutton(true, oms_Restart, hdl_Restart);

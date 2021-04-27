@@ -52,12 +52,12 @@ void loop() {
 // testgyro();
 
   // wellicht een van beide afzetten?
-  //getRotation(&gyroX, &gyroY, &gyroZ);
+  getRotation(&gyroX, &gyroY, &gyroZ);
   // roll vs pitch depends on how the MPU is installed in the robot
   //currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
   getAcceleration(&accX, &accY, &accZ);
-  AngleY = RAD_TO_DEG * (atan2(-accX, -accZ)+PI);
+  AngleY = RAD_TO_DEG * (atan2(-accZ, -accX));
   currentAngle = AngleY;
 
   // apply PID algo

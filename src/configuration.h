@@ -49,7 +49,7 @@ float BASE_Kp = 1.0;
 float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
 float BASE_Angle = 0.0;
-#define Angle_change 1
+
 #define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
 float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
 volatile float angleSetpoint = 90;  //rechtop staan.

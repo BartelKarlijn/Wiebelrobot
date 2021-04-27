@@ -96,14 +96,17 @@ const char* hdl_Kpch = "butkpch";
 const char* oms_Ki = "Ki Integraal";
 const char* hdl_Kiup = "butkiup";
 const char* hdl_Kido = "butkido";
+const char* hdl_Kich = "butkich";
 
 const char* oms_Kd = "Kd Derivation";
 const char* hdl_Kdup = "butkdup";
 const char* hdl_Kddo = "butkddo";
+const char* hdl_Kdch = "butkdch";
 
-const char* oms_Angle = "Balanceer Hoek";
-const char* hdl_Angleup = "butAngleup";
-const char* hdl_Angledo = "butAngledo";
+const char* oms_An = "Balanceer Hoek";
+const char* hdl_Anup = "butanup";
+const char* hdl_Ando = "butando";
+const char* hdl_Anch = "butanch";
 
 const char* oms_ShowAngle = "Gemeten Hoek= ";
 const char* hdl_ShowAngle = "butShowAngle";
@@ -117,3 +120,4 @@ const char* hdl_Restart = "butRestart";
 volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 volatile float Ki_change = 1.0;
 volatile float Kd_change = 1.0; 
+volatile float An_change = 1.0; 

@@ -2,6 +2,7 @@
 void handle_OnConnect() {
   server.send(200, "text/html", SendHTML()); 
 }
+//Kp
 void handle_Kpup() {
   Kp += Kp_change;
   Serial.print("Changing via wifi Kp, new value ");
@@ -21,6 +22,7 @@ void handle_Kpch() {
   Serial.println(Kp_change);
   server.send(200, "text/html", SendHTML()); 
 }
+//Ki
 void handle_Kiup() {
   Ki += Ki_change;
   Serial.print("Changing via wifi Ki, new value ");
@@ -33,6 +35,14 @@ void handle_Kido() {
   Serial.println(Ki);
   server.send(200, "text/html", SendHTML()); 
 }
+void handle_Kich() {
+  Ki_change = Ki_change * 10;
+  if (Ki_change >= 100.0 ) {Ki_change = 0.1;}
+  Serial.print("Changing via wifi Ki_Change, new value ");
+  Serial.println(Ki_change);
+  server.send(200, "text/html", SendHTML()); 
+}
+//Kd
 void handle_Kdup() {
   Kd += Kd_change;
   Serial.print("Changing via wifi Kd, new value ");
@@ -45,18 +55,34 @@ void handle_Kddo() {
   Serial.println(Kd);
   server.send(200, "text/html", SendHTML()); 
 }
-void handle_Angleup() {
-  selfBalanceAngleSetpoint += Angle_change;
+void handle_Kdch() {
+  Kd_change = Kd_change * 10;
+  if (Kd_change >= 100.0 ) {Kd_change = 0.1;}
+  Serial.print("Changing via wifi Kd_Change, new value ");
+  Serial.println(Kd_change);
+  server.send(200, "text/html", SendHTML()); 
+}
+//An
+void handle_Anup() {
+  selfBalanceAngleSetpoint += An_change;
   Serial.print("Changing via wifi Angle, new value ");
   Serial.println(selfBalanceAngleSetpoint);
   server.send(200, "text/html", SendHTML()); 
 }
-void handle_Angledo() {
-  selfBalanceAngleSetpoint -= Angle_change;
+void handle_Ando() {
+  selfBalanceAngleSetpoint -= An_change;
   Serial.print("Changing via wifi Angle, new value ");
   Serial.println(selfBalanceAngleSetpoint);
   server.send(200, "text/html", SendHTML()); 
 }
+void handle_Anch() {
+  An_change = An_change * 10;
+  if (An_change >= 100.0 ) {An_change = 0.1;}
+  Serial.print("Changing via wifi An_Change, new value ");
+  Serial.println(An_change);
+  server.send(200, "text/html", SendHTML()); 
+}
+// Gewone knoppen
 void handle_ShowAngle() {
   Serial.println("Do nothing");
   server.send(200, "text/html", SendHTML()); 
