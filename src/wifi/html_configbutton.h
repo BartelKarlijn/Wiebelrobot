@@ -12,7 +12,7 @@ String html_configbutton( String omschrijving, float Kx, String handlecodeUp, St
   ptr += Kx_change;
   ptr += " <a class=\"button button-of\" href=\"/" ; 
   ptr += handleChange;
-  ptr += "\">0.1-1-10  </a>\n" ;
+  ptr += "\">1-10-100  </a>\n" ;
   
   return ptr;
 }

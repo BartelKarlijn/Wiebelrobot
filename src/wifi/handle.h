@@ -16,11 +16,7 @@ void handle_Kpdo() {
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_Kpch() {
-  Kp_change = Kp_change * 10;
-  if (Kp_change >= 100.0 ) {Kp_change = 0.1;}
-  Serial.print("Changing via wifi Kp_Change, new value ");
-  Serial.println(Kp_change);
-  server.send(200, "text/html", SendHTML()); 
+  buttonChangeStep(Kp_change, "Kp_change");
 }
 //Ki
 void handle_Kiup() {
@@ -36,11 +32,7 @@ void handle_Kido() {
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_Kich() {
-  Ki_change = Ki_change * 10;
-  if (Ki_change >= 100.0 ) {Ki_change = 0.1;}
-  Serial.print("Changing via wifi Ki_Change, new value ");
-  Serial.println(Ki_change);
-  server.send(200, "text/html", SendHTML()); 
+  buttonChangeStep(Ki_change, "Ki_change");
 }
 //Kd
 void handle_Kdup() {
@@ -56,11 +48,7 @@ void handle_Kddo() {
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_Kdch() {
-  Kd_change = Kd_change * 10;
-  if (Kd_change >= 100.0 ) {Kd_change = 0.1;}
-  Serial.print("Changing via wifi Kd_Change, new value ");
-  Serial.println(Kd_change);
-  server.send(200, "text/html", SendHTML()); 
+  buttonChangeStep(Kd_change, "Kd_change");
 }
 //An
 void handle_Anup() {
@@ -76,11 +64,7 @@ void handle_Ando() {
   server.send(200, "text/html", SendHTML()); 
 }
 void handle_Anch() {
-  An_change = An_change * 10;
-  if (An_change >= 100.0 ) {An_change = 0.1;}
-  Serial.print("Changing via wifi An_Change, new value ");
-  Serial.println(An_change);
-  server.send(200, "text/html", SendHTML()); 
+  buttonChangeStep(An_change, "An_change");
 }
 // Gewone knoppen
 void handle_ShowAngle() {

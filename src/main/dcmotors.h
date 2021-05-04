@@ -18,12 +18,12 @@ void forwardL(int16_t speed) {
 
   // vooruit of achteruit
   if (orBack) {
-    ledcWrite(motorLcha1, speed);
-    ledcWrite(motorLcha2, 0);
-  }
-  else {
     ledcWrite(motorLcha1, 0);
     ledcWrite(motorLcha2, speed);
+  }
+  else {
+    ledcWrite(motorLcha1, speed);
+    ledcWrite(motorLcha2, 0);
   }
 }
 
@@ -47,12 +47,12 @@ void forwardR(int16_t speed) {
 
   // vooruit of achteruit
   if (orBack) {
-    ledcWrite(motorRcha1, speed);
-    ledcWrite(motorRcha2, 0);
-  }
-  else {
     ledcWrite(motorRcha1, 0);
     ledcWrite(motorRcha2, speed);
+  }
+  else {
+    ledcWrite(motorRcha1, speed);
+    ledcWrite(motorRcha2, 0);
   }
 }
 

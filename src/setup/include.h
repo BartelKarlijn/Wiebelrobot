@@ -38,6 +38,7 @@ Preferences pref_eeprom;
 #include <wifi/htmlbutton.h>
 #include <wifi/html_configbutton.h>
 #include <wifi/sendhtml.h>
+#include <wifi/handleButtonActions.h>
 #include <wifi/handle.h>
 #include <wifi/setupwifi.h>          
 #include <wifi/setupwifiManager.h>
