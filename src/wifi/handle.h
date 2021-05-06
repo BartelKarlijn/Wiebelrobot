@@ -4,64 +4,40 @@ void handle_OnConnect() {
 }
 //Kp
 void handle_Kpup() {
-  Kp += Kp_change;
-  Serial.print("Changing via wifi Kp, new value ");
-  Serial.println(Kp);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Kp, Kp_change, "Kp");
 }
 void handle_Kpdo() {
-  Kp += - Kp_change;
-  Serial.print("Changing via wifi Kp, new value ");
-  Serial.println(Kp);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Kp, -Kp_change, "Kp");
 }
 void handle_Kpch() {
   buttonChangeStep(Kp_change, "Kp_change");
 }
 //Ki
 void handle_Kiup() {
-  Ki += Ki_change;
-  Serial.print("Changing via wifi Ki, new value ");
-  Serial.println(Ki);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Ki, Ki_change, "Ki");
 }
 void handle_Kido() {
-  Ki += - Ki_change;
-  Serial.print("Changing via wifi Ki, new value ");
-  Serial.println(Ki);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Ki, -Ki_change, "Ki");
 }
 void handle_Kich() {
   buttonChangeStep(Ki_change, "Ki_change");
 }
 //Kd
 void handle_Kdup() {
-  Kd += Kd_change;
-  Serial.print("Changing via wifi Kd, new value ");
-  Serial.println(Kd);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Kd, Kd_change, "Kd");
 }
 void handle_Kddo() {
-  Kd += - Kd_change;
-  Serial.print("Changing via wifi Kd, new value ");
-  Serial.println(Kd);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(Kd, -Kd_change, "Kd");
 }
 void handle_Kdch() {
   buttonChangeStep(Kd_change, "Kd_change");
 }
 //An
 void handle_Anup() {
-  selfBalanceAngleSetpoint += An_change;
-  Serial.print("Changing via wifi Angle, new value ");
-  Serial.println(selfBalanceAngleSetpoint);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(selfBalanceAngleSetpoint, An_change, "Angle");
 }
 void handle_Ando() {
-  selfBalanceAngleSetpoint -= An_change;
-  Serial.print("Changing via wifi Angle, new value ");
-  Serial.println(selfBalanceAngleSetpoint);
-  server.send(200, "text/html", SendHTML()); 
+  buttonUp(selfBalanceAngleSetpoint, -An_change, "Angle");
 }
 void handle_Anch() {
   buttonChangeStep(An_change, "An_change");

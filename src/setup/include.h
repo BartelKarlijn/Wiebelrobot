@@ -4,9 +4,12 @@ TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 #include <Wire.h>
 #include <Preferences.h>
 Preferences pref_eeprom;
+#include <WiFi.h>
 #include <WebServer.h>      //Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
 #include <DNSServer.h>      //Local WebServer used to serve the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
-#include <MPU6050.h>
+//#include <I2Cdev.h>
+//#include <MPU6050_6Axis_MotionApps20.h>
+//#include <MPU6050.h>
 
 // //Configuratie
 #include <configuration.h>

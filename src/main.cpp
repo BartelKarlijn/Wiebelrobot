@@ -28,7 +28,7 @@ void setup() {
   setupwifi();         // handles en dergelijke
 //  i2cscan_setup();
   setupTask1();
-  setup_mpu();
+//  setup_mpu();
   setup_dcmotors();
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
@@ -52,11 +52,11 @@ void loop() {
 // testgyro();
 
   // wellicht een van beide afzetten?
-  getRotation(&gyroX, &gyroY, &gyroZ);
+//  getRotation(&gyroX, &gyroY, &gyroZ);
   // roll vs pitch depends on how the MPU is installed in the robot
   //currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
-  getAcceleration(&accX, &accY, &accZ);
+//  getAcceleration(&accX, &accY, &accZ);
   AngleY = RAD_TO_DEG * (atan2(-accZ, -accX));
   currentAngle = AngleY;
 
