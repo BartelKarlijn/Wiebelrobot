@@ -1,15 +1,12 @@
 // Arduino library includes
 #include <Arduino.h>
-TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 #include <Wire.h>
 #include <Preferences.h>
-Preferences pref_eeprom;
 #include <WiFi.h>
 #include <WebServer.h>      //Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
 #include <DNSServer.h>      //Local WebServer used to serve the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
 #include <I2Cdev.h>
 #include <MPU6050_6Axis_MotionApps20.h>
-//#include <MPU6050.h>
 
 // //Configuratie
 #include <configuration.h>
@@ -18,17 +15,19 @@ Preferences pref_eeprom;
 #include <wifi/credentials.h>      //added to gitignore
 #include <main/globalvariables.h>
 
-// // eigen subprogrammas
-#include <main\i2cscanner.h>   
+// motors
 #include <main\dcmotors.h>
 #include <setup\setup_dcmotors.h>
-//#include <main\gyro.h>           //dit moet vervangen worden
-#include <setup\setup_intled.h>
-#include <mpu\setupMPUdmp.h>
+
+// MPU
 #ifdef flag_calibrateMPU
   #include <mpu\calibrateMPU.h>
+#else
+  #include <mpu\setupMPU.h>
+  #include <mpu\loopMPU.h>
 #endif
 
+//#include <main\gyro.h>           //dit moet vervangen worden
 //#include <setup\setup_mpu.h>      //oud, mag weg
 #include <setup\save_eprom.h>
 #include <main/resetPID.h>
@@ -37,6 +36,7 @@ Preferences pref_eeprom;
 #include <main\testmotorPWM2.h>    // tweede versie met functies
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
+#include <setup\setup_intled.h>
 #include <ESPAsync_WiFiManager.h> 
 #include <AsyncTCP.h>
 //#include <ESPAsyncWebServer.h>

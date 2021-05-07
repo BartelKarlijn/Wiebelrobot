@@ -95,20 +95,20 @@ bool calibration()
         else
             accZ_offset = accZ_offset + (16384 - mean_accZ) / acel_deadzone;
 
-        if (abs(mean_gyroX) <= giro_deadzone)
+        if (abs(mean_gyroX) <= gyro_deadzone)
             ready++;
         else
-            gyroX_offset = gyroX_offset - mean_gyroX / (giro_deadzone + 1);
+            gyroX_offset = gyroX_offset - mean_gyroX / (gyro_deadzone + 1);
 
-        if (abs(mean_gyroY) <= giro_deadzone)
+        if (abs(mean_gyroY) <= gyro_deadzone)
             ready++;
         else
-            gyroY_offset = gyroY_offset - mean_gyroY / (giro_deadzone + 1);
+            gyroY_offset = gyroY_offset - mean_gyroY / (gyro_deadzone + 1);
 
-        if (abs(mean_gyroZ) <= giro_deadzone)
+        if (abs(mean_gyroZ) <= gyro_deadzone)
             ready++;
         else
-            gyroZ_offset = gyroZ_offset - mean_gyroZ / (giro_deadzone + 1);
+            gyroZ_offset = gyroZ_offset - mean_gyroZ / (gyro_deadzone + 1);
 
         if (ready == 6)
         {
@@ -131,10 +131,10 @@ bool calibration()
         loopcount = loopcount + 1;
         Serial.print("Loop Cnt: ");
         Serial.println(loopcount);
-        if (loopcount == 20)
+        if (loopcount == maxloopCount)
         {
             return false;
-            break; // exit the calibration routine if no stable results can be obtained after 20 calibration loops
+            break; // exit the calibration routine if no stable results can be obtained after maxloopCount calibration loops
         }
     }
 }

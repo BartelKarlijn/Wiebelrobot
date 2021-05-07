@@ -12,19 +12,13 @@
 // more info, see: http://en.wikipedia.org/wiki/Gimbal_lock)
 
 // join I2C bus (I2Cdev library doesn't do this automatically)
-void setupMPUdmp() {
+void setupMPU() {
   Wire.begin();
   Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
 
   // initialize device
   Serial.println(F("Initializing I2C devices..."));
   mpu.initialize();
-
-  // start message
-  Serial.println("\nMPU6050 Calibration Sketch");
-  delay(2000);
-  Serial.println("\nYour MPU6050 should be placed in horizontal position, with package letters facing up. \nDon't touch it until you see a finish message.\n");
-  delay(3000);
 
   // verify connection
   Serial.println(F("Testing device connections..."));
@@ -44,5 +38,30 @@ void setupMPUdmp() {
   mpu.setYAccelOffset(preset_YAccelOffset);
   mpu.setZAccelOffset(preset_ZAccelOffset);
 
+  // make sure it worked (returns 0 if so)
+  if (devStatus == 0) {
+    // Calibration Time: generate offsets and calibrate our MPU6050
+    mpu.CalibrateAccel(6);
+    mpu.CalibrateGyro(6);
+    Serial.println();
+    mpu.PrintActiveOffsets();
+    // turn on the DMP, now that it's ready
+    Serial.println(F("Enabling DMP..."));
+    mpu.setDMPEnabled(true);
 
+    // set our DMP Ready flag so the main loop() function knows it's okay to use it
+    Serial.println(F("DMP ready! Waiting to be used..."));
+    dmpReady = true;
+   
+    // get expected DMP packet size for later comparison
+    packetSize = mpu.dmpGetFIFOPacketSize();
+  } else {
+    // ERROR!
+    // 1 = initial memory load failed
+    // 2 = DMP configuration updates failed
+    // (if it's going to break, usually the code will be 1)
+    Serial.print(F("DMP Initialization failed (code "));
+    Serial.print(devStatus);
+    Serial.println(F(")"));
+  }
 }

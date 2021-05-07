@@ -8,12 +8,11 @@ uint32_t prevSpeedStart;
 int16_t prevSpeed;
 int32_t currentPos = 0;
 
-
 ///////////////// MPU-6050 //////////////////////////
 MPU6050 mpu;
 
 // MPU control/status vars
-//bool dmpReady = false;  // set true if DMP init was successful
+bool dmpReady = false;  // set true if DMP init was successful
 uint8_t mpuIntStatus;   // holds actual interrupt status byte from MPU
 uint8_t devStatus;      // return status after each device operation (0 = success, !0 = error)
 uint16_t packetSize;    // expected DMP packet size (default is 42 bytes)
@@ -80,6 +79,7 @@ float speeed;
 
 
 //////// PID //////////
+Preferences pref_eeprom;
 
 volatile float Kp;  // Volatile is necessary so that variables can be shared between cores
 volatile float Ki;
@@ -95,6 +95,8 @@ uint8_t PrintPIDLoops = PrintPIDMillis * 1000 / PERIOD ;   //hoeveel loops overs
 uint8_t PrintPIDloopCounter = 0;
 
 //////// Wifi //////////
+TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
+
 const char* oms_Kp = "Kp proportioneel";
 const char* hdl_Kpup = "butkpup";
 const char* hdl_Kpdo = "butkpdo";

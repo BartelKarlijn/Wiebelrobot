@@ -18,28 +18,27 @@
 // Dit definieert de gevoeligheid;  0: 2g | 1: 4g | 2: 8g | 3: 16g
 #define ACC_FULL_SCALE_RANGE          0 //2g, het meest gevoelige
 
-// static int MPU_ADDR = 0x68;      //niet meer nodig na dmp
-#define gyroCalibrationLoops 200    //Hoeveel loops om te calibreren?
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
-//#define CalibrateGyro     // Uncomment als je toch wil calibreren
-#define preset_XGyroOffset -19
-#define preset_YGyroOffset 180
-#define preset_ZGyroOffset -84
+// om te calibreren, uncomment flag_calibrateMPU
+#define preset_XGyroOffset -4952
+#define preset_YGyroOffset 2083
+#define preset_ZGyroOffset 3439
 #define preset_XAccelOffset 0
-#define preset_YAccelOffset 0
-#define preset_ZAccelOffset 0
+#define preset_YAccelOffset -43
+#define preset_ZAccelOffset 27
 
 ///////////////// MPU-6050 Calibration //////////////////////////
-#define flag_calibrateMPU   //Uncomment om calibratie te doen
 // Calibratie moet eigenlijk maar 1x gebeuren
+//#define flag_calibrateMPU   //Uncomment om calibratie te doen
 #ifdef flag_calibrateMPU
   //Change this 3 variables if you want to fine tune the skecth to your needs.
-  int buffersize=1000;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
+  int buffersize=2000;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
   int discardfirstmeas=100;  // Amount of initial measurements to be discarded
-  int acel_deadzone=10;     //Acelerometer error allowed, make it lower to get more precision, but sketch may not converge  (default:8)
-  int giro_deadzone=10;     //Giro error allowed, make it lower to get more precision, but sketch may not converge  (default:1)
+  int acel_deadzone=6;     //Acelerometer error allowed, make it lower to get more precision, but sketch may not converge  (default:8)
+  int gyro_deadzone=6;     //Giro error allowed, make it lower to get more precision, but sketch may not converge  (default:1)
   int accel_offset_divisor=8; //8;
   int gyro_offset_divisor=4; //4;
+  int maxloopCount = 100;    //default 20
   // deadzone: amount of variation between 2 consecutive measurements
 #endif
 

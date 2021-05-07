@@ -31,7 +31,7 @@ void setup() {
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();
   #else
-    setupMPUdmp();
+    setupMPU();
   #endif
 
 //  setup_mpu();
@@ -54,7 +54,7 @@ void loop() {
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
-//   al de rest!
+    loopMPU();
   #endif
   
 // i2cscan();       // used to find I2C port of gyro
