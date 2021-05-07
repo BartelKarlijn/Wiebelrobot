@@ -28,6 +28,12 @@ void setup() {
   setupwifi();         // handles en dergelijke
 //  i2cscan_setup();
   setupTask1();
+  #ifdef flag_calibrateMPU 
+    calibrateMPUsetup();
+  #else
+    setupMPUdmp();
+  #endif
+
 //  setup_mpu();
   setup_dcmotors();
   loop_timer = micros() + PERIOD;
@@ -45,6 +51,12 @@ boolean isValidJoystickValue(uint8_t joystick) {
 }
 
 void loop() {
+  #ifdef flag_calibrateMPU 
+    calibrateMPUloop();
+  #else
+//   al de rest!
+  #endif
+  
 // i2cscan();       // used to find I2C port of gyro
 // testmotor();     // used to test DC motors (on/off)
 // testmotorPWM(); // used to understand ledc for driving motors
@@ -56,6 +68,7 @@ void loop() {
   // roll vs pitch depends on how the MPU is installed in the robot
   //currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
 
+/*
 //  getAcceleration(&accX, &accY, &accZ);
   AngleY = RAD_TO_DEG * (atan2(-accZ, -accX));
   currentAngle = AngleY;
@@ -69,13 +82,15 @@ void loop() {
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
 
-  printPIDparams();
+//  printPIDparams();
 
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
   setSpeed(pidOutput, rotation);
+*/
+
 //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
 

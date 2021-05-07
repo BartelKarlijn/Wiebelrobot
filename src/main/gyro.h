@@ -3,22 +3,22 @@ void getRotation(int16_t* x, int16_t* y, int16_t* z) {
   Wire.write(GYRO_XOUT_H);
   Wire.endTransmission();
   Wire.requestFrom(MPU_ADDR, 6);
-  *x = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroX_calibration;
-  *y = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroY_calibration;
-  *z = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroZ_calibration;
+  *x = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroX_offset;
+  *y = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroY_offset;
+  *z = ((((int16_t)Wire.read()) << 8) | Wire.read()) - gyroZ_offset;
 }
 
 void getCalibrationParams() {
-  gyroX_calibration = gyroX_preset;
-  gyroY_calibration = gyroY_preset;
-  gyroZ_calibration = gyroZ_preset;
+  gyroX_offset = gyroX_preset;
+  gyroY_offset = gyroY_preset;
+  gyroZ_offset = gyroZ_preset;
   
-  Serial.print("gyroX_calibration: ");
-  Serial.println(gyroX_calibration);
-  Serial.print("gyroY_calibration: ");
-  Serial.println(gyroY_calibration);
-  Serial.print("gyroZ_calibration: ");
-  Serial.println(gyroZ_calibration);
+  Serial.print("gyroX_offset: ");
+  Serial.println(gyroX_offset);
+  Serial.print("gyroY_offset: ");
+  Serial.println(gyroY_offset);
+  Serial.print("gyroZ_offset: ");
+  Serial.println(gyroZ_offset);
 }
 
 void calibrateGyro() {
@@ -34,9 +34,9 @@ void calibrateGyro() {
     delayMicroseconds(PERIOD); // simulate the main program loop time 
   }
 
-  gyroX_calibration = x / gyroCalibrationLoops;
-  gyroY_calibration = y / gyroCalibrationLoops;
-  gyroZ_calibration = z / gyroCalibrationLoops;
+  gyroX_offset = x / gyroCalibrationLoops;
+  gyroY_offset = y / gyroCalibrationLoops;
+  gyroZ_offset = z / gyroCalibrationLoops;
 
   Serial.print("last gyroX Y Z values ");
   Serial.print(x);
@@ -45,12 +45,12 @@ void calibrateGyro() {
   Serial.print(" ");
   Serial.println(z);
 
-  Serial.print("gyroX_calibration: ");
-  Serial.println(gyroX_calibration);
-  Serial.print("gyroY_calibration: ");
-  Serial.println(gyroY_calibration);
-  Serial.print("gyroZ_calibration: ");
-  Serial.println(gyroZ_calibration);
+  Serial.print("gyroX_offset: ");
+  Serial.println(gyroX_offset);
+  Serial.print("gyroY_offset: ");
+  Serial.println(gyroY_offset);
+  Serial.print("gyroZ_offset: ");
+  Serial.println(gyroZ_offset);
 }
 
 // on ESP32 Arduino constrain doesn't work

@@ -12,13 +12,36 @@
 ///////////////// MPU-6050 //////////////////////////
 
 // Used I2Cscanner to find adress.  It's 0x68
-static int MPU_ADDR = 0x68;  
+// See page 12 & 13 of MPU-6050 datasheet for sensitivities config and corresponding output
+// Dit definieert de gevoeligheid;  0: 250 degrees/second | 1: 500deg/s | 2: 1000deg/s | 3: 2000deg/s
+#define GYRO_FULL_SCALE_RANGE         0 // 250 deg/sec, het meest gevoelige
+// Dit definieert de gevoeligheid;  0: 2g | 1: 4g | 2: 8g | 3: 16g
+#define ACC_FULL_SCALE_RANGE          0 //2g, het meest gevoelige
+
+// static int MPU_ADDR = 0x68;      //niet meer nodig na dmp
 #define gyroCalibrationLoops 200    //Hoeveel loops om te calibreren?
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
 //#define CalibrateGyro     // Uncomment als je toch wil calibreren
-#define gyroX_preset -19
-#define gyroY_preset 180
-#define gyroZ_preset -84
+#define preset_XGyroOffset -19
+#define preset_YGyroOffset 180
+#define preset_ZGyroOffset -84
+#define preset_XAccelOffset 0
+#define preset_YAccelOffset 0
+#define preset_ZAccelOffset 0
+
+///////////////// MPU-6050 Calibration //////////////////////////
+#define flag_calibrateMPU   //Uncomment om calibratie te doen
+// Calibratie moet eigenlijk maar 1x gebeuren
+#ifdef flag_calibrateMPU
+  //Change this 3 variables if you want to fine tune the skecth to your needs.
+  int buffersize=1000;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
+  int discardfirstmeas=100;  // Amount of initial measurements to be discarded
+  int acel_deadzone=10;     //Acelerometer error allowed, make it lower to get more precision, but sketch may not converge  (default:8)
+  int giro_deadzone=10;     //Giro error allowed, make it lower to get more precision, but sketch may not converge  (default:1)
+  int accel_offset_divisor=8; //8;
+  int gyro_offset_divisor=4; //4;
+  // deadzone: amount of variation between 2 consecutive measurements
+#endif
 
 
 //////////////// MOTORS ////////////////////////////
