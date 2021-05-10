@@ -26,7 +26,6 @@ void setup() {
   setup_intled();
   setupwifiManager();  // Autoconfiguratie 
   setupwifi();         // handles en dergelijke
-//  i2cscan_setup();
   setupTask1();
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();
@@ -84,11 +83,12 @@ void loop() {
 
 //  printPIDparams();
 
+
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
-  setSpeed(pidOutput, rotation);
+//  setSpeed(pidOutput, rotation);
 */
 
 //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);

@@ -11,8 +11,9 @@ void loopMPU()
   fifoCount = mpu.getFIFOCount();
 
   // wait for correct available data length, should be a VERY short wait
-  while (fifoCount < packetSize) fifoCount = mpu.getFIFOCount();
-
+  while (fifoCount < packetSize) {
+    fifoCount = mpu.getFIFOCount();
+  }
   // read a packet from FIFO
   mpu.getFIFOBytes(fifoBuffer, packetSize);
 
@@ -22,12 +23,20 @@ void loopMPU()
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    Serial.print("ypr\t");
+    //float testy, testp, testr;
+    //testy = (ypr[0] * 180 / M_PI) +360;
+    //testp = (ypr[1] * 180 / M_PI) +360;
+    //testr = (ypr[2] * 180 / M_PI) +360;
+
+    //Serial.print("ypr\t");
     Serial.print(ypr[0] * 180 / M_PI);
+    //Serial.print(testy);
     Serial.print("\t");
     Serial.print(ypr[1] * 180 / M_PI);
+    //Serial.print(testp);
     Serial.print("\t");
     Serial.print(ypr[2] * 180 / M_PI);
+    //Serial.print(testr);
     Serial.println();    
 //  }
 

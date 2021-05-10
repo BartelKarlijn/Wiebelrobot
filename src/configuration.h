@@ -20,19 +20,29 @@
 
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
 // om te calibreren, uncomment flag_calibrateMPU
-#define preset_XGyroOffset -4952
-#define preset_YGyroOffset 2083
-#define preset_ZGyroOffset 3439
+// 2021 05 08 mpu ondersteboven gecalibreerd
+#define preset_XGyroOffset -2261
+#define preset_YGyroOffset 1731
+#define preset_ZGyroOffset 4743
 #define preset_XAccelOffset 0
 #define preset_YAccelOffset -43
-#define preset_ZAccelOffset 27
+#define preset_ZAccelOffset 26
+// 2021 05 08 mpu plat liggend gecalibreerd
+/*
+#define preset_XGyroOffset -3489
+#define preset_YGyroOffset 1821
+#define preset_ZGyroOffset 1628
+#define preset_XAccelOffset 0
+#define preset_YAccelOffset -43
+#define preset_ZAccelOffset 28
+*/
 
 ///////////////// MPU-6050 Calibration //////////////////////////
 // Calibratie moet eigenlijk maar 1x gebeuren
 //#define flag_calibrateMPU   //Uncomment om calibratie te doen
 #ifdef flag_calibrateMPU
   //Change this 3 variables if you want to fine tune the skecth to your needs.
-  int buffersize=2000;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
+  int buffersize=1500;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
   int discardfirstmeas=100;  // Amount of initial measurements to be discarded
   int acel_deadzone=6;     //Acelerometer error allowed, make it lower to get more precision, but sketch may not converge  (default:8)
   int gyro_deadzone=6;     //Giro error allowed, make it lower to get more precision, but sketch may not converge  (default:1)

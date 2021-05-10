@@ -55,7 +55,9 @@ void setupMPU() {
    
     // get expected DMP packet size for later comparison
     packetSize = mpu.dmpGetFIFOPacketSize();
-  } else {
+    fifoCount = mpu.getFIFOCount();
+  } 
+  else {
     // ERROR!
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
