@@ -1,4 +1,4 @@
-void setup_intled() {
+void setupIntled() {
 
   pinMode(ledpin, OUTPUT);
   startupError = false;

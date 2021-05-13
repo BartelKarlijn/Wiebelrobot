@@ -1,7 +1,8 @@
 String SendHTML(){
   String ptr = "<!DOCTYPE html> <html>\n";
+  // Onderstaande tag maakt web pagina responsive in elke browser
   ptr +="<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
-  // Title
+  // Title van het tabblad
   ptr +="<title>Wiebelrobot</title>\n";
   // CSS to style the on/off buttons 
   ptr +="<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: left;}\n";
@@ -20,7 +21,7 @@ String SendHTML(){
   ptr += "<body>\n";
   ptr +="<h1>Wiebelrobot instellen</h1>\n";
 
-  //variabele knoppen
+  //variabele knoppen 
   ptr +=html_configbutton(oms_Kp, Kp                      , hdl_Kpdo, hdl_Kpup, Kp_change, hdl_Kpch);
   ptr +=html_configbutton(oms_Ki, Ki                      , hdl_Kido, hdl_Kiup, Ki_change, hdl_Kich);
   ptr +=html_configbutton(oms_Kd, Kd                      , hdl_Kddo, hdl_Kdup, Kd_change, hdl_Kdch);

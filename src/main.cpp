@@ -20,13 +20,13 @@
 //////// MAIN //////////
 
 void setup() {
-  Serial.begin(SerialSpeed);
-  delay(100);
-  Serial.println("Starting");
-  setup_intled();
-  setupwifiManager();  // Autoconfiguratie 
-  setupwifi();         // handles en dergelijke
-  setupTask1();
+  setupSerial();
+  setupIntled();
+  setupwifiManager();     // Autoconfiguratie als nieuwe wifi
+  setup_AsyncWebserver(); // webserver om html te tonen 
+// onderstaande 2 regels voorlopig even afgezet
+//  setupwifi();         // handles en dergelijke
+//  setupTask1();
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();
   #else
@@ -54,6 +54,7 @@ void loop() {
     calibrateMPUloop();
   #else
     loopMPU();
+    delay(500);
   #endif
   
 // i2cscan();       // used to find I2C port of gyro

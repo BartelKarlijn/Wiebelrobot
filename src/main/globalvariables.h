@@ -95,7 +95,12 @@ uint8_t PrintPIDLoops = PrintPIDMillis * 1000 / PERIOD ;   //hoeveel loops overs
 uint8_t PrintPIDloopCounter = 0;
 
 //////// Wifi //////////
+// Create AsyncWebServer object on port 80
+AsyncWebServer webserver(80);
+DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
+const char* PARAM_INPUT_1 = "output";   // voor de asyncwebserver
+const char* PARAM_INPUT_2 = "state";
 
 const char* oms_Kp = "Kp proportioneel";
 const char* hdl_Kpup = "butkpup";

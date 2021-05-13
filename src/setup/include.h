@@ -1,23 +1,31 @@
+// **** Community libraries ****
 // Arduino library includes
 #include <Arduino.h>
-#include <Wire.h>
-#include <Preferences.h>
-#include <WiFi.h>
-#include <WebServer.h>      //Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
-#include <DNSServer.h>      //Local WebServer used to serve the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
+#include <Preferences.h>   // om op ESP32 eeprom te kunnen lezen en schrijven
+
+// MPU6050
+#include <Wire.h>           // voor I2C communicatie met MPU6050
 #include <I2Cdev.h>
 #include <MPU6050_6Axis_MotionApps20.h>
 
+// Wifi
+#include <WiFi.h>           //
+#include <AsyncTCP.h>       // nodig voor de ESPAyncWebserver
+#include <ESPAsyncWebServer.h>
+
+#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
+// 2 regels hieronder mogen waarschijnlijk weg
+//#include <WebServer.h>      // Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
+//#include <DNSServer.h>      // Local WebServer used to serve the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
+
+
+
+// **** Eigen wiebelrobot libraries ****
 // //Configuratie
 #include <configuration.h>
 
-// // define & variables
-#include <wifi/credentials.h>      //added to gitignore
+// define & variables
 #include <main/globalvariables.h>
-
-// motors
-#include <main\dcmotors.h>
-#include <setup\setup_dcmotors.h>
 
 // MPU
 #ifdef flag_calibrateMPU
@@ -26,6 +34,18 @@
   #include <mpu\setupMPU.h>
   #include <mpu\loopMPU.h>
 #endif
+
+// Wifi
+#include <wifi/credentials.h>        // added to gitignore
+#include <wifi/html_buttonSimple.h>  // routine om simpele pushbutton te maken
+#include <wifi/html_sendPage.h>      // send the (config) html string
+#include <wifi/html_processor.h>
+#include <wifi/setup_AsyncWebserver.h> 
+
+// motors
+#include <main\dcmotors.h>
+#include <setup\setup_dcmotors.h>
+
 
 //#include <main\gyro.h>           //dit moet vervangen worden
 //#include <setup\setup_mpu.h>      //oud, mag weg
@@ -36,20 +56,19 @@
 #include <main\testmotorPWM2.h>    // tweede versie met functies
 //#include <main\testgyro.h>         // MPU6050 uittesten en printen
 
-#include <setup\setup_intled.h>
-#include <ESPAsync_WiFiManager.h> 
-#include <AsyncTCP.h>
+#include <setup/setupSerial.h>
+#include <setup\setupIntled.h>
 //#include <ESPAsyncWebServer.h>
 //#include <AsyncElegantOTA.h>
+//#include <wifi/wifidefinitions.h>    // kan wat opgekuist worden?
 #include <wifi/OTA.h>
-#include <wifi/wifidefinitions.h>
 #include <wifi/htmlbutton.h>
 #include <wifi/html_configbutton.h>
 #include <wifi/sendhtml.h>
-#include <wifi/handleButtonActions.h>
-#include <wifi/handle.h>
-#include <wifi/setupwifi.h>          
+//#include <wifi/handleButtonActions.h>   // voorlopig even afgezet
+//#include <wifi/handle.h>                // voorlopig even afgezet
+//#include <wifi/setupwifi.h>             // voorlopig even afgezet
 #include <wifi/setupwifiManager.h>
 #include <main\printPIDparams.h>
-#include <setup\setup_task.h>
+//#include <setup\setup_task.h>             // voorlopig even afgezet
 #include <wifi\setupOTA.h>

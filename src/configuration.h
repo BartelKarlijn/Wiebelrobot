@@ -21,21 +21,21 @@
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
 // om te calibreren, uncomment flag_calibrateMPU
 // 2021 05 08 mpu ondersteboven gecalibreerd
+/*
 #define preset_XGyroOffset -2261
 #define preset_YGyroOffset 1731
 #define preset_ZGyroOffset 4743
 #define preset_XAccelOffset 0
 #define preset_YAccelOffset -43
 #define preset_ZAccelOffset 26
+*/
 // 2021 05 08 mpu plat liggend gecalibreerd
-/*
 #define preset_XGyroOffset -3489
 #define preset_YGyroOffset 1821
 #define preset_ZGyroOffset 1628
 #define preset_XAccelOffset 0
 #define preset_YAccelOffset -43
 #define preset_ZAccelOffset 28
-*/
 
 ///////////////// MPU-6050 Calibration //////////////////////////
 // Calibratie moet eigenlijk maar 1x gebeuren

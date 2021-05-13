@@ -11,8 +11,6 @@ IPAddress local_ip(192,168,1,1);
 IPAddress gateway(192,168,1,1);
 IPAddress subnet(255,255,255,0); 
 
-WebServer server(80);
-
-String stHTMLhead;
-String stbodytitle;
-String stkp;
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
+//WebServer server(80);
