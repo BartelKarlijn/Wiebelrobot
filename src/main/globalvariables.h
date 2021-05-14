@@ -38,7 +38,7 @@ int state_calibration = 0;
 unsigned int calibratedOffsetAdress = 0;
 unsigned int loopcount=0;
 
-
+/*
 // hieronder mag misschien weg...
 // MPU6050 specific
 #define GYRO_SCALE_FACTOR             131     // LSB / (degs per seconds)
@@ -61,7 +61,7 @@ unsigned int loopcount=0;
 #define GYRO_ZOUT_L 0x48
 
 uint8_t retval;   //Return value mpu6050
-
+*/
 
 //////// Controller //////////
 
@@ -102,34 +102,35 @@ TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_INPUT_1 = "output";   // voor de asyncwebserver
 const char* PARAM_INPUT_2 = "state";
 
+// knoppen
 const char* oms_Kp = "Kp proportioneel";
-const char* hdl_Kpup = "butkpup";
-const char* hdl_Kpdo = "butkpdo";
-const char* hdl_Kpch = "butkpch";
+const int   id_Kpup = 111;            //knop ID, moet uniek zijn, zie html_processor
+const int   id_Kpdo = 112; 
+const int   id_Kpra = 113;  
 
 const char* oms_Ki = "Ki Integraal";
-const char* hdl_Kiup = "butkiup";
-const char* hdl_Kido = "butkido";
-const char* hdl_Kich = "butkich";
+const int   id_Kiup = 121;
+const int   id_Kido = 122; 
+const int   id_Kira = 123;  
 
 const char* oms_Kd = "Kd Derivation";
-const char* hdl_Kdup = "butkdup";
-const char* hdl_Kddo = "butkddo";
-const char* hdl_Kdch = "butkdch";
+const int   id_Kdup = 131;
+const int   id_Kddo = 132; 
+const int   id_Kdra = 133;  
 
 const char* oms_An = "Balanceer Hoek";
-const char* hdl_Anup = "butanup";
-const char* hdl_Ando = "butando";
-const char* hdl_Anch = "butanch";
+const int   id_Anup = 141;
+const int   id_Ando = 142; 
+const int   id_Anra = 143;  
 
 const char* oms_ShowAngle = "Gemeten Hoek= ";
-const char* hdl_ShowAngle = "butShowAngle";
+const int   id_ShowAngle = 21;
 
 const char* oms_SaveConfig = "Save PID";
-const char* hdl_SaveConfig = "butSaveConfig";
+const int   id_SaveConfig = 22;
 
 const char* oms_Restart = "Restart";
-const char* hdl_Restart = "butRestart";
+const int   id_Restart = 23;
 
 volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 volatile float Ki_change = 1.0;

@@ -2,11 +2,14 @@ String html_processor(const String& var){
 // Replaces placeholder with button section in your web page
   if(var == "BUTTONPLACEHOLDER"){
     String buttons = "";
-    buttons += html_buttonSimple(1, String(Kp), "Toon Kp op knop");
-
-//    buttons += "<h4>Output - GPIO 2</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"2\" " + outputState(2) + "><span class=\"slider\"></span></label>";
-//    buttons += "<h4>Output - GPIO 4</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"4\" " + outputState(4) + "><span class=\"slider\"></span></label>";
-//    buttons += "<h4>Output - GPIO 33</h4><label class=\"switch\"><input type=\"checkbox\" onchange=\"toggleCheckbox(this)\" id=\"33\" " + outputState(33) + "><span class=\"slider\"></span></label>";
+    buttons += html_buttonUpDown(oms_Kp, id_Kpra, id_Kpup, id_Kpdo, Kp, Kp_change);
+    buttons += html_buttonUpDown(oms_Ki, id_Kira, id_Kiup, id_Kido, Ki, Ki_change);
+    buttons += html_buttonUpDown(oms_Kd, id_Kdra, id_Kdup, id_Kddo, Kd, Kd_change);
+    buttons += html_buttonUpDown(oms_An, id_Anra, id_Anup, id_Ando, selfBalanceAngleSetpoint, An_change);
+    buttons += html_buttonSimple(id_ShowAngle, String(currentAngle), oms_ShowAngle);
+    buttons += html_buttonSimple(id_SaveConfig, "", oms_SaveConfig);
+    buttons += html_buttonSimple(id_Restart, "", oms_Restart);
+    
     return buttons;
   }
   return String();

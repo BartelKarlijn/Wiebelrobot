@@ -38,8 +38,9 @@
 // Wifi
 #include <wifi/credentials.h>        // added to gitignore
 #include <wifi/html_buttonSimple.h>  // routine om simpele pushbutton te maken
+#include <wifi/html_buttonUpDown.h>  // routine om PID parameters up/down aan te passen
 #include <wifi/html_sendPage.h>      // send the (config) html string
-#include <wifi/html_processor.h>
+#include <wifi/html_processor.h>    
 #include <wifi/setup_AsyncWebserver.h> 
 
 // motors
@@ -62,12 +63,7 @@
 //#include <AsyncElegantOTA.h>
 //#include <wifi/wifidefinitions.h>    // kan wat opgekuist worden?
 #include <wifi/OTA.h>
-#include <wifi/htmlbutton.h>
-#include <wifi/html_configbutton.h>
-#include <wifi/sendhtml.h>
-//#include <wifi/handleButtonActions.h>   // voorlopig even afgezet
 //#include <wifi/handle.h>                // voorlopig even afgezet
-//#include <wifi/setupwifi.h>             // voorlopig even afgezet
 #include <wifi/setupwifiManager.h>
 #include <main\printPIDparams.h>
 //#include <setup\setup_task.h>             // voorlopig even afgezet
