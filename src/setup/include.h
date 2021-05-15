@@ -12,8 +12,8 @@
 #include <WiFi.h>           //
 #include <AsyncTCP.h>       // nodig voor de ESPAyncWebserver
 #include <ESPAsyncWebServer.h>
-
 #include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
+#include <AsyncElegantOTA.h>
 
 
 // **** Eigen wiebelrobot libraries ****
@@ -51,9 +51,8 @@
 #include <wifi/buttonChange.h>       // acties die gebeuren als je op knop drukt
 #include <wifi/setup_AsyncWebserver.h> 
 // Wifi manager en OTA
-#include <wifi/OTA.h>
 #include <wifi/setupwifiManager.h>
-#include <wifi\setupOTA.h>
+//#include <wifi/OTA.h>
+//#include <wifi\setupOTA.h>
 
 //#include <main\gyro.h>           //dit moet vervangen worden
-//#include <AsyncElegantOTA.h>

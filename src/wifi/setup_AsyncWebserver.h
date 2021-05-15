@@ -1,12 +1,14 @@
-void setup_AsyncWebserver()
-{
+void setup_AsyncWebserver(){
+  // Voordat we de webserver starten, moet je OTA opstarten
+  AsyncElegantOTA.begin(&webserver);
+  
   // Route for root / web page
   webserver.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", index_html, html_processor);
   });
 
   // Send a GET request to <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
-  webserver.on("/update", HTTP_GET, [](AsyncWebServerRequest *request) {
+  webserver.on("/knop", HTTP_GET, [](AsyncWebServerRequest *request) {
     String IDknopString;
     int IDknop;
     // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>

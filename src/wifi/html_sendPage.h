@@ -22,9 +22,9 @@ const char index_html[] PROGMEM = R"rawliteral(
       %BUTTONPLACEHOLDER%
       <script>function toggleCheckbox(element) {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/update?output="+element.id, true);
+        xhr.open("GET", "/knop?output="+element.id, true);
         xhr.send();
-        setTimeout(location.reload(), 100);
+        setTimeout(location.reload(), 200);
       }
     </script>
   </body>

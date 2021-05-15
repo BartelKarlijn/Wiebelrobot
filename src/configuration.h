@@ -83,10 +83,9 @@ float BASE_Angle = 0.0;
 
 #define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
 float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
-volatile float angleSetpoint = 90;  //rechtop staan.
+volatile float angleSetpoint = 0;  //rechtop staan.
 
 #define PERIOD          4000    // loop period in micros default 4000 microsec,  MPU6050 geeft graden/sec weer.  Hier dus schatting van looptime wordt oa bij gyro calibratie gebruikt als delay
-#define PRINT_PERIOD  100000    // print period in microsec
 #define SerialSpeed   230400    // was 115200
 #define PrintPIDMillis  1000    // Hoe dikwijls PIDparameters Serial printen?
 

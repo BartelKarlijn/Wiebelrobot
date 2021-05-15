@@ -3,7 +3,7 @@ void printPIDparams () {
 
   if (PrintPIDloopCounter >= PrintPIDLoops) {
     Serial.print(" AngleY ");
-    Serial.print(AngleY);
+    Serial.print(currentAngle);
     Serial.print(" PID: ");
     Serial.print(pidError);
     Serial.print(" ");

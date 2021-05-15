@@ -13,7 +13,7 @@ void setupwifiManager () {
   if (WiFi.status() == WL_CONNECTED) { 
       Serial.print(F("Connected. Local IP: ")); 
       Serial.println(WiFi.localIP()); 
-      Serial.print("naam van apparaat");
+      Serial.print("naam van apparaat ");
       Serial.println(autoConnectName);
   }
   else { 
