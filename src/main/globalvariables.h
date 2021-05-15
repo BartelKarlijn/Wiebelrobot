@@ -3,11 +3,6 @@
 //////////////// LED ///////////////////////
 boolean startupError;
 
-//////////////// MOTORS ////////////////////////////
-uint32_t prevSpeedStart;
-int16_t prevSpeed;
-int32_t currentPos = 0;
-
 ///////////////// MPU-6050 //////////////////////////
 MPU6050 mpu;
 
@@ -38,46 +33,6 @@ int state_calibration = 0;
 unsigned int calibratedOffsetAdress = 0;
 unsigned int loopcount=0;
 
-/*
-// hieronder mag misschien weg...
-// MPU6050 specific
-#define GYRO_SCALE_FACTOR             131     // LSB / (degs per seconds)
-#define ACC_SCALE_FACTOR              8192    // LSB / g
-
-//static float GYRO_RAW_TO_DEGS = 1.0 / (1000000.0 / PERIOD) / GYRO_SCALE_FACTOR;
-
-#define ACCEL_XOUT_H 0x3B
-#define ACCEL_XOUT_L 0x3C
-#define ACCEL_YOUT_H 0x3D
-#define ACCEL_YOUT_L 0x3E
-#define ACCEL_ZOUT_H 0x3F
-#define ACCEL_ZOUT_L 0x40
-
-#define GYRO_XOUT_H 0x43
-#define GYRO_XOUT_L 0x44
-#define GYRO_YOUT_H 0x45
-#define GYRO_YOUT_L 0x46
-#define GYRO_ZOUT_H 0x47
-#define GYRO_ZOUT_L 0x48
-
-uint8_t retval;   //Return value mpu6050
-*/
-
-//////// Controller //////////
-
-// populated in the SerialControl part
-uint8_t joystickX;
-uint8_t joystickY;
-uint32_t loop_timer;
-uint32_t print_timer;
-float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand
-volatile float currentAngle;
-float prevAngle;
-float AngleX, AngleY, AngleZ;
-volatile int16_t rotation = 0;         // om te kunnen draaien
-float speeed;
-
-
 //////// PID //////////
 Preferences pref_eeprom;
 
@@ -93,6 +48,12 @@ float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
 
 uint8_t PrintPIDLoops = PrintPIDMillis * 1000 / PERIOD ;   //hoeveel loops overslaan om serial print te doen van PID parameteters?
 uint8_t PrintPIDloopCounter = 0;
+
+//////////////// MOTORS ////////////////////////////
+uint32_t prevSpeedStart;
+int16_t prevSpeed;
+int32_t currentPos = 0;
+
 
 //////// Wifi //////////
 // Create AsyncWebServer object on port 80
@@ -135,3 +96,18 @@ volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt
 volatile float Ki_change = 1.0;
 volatile float Kd_change = 1.0; 
 volatile float An_change = 1.0; 
+
+//////// Controller //////////
+// populated in the SerialControl part
+uint8_t joystickX;
+uint8_t joystickY;
+uint32_t loop_timer;
+uint32_t print_timer;
+float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand
+volatile float currentAngle;
+float prevAngle;
+float AngleX, AngleY, AngleZ;
+volatile int16_t rotation = 0;         // om te kunnen draaien
+float speeed;
+
+

@@ -23,17 +23,15 @@ void loopMPU()
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    //float testy, testp, testr;
-    //testy = (ypr[0] * 180 / M_PI) +360;
-    //testp = (ypr[1] * 180 / M_PI) +360;
-    //testr = (ypr[2] * 180 / M_PI) +360;
 
+    /*
     Serial.print(ypr[0] * 180 / M_PI);
     Serial.print("\t");
     Serial.print(ypr[1] * 180 / M_PI);
     Serial.print("\t");
     Serial.print(ypr[2] * 180 / M_PI);
     Serial.println();    
+    */
 //  }
 
 }

@@ -24,7 +24,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/update?output="+element.id, true);
         xhr.send();
-        location.reload();
+        setTimeout(location.reload(), 100);
       }
     </script>
   </body>

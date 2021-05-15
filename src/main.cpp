@@ -20,29 +20,22 @@
 //////// MAIN //////////
 
 void setup() {
-  setupSerial();
-  setupIntled();
+  setupSerial();          // Serial communicatie opzetten
+  setupIntledStart();          // Intern LED lampje
   setupwifiManager();     // Autoconfiguratie als nieuwe wifi
   setup_AsyncWebserver(); // webserver om html te tonen 
-// onderstaande 2 regels voorlopig even afgezet
-//  setupwifi();         // handles en dergelijke
-//  setupTask1();
   #ifdef flag_calibrateMPU 
-    calibrateMPUsetup();
+    calibrateMPUsetup();  // als je MPU wil callibreren
   #else
-    setupMPU();
+    setupMPU();           // MPU en de DMP opstarten
   #endif
 
-//  setup_mpu();
   setup_dcmotors();
   loop_timer = micros() + PERIOD;
   print_timer = micros() + PRINT_PERIOD;
   get_datafrom_eeprom ();
 
-  if ( not startupError ) {
-    digitalWrite(ledpin, HIGH);
-  }
-  Serial.println("Started");
+  setupIntledAllOK();
 }
 
 boolean isValidJoystickValue(uint8_t joystick) {
@@ -54,43 +47,27 @@ void loop() {
     calibrateMPUloop();
   #else
     loopMPU();
+    currentAngle = ypr[1];
     delay(500);
   #endif
   
-// i2cscan();       // used to find I2C port of gyro
-// testmotor();     // used to test DC motors (on/off)
-// testmotorPWM(); // used to understand ledc for driving motors
-// testmotorPWM2();  // driving motor with function
-// testgyro();
-
-  // wellicht een van beide afzetten?
-//  getRotation(&gyroX, &gyroY, &gyroZ);
-  // roll vs pitch depends on how the MPU is installed in the robot
-  //currentAngle -= gyroY * GYRO_RAW_TO_DEGS;
-
-/*
-//  getAcceleration(&accX, &accY, &accZ);
-  AngleY = RAD_TO_DEG * (atan2(-accZ, -accX));
-  currentAngle = AngleY;
-
   // apply PID algo
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
-  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
+//  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
   errorDerivative = pidError - pidLastError;                       // het D gedeelte
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
 
-//  printPIDparams();
+  printPIDparams();
 
 
 // zorgen dat we vaste loop lengte hebben
   if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
   while (loop_timer > micros());
   loop_timer += PERIOD;
-//  setSpeed(pidOutput, rotation);
-*/
+  setSpeed(pidOutput, rotation);
 
 //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 

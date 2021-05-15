@@ -5,9 +5,8 @@
 // Used default I2C pins
 // SDA gpio21
 // SCL gpio22
-#define ledpin 2   // ESP32 Pin to which onboard LED is connected
-//#define MODE_TESTMOTORPWM   // uncomment om motors te testen
-
+#define ledpin 2         // ESP32 Pin to which onboard LED is connected
+#define ledstartblink 4  // Hoeveel keer knipperen bij start?
 
 ///////////////// MPU-6050 //////////////////////////
 
