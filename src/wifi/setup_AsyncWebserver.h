@@ -17,7 +17,6 @@ void setup_AsyncWebserver()
     else {
       IDknop = 0;
     }
-    //    request->send(200, "text/plain", "OK");
 
     Serial.print("knop= ");
     Serial.println(IDknop);
@@ -79,10 +78,8 @@ void setup_AsyncWebserver()
       break;
     }  // einde switch
     
-    // volledige pagina nogmaals tonen
-    request->send_P(200, "text/plain", "TEST TEST TEST");
-    Serial.println("page refreshed?");
-    
+    request->send(200, "text/plain", "OK");
+
   });
 
   // Start server
