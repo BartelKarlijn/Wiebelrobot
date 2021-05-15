@@ -100,7 +100,6 @@ AsyncWebServer webserver(80);
 DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_INPUT_1 = "output";   // voor de asyncwebserver
-const char* PARAM_INPUT_2 = "state";
 
 // knoppen
 const char* oms_Kp = "Kp proportioneel";

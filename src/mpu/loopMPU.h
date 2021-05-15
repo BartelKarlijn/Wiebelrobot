@@ -28,15 +28,11 @@ void loopMPU()
     //testp = (ypr[1] * 180 / M_PI) +360;
     //testr = (ypr[2] * 180 / M_PI) +360;
 
-    //Serial.print("ypr\t");
     Serial.print(ypr[0] * 180 / M_PI);
-    //Serial.print(testy);
     Serial.print("\t");
     Serial.print(ypr[1] * 180 / M_PI);
-    //Serial.print(testp);
     Serial.print("\t");
     Serial.print(ypr[2] * 180 / M_PI);
-    //Serial.print(testr);
     Serial.println();    
 //  }
 

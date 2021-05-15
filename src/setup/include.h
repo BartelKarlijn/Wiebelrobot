@@ -27,6 +27,10 @@
 // define & variables
 #include <main/globalvariables.h>
 
+// algemene zaken
+#include <setup\save_eprom.h>
+#include <main/resetPID.h>
+
 // MPU
 #ifdef flag_calibrateMPU
   #include <mpu\calibrateMPU.h>
@@ -35,23 +39,22 @@
   #include <mpu\loopMPU.h>
 #endif
 
+// motors
+#include <main\dcmotors.h>
+#include <setup\setup_dcmotors.h>
+
 // Wifi
 #include <wifi/credentials.h>        // added to gitignore
 #include <wifi/html_buttonSimple.h>  // routine om simpele pushbutton te maken
 #include <wifi/html_buttonUpDown.h>  // routine om PID parameters up/down aan te passen
 #include <wifi/html_sendPage.h>      // send the (config) html string
-#include <wifi/html_processor.h>    
+#include <wifi/html_processor.h>     // vervangt placeholder in sendPage
+#include <wifi/buttonChange.h>       // acties die gebeuren als je op knop drukt
 #include <wifi/setup_AsyncWebserver.h> 
-
-// motors
-#include <main\dcmotors.h>
-#include <setup\setup_dcmotors.h>
 
 
 //#include <main\gyro.h>           //dit moet vervangen worden
 //#include <setup\setup_mpu.h>      //oud, mag weg
-#include <setup\save_eprom.h>
-#include <main/resetPID.h>
 //#include <main\testmotor.h>      // om motors te testen (aan/uit)
 //#include <main\testmotorPWM.h>   // eerste versie om motors via PWM aan te sturen
 #include <main\testmotorPWM2.h>    // tweede versie met functies
