@@ -26,8 +26,7 @@ void buttonChangeSavePID() {
 void buttonChangeRestart() {
   digitalWrite(ledpin, LOW);
   Serial.println("Restarting ESP");
-  forwardL(0);
-  forwardR(0);
+  setSpeed(0,0);
   delay(100);
   ESP.restart();
 }

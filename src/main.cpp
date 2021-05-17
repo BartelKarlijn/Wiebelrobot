@@ -21,7 +21,8 @@
 
 void setup() {
   setupSerial();          // Serial communicatie opzetten
-  setupIntledStart();          // Intern LED lampje
+  setupIntledStart();     // Intern LED lampje
+  setup_dcmotors();       // Motors afzetten
   setupwifiManager();     // Autoconfiguratie als nieuwe wifi
   setup_AsyncWebserver(); // webserver om html te tonen 
   #ifdef flag_calibrateMPU 
@@ -30,7 +31,6 @@ void setup() {
     setupMPU();           // MPU en de DMP opstarten
   #endif
 
-  setup_dcmotors();
   loop_timer = micros() + PERIOD;
   get_datafrom_eeprom ();
   setupIntledAllOK();
@@ -38,19 +38,18 @@ void setup() {
 
 
 void loop() {
+  AsyncElegantOTA.loop();      // Moet af en toe opgeroepen worden ivm OTA
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
     loopMPU();
-    //delay(500);
   #endif
-  AsyncElegantOTA.loop();      // Moet af en toe opgeroepen worden ivm OTA
 
   // apply PID algo
   currentAngle = - ypr[1] * 180 / M_PI;
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
-//  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
+  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
   errorDerivative = pidError - pidLastError;                       // het D gedeelte
   pidLastError = pidError;
 

@@ -1,4 +1,5 @@
 String html_buttonUpDown( String omschrijving, int IDrange, int IDup, int IDdown, float Kx, float Kx_change) {
+/*
   String ptr = "<p>";
   ptr += omschrijving;
   ptr += "<do class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
@@ -12,35 +13,21 @@ String html_buttonUpDown( String omschrijving, int IDrange, int IDup, int IDdown
   ptr += " <ra class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
   ptr += IDrange;
   ptr += "\"> x10 </ra><p>\n" ;
-
-
-/*
-String html_buttonSimple(int idKnop, String txtOpKnop, String txtVoorKnop) {
-  String ptr = "<p>";
-  ptr += txtVoorKnop;
-  ptr += "<a class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
-  ptr += idKnop;
-  ptr += "\">\n" ;
-  ptr += txtOpKnop;
-  ptr += "</a>";
-  ptr += "</p>\n";
-  return ptr;
 */
 
-
-/*
-  ptr += " <a class=\"button button-of\" href=\"/" ; 
-  ptr += handlecodeUp;
-  ptr += "\">-  </a> " ;
+  String ptr = "<tr><td>\n";
+  ptr += omschrijving;
+  ptr += "</td><td><do class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
+  ptr += IDdown;
+  ptr += "\">-  </do></td><td>\n" ;
   ptr += Kx;
-  ptr += " <a class=\"button button-of\" href=\"/" ; 
-  ptr += handlecodeDo;
-  ptr += "\">+  </a> Stap= " ;
+  ptr += "</td><td><up class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
+  ptr += IDup;
+  ptr += "\">+  </up></td><td> Stap=</td><td>\n" ;
   ptr += Kx_change;
-  ptr += " <a class=\"button button-of\" href=\"/" ; 
-  ptr += handleChange;
-  ptr += "\">1-10-100  </a>\n" ;
-  */
+  ptr += "</td><td> <ra class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
+  ptr += IDrange;
+  ptr += "\"> x10 </ra></td></tr>\n" ;
 
   return ptr;
 }

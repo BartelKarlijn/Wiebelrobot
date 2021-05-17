@@ -61,10 +61,15 @@ AsyncWebServer webserver(80);
 DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_INPUT_1 = "output";   // voor de asyncwebserver
+// handles voor wifi paginas
+#define hdlUpdate     "/update"                  // Dit niet wijzigen: is voor OTA firmware 
+#define hdlController "/"                        // handle voor hoofdscherm.  Hier kom je standaard op terecht
+#define hdlConfig     "/configuratie"            // handle voor wiebelrobot in te stellen
+#define hdlKnop       "/knop"                    // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
 
 // knoppen
 const char* oms_Kp = "Kp proportioneel";
-const int   id_Kpup = 111;            //knop ID, moet uniek zijn, zie html_processor
+const int   id_Kpup = 111;            // knop ID, moet uniek zijn, zie html_processor
 const int   id_Kpdo = 112; 
 const int   id_Kpra = 113;  
 

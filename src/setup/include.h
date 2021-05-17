@@ -29,6 +29,7 @@
 #include <setup/setupSerial.h>
 #include <setup\setupIntled.h>
 #include <main\printPIDparams.h>
+#include <main\constr.h>
 
 // MPU
 #ifdef flag_calibrateMPU
@@ -46,6 +47,8 @@
 #include <wifi/credentials.h>        // added to gitignore
 #include <wifi/html_buttonSimple.h>  // routine om simpele pushbutton te maken
 #include <wifi/html_buttonUpDown.h>  // routine om PID parameters up/down aan te passen
+#include <wifi/html_buttonLink.h>    // routine om knoppen met link te maken
+#include <wifi/html_joystick.h>      // Poging om joystick te maken
 #include <wifi/html_sendPage.h>      // send the (config) html string
 #include <wifi/html_processor.h>     // vervangt placeholder in sendPage
 #include <wifi/buttonChange.h>       // acties die gebeuren als je op knop drukt

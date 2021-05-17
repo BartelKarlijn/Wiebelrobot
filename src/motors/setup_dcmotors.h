@@ -14,6 +14,5 @@ void  setup_dcmotors() {
   ledcAttachPin(motorRpin1, motorRcha1); 
   ledcAttachPin(motorRpin2, motorRcha2);
 
-  forwardL(0);
-  forwardR(0);
+  setSpeed(0,0);
 }

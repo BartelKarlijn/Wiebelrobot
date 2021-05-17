@@ -1,4 +1,4 @@
-const char index_html[] PROGMEM = R"rawliteral(
+const char config_html[] PROGMEM = R"rawliteral(
   <!DOCTYPE html> <html>
   <head>
     <title>Wiebelrobot</title>
@@ -8,7 +8,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: left;}
       body{margin-top: 50px;}
       h1 {color: #444444;margin: 50px auto 30px; text-align: center;}
-      h3 {color: #444444;margin-bottom: 50px; text-align: center;}
+      h3 tr td {color: #444444;margin-bottom: 50px; text-align: center;}
+      h4 {color: #444444;margin-bottom: 50px; text-align: right;}
       .button {display: inline;width: 60px;background-color: #3498db;border: none;color: white;padding: 10px 10px;text-decoration: none;font-size: 25px;margin: 10px auto 25px;cursor: pointer;border-radius: 4px; margin-bottom: 50px;}
       .button-on {background-color: #3498db;}
       .button-on:active {background-color: #2980b9;}
@@ -18,15 +19,15 @@ const char index_html[] PROGMEM = R"rawliteral(
     </style>
   </head>
     <body>
-      <h1>Wiebelrobot instellen</h1>
       %BUTTONPLACEHOLDER%
       <script>function toggleCheckbox(element) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/knop?output="+element.id, true);
         xhr.send();
-        setTimeout(location.reload(), 200);
+        setTimeout("location.reload()", 200);
       }
     </script>
   </body>
   </html>
   )rawliteral";
+

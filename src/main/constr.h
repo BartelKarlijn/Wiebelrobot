@@ -5,6 +5,7 @@ int16_t constr(int16_t value, int16_t mini, int16_t maxi) {
   else if (value > maxi) return maxi;
   return value;
 }
+
 float constrf(float value, float mini, float maxi) {
   if (value < mini) return mini;
   else if (value > maxi) return maxi;
