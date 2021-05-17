@@ -1,4 +1,5 @@
 void printPIDparams () {
+  float loop_duration;
   PrintPIDloopCounter += 1;
 
   if (PrintPIDloopCounter >= PrintPIDLoops) {
@@ -14,20 +15,12 @@ void printPIDparams () {
     Serial.print(pidOutput);
     Serial.print(" /max ");
     Serial.println(MAX_PID_OUTPUT);
-  
-    /*
-    Serial.print("gyroY ");
-    Serial.print(gyroY);
-    Serial.print(" currAngl ");
-    Serial.print(currentAngle);
-    Serial.print(" AngleX ");
-    Serial.print(AngleX);
-    Serial.print(" AngleY ");
-    Serial.print(AngleY);
-    Serial.print(" AngleZ ");
-    Serial.println(AngleZ);
-    */
-  
+
+    loop_duration = (micros() - loop_timer) / PrintPIDloopCounter ;
+    loop_timer = micros();
+    Serial.print("loop duration in us: ");
+    Serial.println(loop_duration); 
+
     PrintPIDloopCounter = 0;
   }
 
