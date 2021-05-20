@@ -7,13 +7,15 @@ String html_processorConfig(const String& var){
     buttons += html_buttonUpDown(oms_Ki, id_Kira, id_Kiup, id_Kido, Ki, Ki_change);
     buttons += html_buttonUpDown(oms_Kd, id_Kdra, id_Kdup, id_Kddo, Kd, Kd_change);
     buttons += html_buttonUpDown(oms_An, id_Anra, id_Anup, id_Ando, selfBalanceAngleSetpoint, An_change);
-    buttons += "</table>";
+
     buttons += html_buttonSimple(id_ShowAngle, String(currentAngle), oms_ShowAngle);
     buttons += html_buttonSimple(id_SaveConfig, "SAVE", oms_SaveConfig);
     buttons += html_buttonSimple(id_Restart, "/!\\", oms_Restart);
+    buttons += "</table>";
+    
     buttons += html_buttonLink("Terug naar Controller", hdlController);
     buttons += html_buttonLink("Firmware update", hdlUpdate);
-
+    
     return buttons;
   }
   return String();

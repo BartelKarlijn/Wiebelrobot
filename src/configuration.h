@@ -71,8 +71,8 @@
 
 // speed
 #define MAX_SPEED 1024   // 10bit dus tot 1024
-#define MIN_SPEED 680    // 10bit  Hieronder draait motortje niet
-#define RUST_SPEED 10   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
+#define MIN_SPEED 700    // 10bit  Hieronder draait motortje niet
+#define RUST_SPEED 5   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
 
 // PID
 float BASE_Kp = 1.0;

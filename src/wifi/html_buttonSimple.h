@@ -1,11 +1,10 @@
 String html_buttonSimple(int idKnop, String txtOpKnop, String txtVoorKnop) {
-  String ptr = "<p>";
+  String ptr = "<tr><td>\n";
   ptr += txtVoorKnop;
-  ptr += "<a class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\" "; 
+  ptr += "</td><td><a class=\"button button-of\" onclick=\"toggleCheckbox(this)\" id=\""; 
   ptr += idKnop;
-  ptr += "\">\n" ;
+  ptr += "\">" ;
   ptr += txtOpKnop;
-  ptr += "</a>";
-  ptr += "</p>\n";
+  ptr += "</a></td></tr>\n";
   return ptr;
 }
