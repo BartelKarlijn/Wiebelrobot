@@ -38,7 +38,7 @@ void setup() {
 
 
 void loop() {
-  AsyncElegantOTA.loop();      // Moet af en toe opgeroepen worden ivm OTA
+//  AsyncElegantOTA.loop();      // Moet af en toe opgeroepen worden ivm OTA
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
