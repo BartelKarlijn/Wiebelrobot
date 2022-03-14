@@ -44,7 +44,7 @@
 #include <motors\setup_dcmotors.h>
 
 // Wifi
-#include <wifi/credentials.h>        // added to gitignore
+//#include <wifi/credentials.h>        // added to gitignore
 #include <wifi/html_buttonSimple.h>  // routine om simpele pushbutton te maken
 #include <wifi/html_buttonUpDown.h>  // routine om PID parameters up/down aan te passen
 #include <wifi/html_buttonLink.h>    // routine om knoppen met link te maken
