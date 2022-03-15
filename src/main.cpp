@@ -38,7 +38,6 @@ void setup() {
 
 
 void loop() {
-//  AsyncElegantOTA.loop();      // Moet af en toe opgeroepen worden ivm OTA
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
@@ -46,7 +45,7 @@ void loop() {
   #endif
 
   // apply PID algo
-  currentAngle = - ypr[1] * 180 / M_PI;
+  currentAngle = - ypr[1] * 180 / PI;
   pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
   integralErr += pidError;                                         // het I gedeelte  
   integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt

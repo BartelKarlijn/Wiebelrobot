@@ -59,6 +59,11 @@
 #define motorLpin2 27
 #define motorRpin1 33
 #define motorRpin2 25
+#define motorLpinDIR  26
+#define motorLpinSTEP 27
+#define motorRpinDIR  33
+#define motorRpinSTEP 25
+
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
 //ledc library
@@ -73,6 +78,7 @@
 #define MAX_SPEED 1024   // 10bit dus tot 1024
 #define MIN_SPEED 700    // 10bit  Hieronder draait motortje niet
 #define RUST_SPEED 5   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
+#define MAX_SPEEDSTEPPER 300
 
 // PID
 float BASE_Kp = 1.0;

@@ -53,6 +53,11 @@ uint8_t PrintPIDloopCounter = 0;
 uint32_t prevSpeedStart;
 int16_t prevSpeed;
 int32_t currentPos = 0;
+// Define stepper motor connections and motor interface type. Motor interface type must be set to 1 when using a driver:
+#define motorInterfaceType 1// Create a new instance of the AccelStepper class:
+#
+AccelStepper stepperL = AccelStepper(motorInterfaceType, motorLpinSTEP , motorLpinDIR);
+AccelStepper stepperR = AccelStepper(motorInterfaceType, motorRpinSTEP , motorRpinDIR);
 
 
 //////// Wifi //////////

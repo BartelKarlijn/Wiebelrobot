@@ -15,6 +15,8 @@
 #include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
 #include <AsyncElegantOTA.h>
 
+//Stepper motors
+#include <AccelStepper.h>
 
 // **** Eigen wiebelrobot libraries ****
 // //Configuratie
@@ -42,6 +44,7 @@
 // motors
 #include <motors\dcmotors.h>
 #include <motors\setup_dcmotors.h>
+#include <motors\setup_steppers.h>
 
 // Wifi
 //#include <wifi/credentials.h>        // added to gitignore
