@@ -42,8 +42,9 @@
 #endif
 
 // motors
-#include <motors\dcmotors.h>
-#include <motors\setup_dcmotors.h>
+//#include <motors\dcmotors.h>
+#include <motors\steppermotor.h>
+//#include <motors\setup_dcmotors.h>
 #include <motors\setup_steppers.h>
 
 // Wifi
