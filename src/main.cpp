@@ -53,8 +53,8 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
-
-  printPIDparams();
+  delay(500);
+  //printPIDparams();
 
 
 // zorgen dat we vaste loop lengte hebben

@@ -81,7 +81,7 @@
 #define MAX_SPEEDSTEPPER 300
 
 // PID
-float BASE_Kp = 1.0;
+float BASE_Kp = 0.0;
 float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
 float BASE_Angle = 0.0;
