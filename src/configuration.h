@@ -55,10 +55,10 @@
 //////////////// MOTORS ////////////////////////////
 
 //Pins
-#define motorLpin1 26
-#define motorLpin2 27
-#define motorRpin1 33
-#define motorRpin2 25
+//#define motorLpin1 26
+//#define motorLpin2 27
+//#define motorRpin1 33
+//#define motorRpin2 25
 #define motorLpinDIR  26
 #define motorLpinSTEP 27
 #define motorRpinDIR  33

@@ -22,7 +22,6 @@
 void setup() {
   setupSerial();          // Serial communicatie opzetten
   setupIntledStart();     // Intern LED lampje
-  //setup_dcmotors();       // Motors afzetten
   setup_steppers();       // Motors afzetten
   setupwifiManager();     // Autoconfiguratie als nieuwe wifi
   setup_AsyncWebserver(); // webserver om html te tonen 
