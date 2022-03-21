@@ -55,10 +55,6 @@
 //////////////// MOTORS ////////////////////////////
 
 //Pins
-//#define motorLpin1 26
-//#define motorLpin2 27
-//#define motorRpin1 33
-//#define motorRpin2 25
 #define motorLpinDIR  26
 #define motorLpinSTEP 27
 #define motorRpinDIR  33
@@ -66,19 +62,9 @@
 
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
-//ledc library
-#define motorLcha1 0   // for the ledc library
-#define motorLcha2 1   // for the ledc library
-#define motorRcha1 2   // for the ledc library
-#define motorRcha2 3   // for the ledc library
-#define freq 20000          //pwm frequency 20000
-#define resolution 10     // 8bit
-
 // speed
-#define MAX_SPEED 1024   // 10bit dus tot 1024
-#define MIN_SPEED 700    // 10bit  Hieronder draait motortje niet
-#define RUST_SPEED 5   // 10bit, het motorbereik wordt gezet op "MIN-RUST" tot "MAX"
-#define MAX_SPEEDSTEPPER 300
+#define MAX_STEPPERSPEED 200
+#define MAX_STEPPERACCEL 100
 
 // PID
 float BASE_Kp = 0.0;

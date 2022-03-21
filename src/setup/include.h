@@ -42,9 +42,7 @@
 #endif
 
 // motors
-//#include <motors\dcmotors.h>
 #include <motors\steppermotor.h>
-//#include <motors\setup_dcmotors.h>
 #include <motors\setup_steppers.h>
 
 // Wifi
@@ -61,5 +59,3 @@
 #include <wifi/setupwifiManager.h>
 //#include <wifi/OTA.h>
 //#include <wifi\setupOTA.h>
-
-//#include <main\gyro.h>           //dit moet vervangen worden

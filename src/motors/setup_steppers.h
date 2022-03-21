@@ -10,6 +10,9 @@ void  setup_steppers() {
   // Vref = 1.68 x 8 x 0.068 = 0.67V
 
   // Set the maximum speed in steps per second:
-  stepperL.setMaxSpeed(MAX_SPEEDSTEPPER);
-  stepperR.setMaxSpeed(MAX_SPEEDSTEPPER);
+  stepperL.setMaxSpeed(MAX_STEPPERSPEED);
+  stepperR.setMaxSpeed(MAX_STEPPERSPEED);
+
+  stepperL.setAcceleration(MAX_STEPPERACCEL);
+  stepperL.setAcceleration(MAX_STEPPERACCEL);  
 }
