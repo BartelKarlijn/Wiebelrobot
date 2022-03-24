@@ -61,10 +61,21 @@ void loop() {
 //  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
-  stepperL.moveTo(Kp);
-  stepperR.moveTo(Kp);
-  stepperL.run();
-  stepperR.run();
+//  stepperL.moveTo(Kp);
+//  stepperL.run();
+  digitalWrite(motorLpinDIR, HIGH);
+  digitalWrite(motorLpinSTEP, LOW);
+  delay(2000);
+  digitalWrite(motorLpinDIR, LOW);
+  digitalWrite(motorLpinSTEP, LOW);
+  delay(2000);
+  digitalWrite(motorLpinDIR, HIGH);
+  digitalWrite(motorLpinSTEP, HIGH);
+  delay(2000);
+  digitalWrite(motorLpinDIR, LOW);
+  digitalWrite(motorLpinSTEP, LOW);
+  delay(2000);
+
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
