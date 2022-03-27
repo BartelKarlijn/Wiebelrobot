@@ -75,7 +75,7 @@ void loop() {
   digitalWrite(motorLpinDIR, LOW);
   digitalWrite(motorLpinSTEP, LOW);
   delay(2000);
-
+  Serial.println("rondje gelopen");
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
