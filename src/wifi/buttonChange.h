@@ -1,6 +1,6 @@
 float buttonChangeStep(float var_Change, String Change_Oms) {
   var_Change = var_Change * 10;
-  if (var_Change >= 1000.0 ) {var_Change = 1; }
+  if (var_Change > 100.0 ) {var_Change = 1; }
   Serial.print("Changing ");
   Serial.print(Change_Oms);
   Serial.print(", new value ");

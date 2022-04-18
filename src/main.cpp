@@ -52,7 +52,7 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
-  delay(500);
+  //delay(500);
   //printPIDparams();
 
 
@@ -61,10 +61,12 @@ void loop() {
 //  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
-  stepperL.moveTo(Kp);
-  stepperL.run();
-  stepperR.moveTo(Kp);
-  stepperR.run();
+
+  stepperL.setSpeed(Kp);
+  stepperL.runSpeed();
+
+  stepperR.setSpeed(Kp);
+  stepperR.runSpeed();
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 

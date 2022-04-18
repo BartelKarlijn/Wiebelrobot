@@ -63,7 +63,7 @@
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
 // speed
-#define MAX_STEPPERSPEED 200
+#define MAX_STEPPERSPEED 2000
 #define MAX_STEPPERACCEL 100
 
 // PID
