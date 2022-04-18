@@ -55,10 +55,10 @@
 //////////////// MOTORS ////////////////////////////
 
 //Pins
-#define motorLpinDIR  26
-#define motorLpinSTEP 27
-#define motorRpinDIR  33
-#define motorRpinSTEP 25
+#define motorLpinDIR  26  //pink
+#define motorLpinSTEP 27  //orange
+#define motorRpinDIR  33  //pink
+#define motorRpinSTEP 25  //orange
 
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
