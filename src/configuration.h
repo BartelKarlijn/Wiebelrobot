@@ -63,7 +63,7 @@
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
 // speed
-#define MAX_STEPPERSPEED 100000  //16x microstepping
+#define MAX_STEPPERSPEED 20000  //16x microstepping
 #define MAX_STEPPERACCEL 1000   //16x microstepping
 
 // PID
