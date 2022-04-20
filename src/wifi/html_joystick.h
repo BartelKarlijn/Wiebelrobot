@@ -16,26 +16,8 @@ var joyParam = { "title": "js" };
 var Joy = new JoyStick('joydiv', joyParam);
 var joyX = document.getElementById("joy3X");
 var joyY = document.getElementById("joy3Y");
-returnJoy(joyX);
 setInterval(function(){ joyX.value=Joy.GetX(); }, 200);
 setInterval(function(){ joyY.value=Joy.GetY(); }, 200);
+returnJoystick(joyX);
 </script>
 )rawliteral";
-
-String html_joystickObjectNew(int varX, int varY) {
-  String ptr = "<div style=\"width:300px;height:350px;margin:auto\">\n";
-  ptr += "<div id=\"joydiv\" style=\"width:300px;height:300px;margin:auto\"></div>";
-  ptr += "X :<input id=\"joy3X\" type=\"text\" /></br>\n";
-  ptr += "Y :<input id=\"joy3Y\" type=\"text\" />\n";
-  ptr += "</div>\n";
-  ptr += "<script type=\"text/javascript\">\n";
-  ptr += "var joyParam = { \"title\": \"js\" };\n";
-  ptr += "var Joy = new JoyStick('joydiv', joyParam);\n";
-  ptr += "var joyX = document.getElementById(\"joy3X\");\n";
-  ptr += "var joyY = document.getElementById(\"joy3Y\");\n";
-  ptr += "setInterval(function(){ joyX.value=Joy.GetX(); }, 200);\n";
-  ptr += "setInterval(function(){ joyY.value=Joy.GetY(); }, 200);\n";
-  ptr += "</script>";
-
-  return ptr;
-}
