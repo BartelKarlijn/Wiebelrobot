@@ -12,22 +12,33 @@ void setup_AsyncWebserver(){
     request->send_P(200, "text/html", config_html, html_processorConfig);
   });
 
-  // Send a GET request to <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
+// Verwerk joystick
+  webserver.on(hdlJoystick, HTTP_GET, [](AsyncWebServerRequest *request) {
+    String IDknopString;
+    // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
+    if (request->hasParam(PARAM_joystick)) {
+      IDknopString = request->getParam(PARAM_joystick)->value();
+      joystickX = IDknopString.toInt();
+    }
+    else {
+      joystickX = 0;
+    }
+    Serial.print("joystick= ");
+    Serial.println(joystickX);
+    Serial.println(IDknopString);
+
+    request->send(200, "text/plain", "OK");
+  });
+
+  // Verwerk als er op een knop wordt gedrukt
   webserver.on(hdlKnop, HTTP_GET, [](AsyncWebServerRequest *request) {
     String IDknopString;
     int IDknop;
-    int varX, varY;
     // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
-    if (request->hasParam(PARAM_INPUT_1)) {
-      IDknopString = request->getParam(PARAM_INPUT_1)->value();
+    if (request->hasParam(PARAM_output)) {
+      IDknopString = request->getParam(PARAM_output)->value();
       IDknop = IDknopString.toInt();
     }
-    else if (request->hasParam(PARAM_INPUT_2)) {
-      IDknopString  = request->getParam(PARAM_INPUT_2)->value();
-      joystickX = IDknopString.toInt();
-      IDknop = 0;
-    }
-
     else {
       IDknop = 0;
     }

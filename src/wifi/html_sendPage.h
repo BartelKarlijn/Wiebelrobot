@@ -18,11 +18,10 @@ const char config_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   %BUTTONPLACEHOLDER%
-<script>function returnJoystick(varX, varY) {
+<script>function returnJoystick(varX) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/joy?varX="+varX.id+"?varY="+varY.id, true);
+  xhr.open("GET", "/joy?joyX="+varX, true);
   xhr.send();
-  setTimeout("location.reload()", 200);
 }</script>
 <script>function toggleCheckbox(element) {
   var xhr = new XMLHttpRequest();

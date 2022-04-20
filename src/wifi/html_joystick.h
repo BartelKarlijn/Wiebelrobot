@@ -8,16 +8,15 @@ const char html_joystickCode[] PROGMEM = R"rawliteral(
 const char html_joystickObject[] PROGMEM = R"rawliteral(
 <div style="width:300px;height:350px;margin:auto">
 <div id="joydiv" style="width:300px;height:300px;margin:auto"></div>
-X :<input id="joy3X" type="text" /></br>
-Y :<input id="joy3Y" type="text" />				
+X :<input id="joy3X" type="text" onclick="returnJoystick(12)" /></br>
+Y :<input id="joy3Y" type="text" onchange="returnJoystick(150)" />
 </div>
 <script type="text/javascript">
-var joyParam = { "title": "js" };
-var Joy = new JoyStick('joydiv', joyParam);
-var joyX = document.getElementById("joy3X");
-var joyY = document.getElementById("joy3Y");
-setInterval(function(){ joyX.value=Joy.GetX(); }, 200);
-setInterval(function(){ joyY.value=Joy.GetY(); }, 200);
-returnJoystick(joyX);
+ var joyParam = { "title": "js" };
+ var Joy = new JoyStick('joydiv', joyParam);
+ var joyX = document.getElementById("joy3X");
+ var joyY = document.getElementById("joy3Y");
+ setInterval(function(){ joyX.value=Joy.GetX(); }, 200);
+ setInterval(function(){ joyY.value=Joy.GetY(); }, 200);
 </script>
 )rawliteral";
