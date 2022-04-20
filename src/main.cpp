@@ -63,7 +63,7 @@ void loop() {
   stepperL.setSpeed(Kp*100);
   stepperL.runSpeed();
 
-  stepperR.setSpeed(Kp*100);
+  stepperR.setSpeed(joystickX*100);
   stepperR.runSpeed();
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);

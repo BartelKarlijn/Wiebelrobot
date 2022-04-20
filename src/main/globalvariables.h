@@ -66,6 +66,8 @@ AsyncWebServer webserver(80);
 DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_INPUT_1 = "output";   // voor de asyncwebserver
+const char* PARAM_INPUT_2 = "posX";     // voor de asyncwebserver
+
 // handles voor wifi paginas
 #define hdlUpdate     "/update"                  // Dit niet wijzigen: is voor OTA firmware 
 #define hdlController "/"                        // handle voor hoofdscherm.  Hier kom je standaard op terecht
@@ -109,7 +111,7 @@ volatile float An_change = 1.0;
 
 //////// Controller //////////
 // populated in the SerialControl part
-uint8_t joystickX;
+volatile int joystickX;
 uint8_t joystickY;
 uint32_t loop_timer;
 uint32_t print_timer;

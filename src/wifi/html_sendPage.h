@@ -24,6 +24,12 @@ const char config_html[] PROGMEM = R"rawliteral(
   xhr.send();
   setTimeout("location.reload()", 200);
 }</script>
+<script>function returnJoy(varX) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/joy?posX="+varX.id, true);
+  xhr.send();
+  setTimeout("location.reload()", 200);
+}</script>
 </body>
 </html>
 )rawliteral";

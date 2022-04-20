@@ -16,11 +16,18 @@ void setup_AsyncWebserver(){
   webserver.on(hdlKnop, HTTP_GET, [](AsyncWebServerRequest *request) {
     String IDknopString;
     int IDknop;
+    int varX, varY;
     // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
     if (request->hasParam(PARAM_INPUT_1)) {
       IDknopString = request->getParam(PARAM_INPUT_1)->value();
       IDknop = IDknopString.toInt();
     }
+    else if (request->hasParam(PARAM_INPUT_2)) {
+      IDknopString  = request->getParam(PARAM_INPUT_2)->value();
+      joystickX = IDknopString.toInt();
+      IDknop = 0;
+    }
+
     else {
       IDknop = 0;
     }
