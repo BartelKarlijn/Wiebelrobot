@@ -66,7 +66,8 @@ AsyncWebServer webserver(80);
 DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_output = "output";   // voor de asyncwebserver
-const char* PARAM_joystick = "varX";     // voor de asyncwebserver
+const char* PARAM_joyX   = "joyX";     // voor de asyncwebserver
+const char* PARAM_joyY   = "joyY";     // voor de asyncwebserver
 
 // handles voor wifi paginas
 #define hdlUpdate     "/update"                  // Dit niet wijzigen: is voor OTA firmware 

@@ -16,16 +16,24 @@ void setup_AsyncWebserver(){
   webserver.on(hdlJoystick, HTTP_GET, [](AsyncWebServerRequest *request) {
     String IDknopString;
     // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
-    if (request->hasParam(PARAM_joystick)) {
-      IDknopString = request->getParam(PARAM_joystick)->value();
+    if (request->hasParam(PARAM_joyX)) {
+      IDknopString = request->getParam(PARAM_joyX)->value();
       joystickX = IDknopString.toInt();
     }
     else {
       joystickX = 0;
     }
-    Serial.print("joystick= ");
+    if (request->hasParam(PARAM_joyY)) {
+      IDknopString = request->getParam(PARAM_joyY)->value();
+      joystickY = IDknopString.toInt();
+    }
+    else {
+      joystickX = 0;
+    }
+    Serial.print("joystickX= ");
+    Serial.print(joystickX);
+    Serial.print("joystickY= ");
     Serial.println(joystickX);
-    Serial.println(IDknopString);
 
     request->send(200, "text/plain", "OK");
   });

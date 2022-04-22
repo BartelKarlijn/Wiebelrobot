@@ -18,11 +18,6 @@ const char config_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   %BUTTONPLACEHOLDER%
-<script>function returnJoystick(varX) {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/joy?joyX="+varX, true);
-  xhr.send();
-}</script>
 <script>function toggleCheckbox(element) {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "/knop?output="+element.id, true);

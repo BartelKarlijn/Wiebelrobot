@@ -18,5 +18,6 @@ Y :<input id="joy3Y" type="text" onchange="returnJoystick(150)" />
  var joyY = document.getElementById("joy3Y");
  setInterval(function(){ joyX.value=Joy.GetX(); }, 200);
  setInterval(function(){ joyY.value=Joy.GetY(); }, 200);
+ setInterval(function(){ var xhr = new XMLHttpRequest(); xhr.open("GET", "/joy?joyX="+joyX.value+"/joy?joyY="+joyY.value, true); xhr.send();}, 200); 
 </script>
 )rawliteral";
