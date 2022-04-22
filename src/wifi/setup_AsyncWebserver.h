@@ -30,11 +30,6 @@ void setup_AsyncWebserver(){
     else {
       joystickY = 0;
     }
-    Serial.print("joystickX= ");
-    Serial.print(joystickX);
-    Serial.print(" joystickY= ");
-    Serial.println(joystickY);
-
     request->send(200, "text/plain", "OK");
   });
 
