@@ -114,7 +114,7 @@ volatile float An_change = 1.0;
 //////// Controller //////////
 // populated in the SerialControl part
 volatile int joystickX;
-uint8_t joystickY;
+volatile int joystickY;
 uint32_t loop_timer;
 uint32_t print_timer;
 float roll, pitch, rollAcc, pitchAcc;  // mag weg, wordt vervangen door onderstaand

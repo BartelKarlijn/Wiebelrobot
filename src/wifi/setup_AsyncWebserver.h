@@ -13,9 +13,9 @@ void setup_AsyncWebserver(){
   });
 
 // Verwerk joystick
-  webserver.on(hdlJoystick, HTTP_GET, [](AsyncWebServerRequest *request) {
+  webserver.on(hdlJoystick, HTTP_PUT, [](AsyncWebServerRequest *request) {
+    // PUT request binnen gelezen
     String IDknopString;
-    // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
     if (request->hasParam(PARAM_joyX)) {
       IDknopString = request->getParam(PARAM_joyX)->value();
       joystickX = IDknopString.toInt();
@@ -28,12 +28,12 @@ void setup_AsyncWebserver(){
       joystickY = IDknopString.toInt();
     }
     else {
-      joystickX = 0;
+      joystickY = 0;
     }
     Serial.print("joystickX= ");
     Serial.print(joystickX);
-    Serial.print("joystickY= ");
-    Serial.println(joystickX);
+    Serial.print(" joystickY= ");
+    Serial.println(joystickY);
 
     request->send(200, "text/plain", "OK");
   });
