@@ -57,5 +57,4 @@
 #include <wifi/setup_AsyncWebserver.h> 
 // Wifi manager en OTA
 #include <wifi/setupwifiManager.h>
-//#include <wifi/OTA.h>
-//#include <wifi\setupOTA.h>
+

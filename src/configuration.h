@@ -64,7 +64,7 @@
 
 // speed
 #define MAX_STEPPERSPEED 20000  //16x microstepping
-#define MAX_STEPPERACCEL 1000   //16x microstepping
+#define MAX_STEPPERACCEL 10000   //16x microstepping
 
 // PID
 float BASE_Kp = 0.0;
