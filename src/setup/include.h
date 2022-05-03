@@ -12,7 +12,7 @@
 #include <WiFi.h>           //
 #include <AsyncTCP.h>       // nodig voor de ESPAyncWebserver
 #include <ESPAsyncWebServer.h>
-#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
+//#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
 #include <AsyncElegantOTA.h>
 
 //Stepper motors
@@ -56,5 +56,5 @@
 #include <wifi/buttonChange.h>       // acties die gebeuren als je op knop drukt
 #include <wifi/setup_AsyncWebserver.h> 
 // Wifi manager en OTA
-#include <wifi/setupwifiManager.h>
+//#include <wifi/setupwifiManager.h>
 

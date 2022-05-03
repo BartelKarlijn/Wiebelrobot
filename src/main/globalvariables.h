@@ -63,7 +63,7 @@ AccelStepper stepperR = AccelStepper(motorInterfaceType, motorRpinSTEP , motorRp
 //////// Wifi //////////
 // Create AsyncWebServer object on port 80
 AsyncWebServer webserver(80);
-DNSServer dnsServer;
+//DNSServer dnsServer;
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_output = "output";   // voor de asyncwebserver
 const char* PARAM_joyX   = "joyX";     // voor de asyncwebserver
