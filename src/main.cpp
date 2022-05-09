@@ -12,7 +12,6 @@
    limitations under the License.
 */
  
-#include <Arduino.h>
 #include <setup\include.h>
 
 
