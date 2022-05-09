@@ -21,8 +21,7 @@ void setup_CreateAccessPoint(){
         Serial.print(WiFi.SSID(i));
         Serial.print(" (");
         Serial.print(WiFi.RSSI(i));
-        Serial.print(")");
-        //Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
+        Serial.println(")");
         delay(10);
       }
     }
@@ -43,9 +42,9 @@ void setup_CreateAccessPoint(){
   wifi_st += "</ol>";
 
   WiFi.softAP(autoConnectAP, "");
-    //createWebServer();
+  Serial.print("Local IP: ");
+  Serial.println(WiFi.localIP());
 
-    //setupAP
   }
 
 }

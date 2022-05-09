@@ -72,13 +72,18 @@ TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_output = "output";   // voor de asyncwebserver
 const char* PARAM_joyX   = "joyX";     // voor de asyncwebserver
 const char* PARAM_joyY   = "joyY";     // voor de asyncwebserver
+const char* PARAM_ssid   = "ssid";     // voor de asyncwebserver
+const char* PARAM_pwd    = "pwd" ;     // voor de asyncwebserver
 
 // handles voor wifi paginas
-#define hdlUpdate     "/update"                  // Dit niet wijzigen: is voor OTA firmware 
 #define hdlController "/"                        // handle voor hoofdscherm.  Hier kom je standaard op terecht
+#define hdlUpdate     "/update"                  // Dit niet wijzigen: is voor OTA firmware 
 #define hdlConfig     "/configuratie"            // handle voor wiebelrobot in te stellen
 #define hdlKnop       "/knop"                    // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
-#define hdlJoystick   "/joy"                    // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
+#define hdlJoystick   "/joy"                     // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
+#define hdlWifiPWD    "/wifi"                    // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
+//#define hdlWifiScan   "/wifiscan"                // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
+#define hdlWifiSave   "/wifisave"                // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
 
 // knoppen
 const char* oms_Kp = "Kp proportioneel";

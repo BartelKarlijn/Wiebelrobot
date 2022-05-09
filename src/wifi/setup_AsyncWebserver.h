@@ -1,7 +1,32 @@
 void setup_AsyncWebserver(){
   // Voordat we de webserver starten, moet je OTA opstarten, hier zonder user/pw
   AsyncElegantOTA.begin(&webserver);
-  
+
+  // Route for Wifi Passwoord onderhoud
+  webserver.on(hdlWifiPWD, HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", config_html, html_processorWifi);
+  });
+
+  // Opvangen als wifi data bewaard worden
+  webserver.on(hdlWifiSave, HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam(PARAM_ssid)) {
+      wifi_ssid = request->getParam(PARAM_ssid)->value();
+    }
+    else {
+      wifi_ssid = "";
+    }
+    if (request->hasParam(PARAM_pwd)) {
+      wifi_pwd = request->getParam(PARAM_pwd)->value();
+    }
+    else {
+      wifi_pwd = "";
+    }
+    save_WIFIdatato_eeprom (); 
+    Serial.println("Wifi SSID and PWD saved; please reboot ESP32");
+    request->send(200, "text/plain", "OK");
+  });
+
+
   // Route for root / web page (controller)
   webserver.on(hdlController, HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send_P(200, "text/html", config_html, html_processorController);
