@@ -4,11 +4,13 @@ void setup_AsyncWebserver(){
 
   // Route for Wifi Passwoord onderhoud
   webserver.on(hdlWifiPWD, HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("Wifi config pagina");
     request->send_P(200, "text/html", config_html, html_processorWifi);
   });
 
   // Opvangen als wifi data bewaard worden
   webserver.on(hdlWifiSave, HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("Wifi parameters ontvangen.  Verwijder deze regel.");
     if (request->hasParam(PARAM_ssid)) {
       wifi_ssid = request->getParam(PARAM_ssid)->value();
     }

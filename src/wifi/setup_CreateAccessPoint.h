@@ -42,9 +42,8 @@ void setup_CreateAccessPoint(){
   wifi_st += "</ol>";
 
   WiFi.softAP(autoConnectAP, "");
-  Serial.print("Local IP: ");
-  Serial.println(WiFi.localIP());
-
+  Serial.println("Local IP: http://192.168.4.1/");
+  
   }
 
 }
