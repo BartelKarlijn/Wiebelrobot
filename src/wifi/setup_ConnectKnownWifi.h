@@ -19,13 +19,5 @@ void setup_ConnectKnownWifi(){
       Serial.print(".");
     }
   }
-  // Als nog altijd geen connectie, AccessPoint opzetten
-  if ((WiFi.status() != WL_CONNECTED)) {
-    Serial.println("Not connected to wifi; setup up Accespoint");
-    //createWebServer();
-
-    //setupAP
-  }
-
-
+  
 }

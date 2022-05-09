@@ -66,6 +66,7 @@ AsyncWebServer webserver(80);
 //DNSServer dnsServer;    //Even afgezet want voor eigen AP wellicht niet nodig
 String wifi_ssid ;
 String wifi_pwd  ;
+String wifi_st;
 
 TaskHandle_t Task1;    //Taskhandle om wifi op 2e cpu te draaien
 const char* PARAM_output = "output";   // voor de asyncwebserver
