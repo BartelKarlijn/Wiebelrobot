@@ -21,7 +21,9 @@ void setup() {
   setupSerial();          // Serial communicatie opzetten
   setupIntledStart();     // Intern LED lampje
   setup_steppers();       // Motors afzetten
+  get_datafrom_eeprom (); // parameters uit eeprom halen (oa ssid/pw en PID)
 //  setupwifiManager();     // Autoconfiguratie als nieuwe wifi
+  setup_OwnWifiManager();
   setup_AsyncWebserver(); // webserver om html te tonen 
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();  // als je MPU wil callibreren
@@ -30,7 +32,6 @@ void setup() {
   #endif
 
   loop_timer = micros() + PERIOD;
-  get_datafrom_eeprom ();
   setupIntledAllOK();
 }
 

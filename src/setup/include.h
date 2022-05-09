@@ -12,7 +12,6 @@
 #include <WiFi.h>           //
 #include <AsyncTCP.h>       // nodig voor de ESPAyncWebserver
 #include <ESPAsyncWebServer.h>
-#include <wifi\setup_OwnWifiManager.h>
 //#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
 #include <AsyncElegantOTA.h>
 
@@ -56,6 +55,7 @@
 #include <wifi/html_processor.h>     // vervangt placeholder in sendPage
 #include <wifi/buttonChange.h>       // acties die gebeuren als je op knop drukt
 #include <wifi/setup_AsyncWebserver.h> 
+#include <wifi\setup_OwnWifiManager.h>
 // Wifi manager en OTA
 //#include <wifi/setupwifiManager.h>
 

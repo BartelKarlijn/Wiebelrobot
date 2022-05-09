@@ -23,8 +23,14 @@ void get_datafrom_eeprom () {
   float Angle_eeprom = pref_eeprom.getFloat("Angle_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Angle = ");
   Serial.println(Angle_eeprom);
-
+  String ssid_eeprom = pref_eeprom.getString("ssid_eeprom","");
+  Serial.print("Uit eprom uitgelezen waarde voor SSID = ");
+  Serial.println(ssid_eeprom);
+  String pwd_eeprom = pref_eeprom.getString("pwd_eeprom","");
+  Serial.print("Uit eprom uitgelezen waarde voor PWD = ");
+  Serial.println(pwd_eeprom);
   
+
   // geen data van eeprom: neem uit code
   if(Kp_eeprom ==0) { Kp = BASE_Kp;   }
   else              { Kp = Kp_eeprom; }
@@ -36,11 +42,18 @@ void get_datafrom_eeprom () {
   else              { selfBalanceAngleSetpoint = Angle_eeprom; }
 }
 
-void save_datato_eeprom () {
+void save_PIDdatato_eeprom () {
   pref_eeprom.putFloat("Kp_eeprom", Kp);
   pref_eeprom.putFloat("Ki_eeprom", Ki);
   pref_eeprom.putFloat("Kd_eeprom", Kd);
   pref_eeprom.putFloat("Angle_eeprom", selfBalanceAngleSetpoint);
 
-  Serial.println("Data opgeslagen");
+  Serial.println("PID data saved");
+}
+
+void save_WIFIdatato_eeprom () {
+  pref_eeprom.putString("ssid_eeprom", wifi_ssid);
+  pref_eeprom.putString("pwd_eeprom" , wifi_pwd);
+
+  Serial.println("Wifi data saved");
 }

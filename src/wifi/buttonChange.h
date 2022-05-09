@@ -18,7 +18,7 @@ float  buttonChangeUp(float var, float var_Change, String Change_Oms) {
 }
 
 void buttonChangeSavePID() {
-  save_datato_eeprom ();  
+  save_PIDdatato_eeprom ();  
   resetPID();
   Serial.println("Paramters stored to eeprom");
 }
