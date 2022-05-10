@@ -15,14 +15,19 @@ void setup_AsyncWebserver(){
       wifi_ssid = request->getParam(PARAM_ssid)->value();
     }
     else {
-      wifi_ssid = "";
+      wifi_ssid = "X";
     }
     if (request->hasParam(PARAM_pwd)) {
       wifi_pwd = request->getParam(PARAM_pwd)->value();
     }
     else {
-      wifi_pwd = "";
+      wifi_pwd = "X";
     }
+    Serial.print("ssid ");
+    Serial.println(wifi_ssid);
+    Serial.print("pwd ");
+    Serial.println(wifi_pwd);
+    
     save_WIFIdatato_eeprom (); 
     Serial.println("Wifi SSID and PWD saved; please reboot ESP32");
     request->send_P(200, "text/html", config_html, html_processorWifi);

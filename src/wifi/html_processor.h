@@ -42,7 +42,8 @@ String html_processorWifi(const String& var){
     buttons += "<h1>Wifi instellen</h1>";
 //    buttons += "<form action=\"/scan\" method=\"POST\"><input type=\"submit\" value=\"scan\"></form>";
     buttons += wifi_st;
-    buttons += "</p><form method='get' action='wifisave'><label>SSID: </label><input name='ssid' length=32><input name='pass' length=64><input type='submit'></form>";
+    buttons += "</p><form method='get' action='wifisave'><label>SSID: </label><input name='ssid' length=32><input name='pwd' length=64><input type='submit'></form>";
+    buttons += html_buttonSimple(id_Restart, "/!\\", oms_Restart);
     buttons += html_buttonLink("naar Configuratie", hdlConfig);
     return buttons;
   }
