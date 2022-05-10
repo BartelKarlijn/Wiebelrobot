@@ -10,7 +10,7 @@ void setup_AsyncWebserver(){
 
   // Opvangen als wifi data bewaard worden
   webserver.on(hdlWifiSave, HTTP_GET, [](AsyncWebServerRequest *request) {
-    Serial.println("Wifi parameters ontvangen.  Verwijder deze regel.");
+    Serial.println("Wifi connection parameters");
     if (request->hasParam(PARAM_ssid)) {
       wifi_ssid = request->getParam(PARAM_ssid)->value();
     }
@@ -25,7 +25,7 @@ void setup_AsyncWebserver(){
     }
     save_WIFIdatato_eeprom (); 
     Serial.println("Wifi SSID and PWD saved; please reboot ESP32");
-    request->send(200, "text/plain", "OK");
+    request->send_P(200, "text/html", config_html, html_processorWifi);
   });
 
 

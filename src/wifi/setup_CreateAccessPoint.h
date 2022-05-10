@@ -2,6 +2,7 @@ void setup_CreateAccessPoint(){
   // Als nog altijd geen connectie, AccessPoint opzetten
   if ((WiFi.status() != WL_CONNECTED)) {
     Serial.println("Not connected to wifi; setup up Accespoint");
+    Serial.println("Scanning Networks");
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
     delay(100);
