@@ -28,19 +28,19 @@ void setup_CreateAccessPoint(){
     }
   Serial.println("");    
 
-  wifi_st = "<ol>";
+  wifi_scan = "<ol>";
   for (int i = 0; i < n; ++i)
   {
     // Print SSID and RSSI for each network found
-    wifi_st += "<li>";
-    wifi_st += WiFi.SSID(i);
-    wifi_st += " (";
-    wifi_st += WiFi.RSSI(i);
-    wifi_st += ")";
+    wifi_scan += "<li>";
+    wifi_scan += WiFi.SSID(i);
+    wifi_scan += " (";
+    wifi_scan += WiFi.RSSI(i);
+    wifi_scan += ")";
     //st += (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*";
-    wifi_st += "</li>";
+    wifi_scan += "</li>";
   }
-  wifi_st += "</ol>";
+  wifi_scan += "</ol>";
 
   WiFi.softAP(autoConnectAP, "");
   Serial.println("Local IP: http://192.168.4.1/");
