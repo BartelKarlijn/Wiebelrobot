@@ -60,10 +60,10 @@ void loop() {
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
 
-  stepperL.setSpeed(joystickY*100);
+  stepperL.setSpeed(Kp*100);
   stepperL.runSpeed();
 
-  stepperR.setSpeed(joystickX*100);
+  stepperR.setSpeed(Ki*100);
   stepperR.runSpeed();
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
