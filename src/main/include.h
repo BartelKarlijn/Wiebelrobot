@@ -30,8 +30,8 @@
 #include <main/print.h>
 #include <main/save_eprom.h>
 #include <main/resetPID.h>
-#include <setup/setupSerial.h>
-#include <setup/setupIntled.h>
+#include <main/setupSerial.h>
+#include <main/setupIntled.h>
 #include <main/printPIDparams.h>
 #include <main/constr.h>
 

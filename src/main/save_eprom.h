@@ -13,22 +13,22 @@ void get_datafrom_eeprom () {
   // Note: Key name is limited to 15 chars.
   float Kp_eeprom = pref_eeprom.getFloat("Kp_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kp = ");
-  Println(String(Kp_eeprom));
+  Serial.println(Kp_eeprom);
   float Ki_eeprom = pref_eeprom.getFloat("Ki_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Ki = ");
-  Println(String(Ki_eeprom));
+  Serial.println(Ki_eeprom);
   float Kd_eeprom = pref_eeprom.getFloat("Kd_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kd = ");
-  Println(String(Kd_eeprom));
+  Serial.println(Kd_eeprom);
   float Angle_eeprom = pref_eeprom.getFloat("Angle_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Angle = ");
-  Println(String(Angle_eeprom));
+  Serial.println(Angle_eeprom);
   wifi_ssid = pref_eeprom.getString("ssid_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor SSID = ");
-  Println(wifi_ssid);
+  Serial.println(wifi_ssid);
   wifi_pwd = pref_eeprom.getString("pwd_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor PWD = ");
-  Println("*****");
+  Serial.println("*****");
   
   // geen data van eeprom: neem uit code
   if(Kp_eeprom ==0) { Kp = BASE_Kp;   }

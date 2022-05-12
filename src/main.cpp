@@ -12,7 +12,7 @@
    limitations under the License.
 */
  
-#include <setup\include.h>
+#include <main\include.h>
 
 
 //////// MAIN //////////
