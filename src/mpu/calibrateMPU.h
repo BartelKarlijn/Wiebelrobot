@@ -50,7 +50,7 @@ void meansensors()
     Serial.print("\t");
     Serial.print(mean_gyroY);
     Serial.print("\t");
-    Serial.println(mean_gyroZ);
+    Println(mean_gyroZ);
 }
 
 bool calibration()
@@ -75,7 +75,7 @@ bool calibration()
         mpu.setZGyroOffset(gyroZ_offset + gyroZ_offsetinit);
 
         meansensors();
-        Serial.println("...");
+        Println("...");
 
         if (abs(mean_accX) <= acel_deadzone)
             ready++;
@@ -127,10 +127,10 @@ bool calibration()
         Serial.print("\t");
         Serial.print(gyroY_offset + gyroY_offsetinit);
         Serial.print("\t");
-        Serial.println(gyroZ_offset + gyroZ_offsetinit);
+        Println(gyroZ_offset + gyroZ_offsetinit);
         loopcount = loopcount + 1;
         Serial.print("Loop Cnt: ");
-        Serial.println(loopcount);
+        Println(loopcount);
         if (loopcount == maxloopCount)
         {
             return false;
@@ -146,16 +146,16 @@ void calibrateMPUsetup()
     Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
 
     // initialize device
-    Serial.println(F("Initializing I2C devices..."));
+    Println(F("Initializing I2C devices..."));
     mpu.initialize();
 
     // start message
-    Serial.println("\nMPU6050 Calibration Sketch");
+    Println("\nMPU6050 Calibration Sketch");
     delay(2000);
-    Serial.println("\nYour MPU6050 should be placed in horizontal position, with package letters facing up. \nDon't touch it until you see a finish message.\n");
+    Println("\nYour MPU6050 should be placed in horizontal position, with package letters facing up. \nDon't touch it until you see a finish message.\n");
     delay(3000);
     // verify connection
-    Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+    Println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
     delay(1000);
 
     // reset offsets
@@ -185,29 +185,29 @@ void calibrateMPUloop() {
 
     if (state_calibration == 0)
     {
-        Serial.println("\nReading sensors for first time...");
+        Println("\nReading sensors for first time...");
         meansensors();
-        //if (abs( mean_accX)>=32000){ax_initoffset=- mean_accX;Serial.println("\nRemove X-axis deadlock...");}
-        //if (abs( mean_accY)>=32000){ay_initoffset=- mean_accY;Serial.println("\nRemove Y-axis deadlock...");}
-        //if ( mean_accZ<-32000){az_initoffset=- mean_accZ;Serial.println("\nRemove Z-axis deadlock...");}
-        //if (abs(mean_gyroX)>=32000){gx_initoffset=-mean_gyroX;Serial.println("\nRemove Gyro X-axis deadlock...");}
-        //if (abs(mean_gyroY)>=32000){gy_initoffset=-mean_gy;Serial.println("\nRemove Gyro Y-axis deadlock...");}
-        //if (mean_gyroZ<-32000){gz_initoffset=-mean_gyroZ;Serial.println("\nRemove Gyro Z-axis deadlock...");}
+        //if (abs( mean_accX)>=32000){ax_initoffset=- mean_accX;Println("\nRemove X-axis deadlock...");}
+        //if (abs( mean_accY)>=32000){ay_initoffset=- mean_accY;Println("\nRemove Y-axis deadlock...");}
+        //if ( mean_accZ<-32000){az_initoffset=- mean_accZ;Println("\nRemove Z-axis deadlock...");}
+        //if (abs(mean_gyroX)>=32000){gx_initoffset=-mean_gyroX;Println("\nRemove Gyro X-axis deadlock...");}
+        //if (abs(mean_gyroY)>=32000){gy_initoffset=-mean_gy;Println("\nRemove Gyro Y-axis deadlock...");}
+        //if (mean_gyroZ<-32000){gz_initoffset=-mean_gyroZ;Println("\nRemove Gyro Z-axis deadlock...");}
         state_calibration++;
         delay(1000);
     }
 
     if (state_calibration == 1)
     {
-        Serial.println("\nCalculating offsets...");
+        Println("\nCalculating offsets...");
         CalibResult = calibration();
         if (CalibResult)
         {
-            Serial.println("\nCalibration successful!");
+            Println("\nCalibration successful!");
         }
         else
         {
-            Serial.println("\nCalibration failed!");
+            Println("\nCalibration failed!");
         }
         state_calibration++;
         delay(1000);
@@ -217,7 +217,7 @@ void calibrateMPUloop() {
     {
         meansensors();
 
-        Serial.println("\nFINISHED!");
+        Println("\nFINISHED!");
         Serial.print("\nSensor readings with offsets:\t");
         Serial.print(mean_accX);
         Serial.print("\t");
@@ -229,7 +229,7 @@ void calibrateMPUloop() {
         Serial.print("\t");
         Serial.print(mean_gyroY);
         Serial.print("\t");
-        Serial.println(mean_gyroZ);
+        Println(mean_gyroZ);
         Serial.print("Your offsets:\t");
         Serial.print(accX_offset + accX_offsetinit);
         Serial.print("\t");
@@ -242,9 +242,9 @@ void calibrateMPUloop() {
         Serial.print(gyroY_offset + gyroY_offsetinit);
         Serial.print("\t");
         Serial.print(gyroZ_offset + gyroZ_offsetinit);
-        Serial.println("\nData is printed as: acelX acelY acelZ giroX giroY giroZ");
-        Serial.println("Check that your sensor readings are close to 0 0 16384 0 0 0");
-        Serial.println("If calibration was succesful write down your offsets so you can set them in your projects using something similar to mpu.setXAccelOffset(youroffset)");
+        Println("\nData is printed as: acelX acelY acelZ giroX giroY giroZ");
+        Println("Check that your sensor readings are close to 0 0 16384 0 0 0");
+        Println("If calibration was succesful write down your offsets so you can set them in your projects using something similar to mpu.setXAccelOffset(youroffset)");
 
         state_calibration++;
 

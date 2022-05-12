@@ -1,12 +1,12 @@
 void i2cscan_setup() {
   Wire.begin();
-  Serial.println("\nI2C Scanner");
+  Println("\nI2C Scanner");
 }
  
 void i2cscan() {
   byte error, address;
   int nDevices;
-  Serial.println("Scanning...");
+  Println("Scanning...");
   nDevices = 0;
   for(address = 1; address < 127; address++ ) {
     Wire.beginTransmission(address);
@@ -16,7 +16,7 @@ void i2cscan() {
       if (address<16) {
         Serial.print("0");
       }
-      Serial.println(address,HEX);
+      Println(address,HEX);
       nDevices++;
     }
     else if (error==4) {
@@ -24,14 +24,14 @@ void i2cscan() {
       if (address<16) {
         Serial.print("0");
       }
-      Serial.println(address,HEX);
+      Println(address,HEX);
     }    
   }
   if (nDevices == 0) {
-    Serial.println("No I2C devices found\n");
+    Println("No I2C devices found\n");
   }
   else {
-    Serial.println("done\n");
+    Println("done\n");
   }
   delay(5000);          
 }

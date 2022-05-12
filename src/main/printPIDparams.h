@@ -14,12 +14,12 @@ void printPIDparams () {
     Serial.print(" Output: ");
     Serial.print(pidOutput);
     Serial.print(" /max ");
-    Serial.println(MAX_PID_OUTPUT);
+    Println(String(MAX_PID_OUTPUT));
 
     loop_duration = (micros() - loop_timer) / PrintPIDloopCounter ;
     loop_timer = micros();
     Serial.print("loop duration in us: ");
-    Serial.println(loop_duration); 
+    Println(String(loop_duration)); 
 
     PrintPIDloopCounter = 0;
   }

@@ -56,7 +56,7 @@ void loop() {
 
 // zorgen dat we vaste loop lengte hebben
 //  delay(10);
-//  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
+//  if (loop_timer <= micros()) Println("ERROR loop too short !");
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
 

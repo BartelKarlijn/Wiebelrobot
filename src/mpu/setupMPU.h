@@ -17,16 +17,16 @@ void setupMPU() {
   Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
 
   // initialize device
-  Serial.println(F("Initializing I2C devices..."));
+  Println(F("Initializing I2C devices..."));
   mpu.initialize();
 
   // verify connection
-  Serial.println(F("Testing device connections..."));
-  Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+  Println(F("Testing device connections..."));
+  Println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
   delay(1000);
 
   // load and configure the DMP
-  Serial.println(F("Initializing DMP..."));
+  Println(F("Initializing DMP..."));
   delay(500);
   devStatus = mpu.dmpInitialize();
 
@@ -43,14 +43,14 @@ void setupMPU() {
     // Calibration Time: generate offsets and calibrate our MPU6050
     mpu.CalibrateAccel(6);
     mpu.CalibrateGyro(6);
-    Serial.println();
+    Println("");
     mpu.PrintActiveOffsets();
     // turn on the DMP, now that it's ready
-    Serial.println(F("Enabling DMP..."));
+    Println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it
-    Serial.println(F("DMP ready! Waiting to be used..."));
+    Println(F("DMP ready! Waiting to be used..."));
     dmpReady = true;
    
     // get expected DMP packet size for later comparison
@@ -64,6 +64,6 @@ void setupMPU() {
     // (if it's going to break, usually the code will be 1)
     Serial.print(F("DMP Initialization failed (code "));
     Serial.print(devStatus);
-    Serial.println(F(")"));
+    Println(F(")"));
   }
 }

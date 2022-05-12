@@ -19,5 +19,5 @@ void setupIntledAllOK() {
   if ( not startupError ) {
     digitalWrite(ledpin, HIGH);
   }
-  Serial.println("Alles opgestart");
+  Println("Alles opgestart");
 }

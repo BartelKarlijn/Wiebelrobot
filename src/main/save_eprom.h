@@ -13,22 +13,22 @@ void get_datafrom_eeprom () {
   // Note: Key name is limited to 15 chars.
   float Kp_eeprom = pref_eeprom.getFloat("Kp_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kp = ");
-  Serial.println(Kp_eeprom);
+  Println(String(Kp_eeprom));
   float Ki_eeprom = pref_eeprom.getFloat("Ki_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Ki = ");
-  Serial.println(Ki_eeprom);
+  Println(String(Ki_eeprom));
   float Kd_eeprom = pref_eeprom.getFloat("Kd_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Kd = ");
-  Serial.println(Kd_eeprom);
+  Println(String(Kd_eeprom));
   float Angle_eeprom = pref_eeprom.getFloat("Angle_eeprom", 0);
   Serial.print("Uit eprom uitgelezen waarde voor Angle = ");
-  Serial.println(Angle_eeprom);
+  Println(String(Angle_eeprom));
   wifi_ssid = pref_eeprom.getString("ssid_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor SSID = ");
-  Serial.println(wifi_ssid);
+  Println(wifi_ssid);
   wifi_pwd = pref_eeprom.getString("pwd_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor PWD = ");
-  Serial.println("*****");
+  Println("*****");
   
   // geen data van eeprom: neem uit code
   if(Kp_eeprom ==0) { Kp = BASE_Kp;   }
@@ -48,21 +48,21 @@ void save_PIDdatato_eeprom () {
   pref_eeprom.putFloat("Kd_eeprom", Kd);
   pref_eeprom.putFloat("Angle_eeprom", selfBalanceAngleSetpoint);
 
-  Serial.println("PID data saved");
+  Println("PID data saved");
 }
 
 void save_WIFIdatato_eeprom () {
   pref_eeprom.putString("ssid_eeprom", wifi_ssid);
   pref_eeprom.putString("pwd_eeprom" , wifi_pwd);
 
-  Serial.println("Wifi data saved");
+  Println("Wifi data saved");
 
   delay(1000);
-  Serial.println("nog eens uitlezeen");
+  Println("nog eens uitlezeen");
   String ssid_eeprom = pref_eeprom.getString("ssid_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor SSID = ");
-  Serial.println(ssid_eeprom);
+  Println(ssid_eeprom);
   String pwd_eeprom = pref_eeprom.getString("pwd_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor PWD = ");
-  Serial.println(pwd_eeprom);
+  Println(pwd_eeprom);
 }

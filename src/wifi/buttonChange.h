@@ -4,7 +4,7 @@ float buttonChangeStep(float var_Change, String Change_Oms) {
   Serial.print("Changing ");
   Serial.print(Change_Oms);
   Serial.print(", new value ");
-  Serial.println(var_Change);
+  Println(String(var_Change));
   return var_Change;
 }
 
@@ -13,19 +13,19 @@ float  buttonChangeUp(float var, float var_Change, String Change_Oms) {
   Serial.print("Changing ");
   Serial.print(Change_Oms);
   Serial.print(", new value ");
-  Serial.println(var);
+  Println(String(var));
   return var;
 }
 
 void buttonChangeSavePID() {
   save_PIDdatato_eeprom ();  
   resetPID();
-  Serial.println("Paramters stored to eeprom");
+  Println("Paramters stored to eeprom");
 }
 
 void buttonChangeRestart() {
   digitalWrite(ledpin, LOW);
-  Serial.println("Restarting ESP");
+  Println("Restarting ESP");
   setSpeed(0,0);
   delay(100);
   ESP.restart();
