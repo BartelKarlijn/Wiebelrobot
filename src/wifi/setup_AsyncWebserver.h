@@ -2,6 +2,9 @@ void setup_AsyncWebserver(){
   // Voordat we de webserver starten, moet je OTA opstarten, hier zonder user/pw
   AsyncElegantOTA.begin(&webserver);
 
+  // Analoog gaan we de WebSerial opstarten, zodat je kan zien wat er gebeurt
+  WebSerial.begin(&webserver);
+
   // Route for Wifi Passwoord onderhoud
   webserver.on(hdlWifiPWD, HTTP_GET, [](AsyncWebServerRequest *request) {
     Serial.println("Wifi config pagina");

@@ -14,6 +14,7 @@
 #include <ESPAsyncWebServer.h>
 //#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
 #include <AsyncElegantOTA.h>
+#include <WebSerial.h>
 
 //Stepper motors
 #include <AccelStepper.h>
