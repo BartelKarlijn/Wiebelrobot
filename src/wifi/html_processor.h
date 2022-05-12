@@ -15,7 +15,7 @@ String html_processorConfig(const String& var){
     
     buttons += html_buttonLink("Terug naar Controller", hdlController);
     buttons += html_buttonLink("Wifi Management", hdlWifiPWD);
-    buttons += html_buttonLink("Wifi Management", hdlWebSerial);
+    buttons += html_buttonLink("WebSerial", hdlWebSerial);
     buttons += html_buttonLink("Firmware update", hdlUpdate);
     
     return buttons;

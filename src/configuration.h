@@ -1,5 +1,11 @@
 // Configuration file
 
+///////////////// Serial  ///////////////////////////
+// Een, beide of geen enkele van de 2 onderstaande opties kunnen gebruikt worden
+#define PrintWebserial   //om Serial via webpagina ipadres/webserial te volgen
+#define PrintSerial      //om Serial via serial connectie te volgen
+
+
 ///////////////// I2C  //////////////////////////////
 
 // Used default I2C pins
