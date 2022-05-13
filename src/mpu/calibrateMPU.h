@@ -39,17 +39,17 @@ void meansensors()
         delay(2); //Needed so we don't get repeated measures
     }
 
-    Serial.print("Results of measurements a/g:\t");
-    Serial.print(mean_accX);
-    Serial.print("\t");
-    Serial.print(mean_accY);
-    Serial.print("\t");
-    Serial.print(mean_accZ);
-    Serial.print("\t");
-    Serial.print(mean_gyroX);
-    Serial.print("\t");
-    Serial.print(mean_gyroY);
-    Serial.print("\t");
+    Print("Results of measurements a/g:\t");
+    Print(mean_accX);
+    Print("\t");
+    Print(mean_accY);
+    Print("\t");
+    Print(mean_accZ);
+    Print("\t");
+    Print(mean_gyroX);
+    Print("\t");
+    Print(mean_gyroY);
+    Print("\t");
     Println(mean_gyroZ);
 }
 
@@ -116,20 +116,20 @@ bool calibration()
             break;
         }
 
-        Serial.print("Resulting offset calibration value a/g:\t");
-        Serial.print(accX_offset + accX_offsetinit);
-        Serial.print("\t");
-        Serial.print(accY_offset + accY_offsetinit);
-        Serial.print("\t");
-        Serial.print(accZ_offset + accZ_offsetinit);
-        Serial.print("\t");
-        Serial.print(gyroX_offset + gyroX_offsetinit);
-        Serial.print("\t");
-        Serial.print(gyroY_offset + gyroY_offsetinit);
-        Serial.print("\t");
+        Print("Resulting offset calibration value a/g:\t");
+        Print(accX_offset + accX_offsetinit);
+        Print("\t");
+        Print(accY_offset + accY_offsetinit);
+        Print("\t");
+        Print(accZ_offset + accZ_offsetinit);
+        Print("\t");
+        Print(gyroX_offset + gyroX_offsetinit);
+        Print("\t");
+        Print(gyroY_offset + gyroY_offsetinit);
+        Print("\t");
         Println(gyroZ_offset + gyroZ_offsetinit);
         loopcount = loopcount + 1;
-        Serial.print("Loop Cnt: ");
+        Print("Loop Cnt: ");
         Println(loopcount);
         if (loopcount == maxloopCount)
         {
@@ -218,30 +218,30 @@ void calibrateMPUloop() {
         meansensors();
 
         Println("\nFINISHED!");
-        Serial.print("\nSensor readings with offsets:\t");
-        Serial.print(mean_accX);
-        Serial.print("\t");
-        Serial.print(mean_accY);
-        Serial.print("\t");
-        Serial.print(mean_accZ);
-        Serial.print("\t");
-        Serial.print(mean_gyroX);
-        Serial.print("\t");
-        Serial.print(mean_gyroY);
-        Serial.print("\t");
+        Print("\nSensor readings with offsets:\t");
+        Print(mean_accX);
+        Print("\t");
+        Print(mean_accY);
+        Print("\t");
+        Print(mean_accZ);
+        Print("\t");
+        Print(mean_gyroX);
+        Print("\t");
+        Print(mean_gyroY);
+        Print("\t");
         Println(mean_gyroZ);
-        Serial.print("Your offsets:\t");
-        Serial.print(accX_offset + accX_offsetinit);
-        Serial.print("\t");
-        Serial.print(accY_offset + accY_offsetinit);
-        Serial.print("\t");
-        Serial.print(accZ_offset + accZ_offsetinit);
-        Serial.print("\t");
-        Serial.print(gyroX_offset + gyroX_offsetinit);
-        Serial.print("\t");
-        Serial.print(gyroY_offset + gyroY_offsetinit);
-        Serial.print("\t");
-        Serial.print(gyroZ_offset + gyroZ_offsetinit);
+        Print("Your offsets:\t");
+        Print(accX_offset + accX_offsetinit);
+        Print("\t");
+        Print(accY_offset + accY_offsetinit);
+        Print("\t");
+        Print(accZ_offset + accZ_offsetinit);
+        Print("\t");
+        Print(gyroX_offset + gyroX_offsetinit);
+        Print("\t");
+        Print(gyroY_offset + gyroY_offsetinit);
+        Print("\t");
+        Print(gyroZ_offset + gyroZ_offsetinit);
         Println("\nData is printed as: acelX acelY acelZ giroX giroY giroZ");
         Println("Check that your sensor readings are close to 0 0 16384 0 0 0");
         Println("If calibration was succesful write down your offsets so you can set them in your projects using something similar to mpu.setXAccelOffset(youroffset)");

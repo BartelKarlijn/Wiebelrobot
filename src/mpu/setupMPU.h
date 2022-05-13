@@ -62,8 +62,8 @@ void setupMPU() {
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
     // (if it's going to break, usually the code will be 1)
-    Serial.print(F("DMP Initialization failed (code "));
-    Serial.print(devStatus);
+    Print(F("DMP Initialization failed (code "));
+    Print(String(devStatus));
     Serial.println(F(")"));
   }
 }

@@ -12,17 +12,17 @@ void i2cscan() {
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
     if (error == 0) {
-      Serial.print("I2C device found at address 0x");
+      Print("I2C device found at address 0x");
       if (address<16) {
-        Serial.print("0");
+        Print("0");
       }
       Println(address,HEX);
       nDevices++;
     }
     else if (error==4) {
-      Serial.print("Unknow error at address 0x");
+      Print("Unknow error at address 0x");
       if (address<16) {
-        Serial.print("0");
+        Print("0");
       }
       Println(address,HEX);
     }    

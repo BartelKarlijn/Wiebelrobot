@@ -60,7 +60,7 @@ void save_WIFIdatato_eeprom () {
   delay(1000);
   Println("nog eens uitlezeen");
   String ssid_eeprom = pref_eeprom.getString("ssid_eeprom","");
-  Serial.print("Uit eprom uitgelezen waarde voor SSID = ");
+  Print("Uit eprom uitgelezen waarde voor SSID = ");
   Println(ssid_eeprom);
   String pwd_eeprom = pref_eeprom.getString("pwd_eeprom","");
   Serial.print("Uit eprom uitgelezen waarde voor PWD = ");

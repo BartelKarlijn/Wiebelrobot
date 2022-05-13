@@ -3,22 +3,22 @@ void printPIDparams () {
   PrintPIDloopCounter += 1;
 
   if (PrintPIDloopCounter >= PrintPIDLoops) {
-    Serial.print(" AngleY ");
-    Serial.print(currentAngle);
-    Serial.print(" PID: ");
-    Serial.print(pidError);
-    Serial.print(" ");
-    Serial.print(integralErr);
-    Serial.print(" ");
-    Serial.print(errorDerivative);
-    Serial.print(" Output: ");
-    Serial.print(pidOutput);
-    Serial.print(" /max ");
+    Print(" AngleY ");
+    Print(String(currentAngle));
+    Print(" PID: ");
+    Print(String(pidError));
+    Print(" ");
+    Print(String(integralErr));
+    Print(" ");
+    Print(String(errorDerivative));
+    Print(" Output: ");
+    Print(String(pidOutput));
+    Print(" /max ");
     Println(String(MAX_PID_OUTPUT));
 
     loop_duration = (micros() - loop_timer) / PrintPIDloopCounter ;
     loop_timer = micros();
-    Serial.print("loop duration in us: ");
+    Print("loop duration in us: ");
     Println(String(loop_duration)); 
 
     PrintPIDloopCounter = 0;

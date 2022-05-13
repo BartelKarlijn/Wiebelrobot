@@ -26,9 +26,9 @@ void setup_AsyncWebserver(){
     else {
       wifi_pwd = "X";
     }
-    Serial.print("ssid ");
+    Print("ssid ");
     Serial.println(wifi_ssid);
-    Serial.print("pwd ");
+    Print("pwd ");
     Serial.println(wifi_pwd);
     
     save_WIFIdatato_eeprom (); 
@@ -81,7 +81,7 @@ void setup_AsyncWebserver(){
       IDknop = 0;
     }
 
-    Serial.print("knop= ");
+    Print("knop= ");
     Serial.println(IDknop);
     switch (IDknop) {
     //Kp
