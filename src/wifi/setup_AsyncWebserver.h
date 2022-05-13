@@ -98,10 +98,10 @@ void setup_AsyncWebserver(){
       break;
     //Ki
     case id_Kido:
-      Ki = buttonChangeUp(Ki, -Kp_change, "Ki");
+      Ki = buttonChangeUp(Ki, -Ki_change, "Ki");
       break;
     case id_Kiup:
-      Ki = buttonChangeUp(Ki, +Kp_change, "Ki");
+      Ki = buttonChangeUp(Ki, +Ki_change, "Ki");
       break;
     case id_Kira:
       Ki_change = buttonChangeStep(Ki_change, "Ki step");
