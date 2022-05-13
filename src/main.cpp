@@ -29,7 +29,7 @@ void setup() {
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();  // als je MPU wil callibreren
   #else
-    setupMPU();           // MPU en de DMP opstarten
+//    setupMPU();           // MPU en de DMP opstarten
   #endif
 
   loop_timer = micros() + PERIOD;
