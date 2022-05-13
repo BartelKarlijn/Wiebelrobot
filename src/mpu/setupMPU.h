@@ -64,6 +64,6 @@ void setupMPU() {
     // (if it's going to break, usually the code will be 1)
     Print(F("DMP Initialization failed (code "));
     Print(String(devStatus));
-    Serial.println(F(")"));
+    Println(F(")"));
   }
 }

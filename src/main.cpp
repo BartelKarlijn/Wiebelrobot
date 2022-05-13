@@ -28,7 +28,7 @@ void setup() {
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();  // als je MPU wil callibreren
   #else
-//    setupMPU();           // MPU en de DMP opstarten
+    setupMPU();           // MPU en de DMP opstarten
   #endif
 
   loop_timer = micros() + PERIOD;
@@ -39,7 +39,7 @@ void loop() {
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
-//    loopMPU();
+    loopMPU();
   #endif
 
   // apply PID algo
