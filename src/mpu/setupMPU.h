@@ -26,7 +26,7 @@ void setupMPU() {
   delay(1000);
 
   // load and configure the DMP
-  Serial.println(F("Initializing DMP..."));
+  Println(F("Initializing DMP..."));
   delay(500);
   devStatus = mpu.dmpInitialize();
 
@@ -46,11 +46,11 @@ void setupMPU() {
     Serial.println();
     mpu.PrintActiveOffsets();
     // turn on the DMP, now that it's ready
-    Serial.println(F("Enabling DMP..."));
+    Println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it
-    Serial.println(F("DMP ready! Waiting to be used..."));
+    Println(F("DMP ready! Waiting to be used..."));
     dmpReady = true;
    
     // get expected DMP packet size for later comparison
