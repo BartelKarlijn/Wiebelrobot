@@ -89,9 +89,3 @@ volatile float angleSetpoint = 0;  //rechtop staan.
 ///////////////// wifi  //////////////////////////////
 // Hieronder mag allemaal weg als we  geen wifimnanager gebruiken
 #define autoConnectAP "WiebelRobot"    //ssid access point voor als je niet aan wifi geraakt
-//#define autoConnectName "WiebelRobot"      //naam op het wifi netwerk, als het werkt
-//#define autoConnectIP IPAddress(192,168,1,1)     // ip adress
-//#define autoConnectGW IPAddress(192,168,1,1)     // gateway
-//#define autoConnectSN IPAddress(255,255,255,0)   // subnet
-//
-//#define autoConnectReset false                   // om alle gegevens van autoconnect te herzeten
