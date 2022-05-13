@@ -7,13 +7,15 @@ void setup_AsyncWebserver(){
 
   // Route for Wifi Passwoord onderhoud
   webserver.on(hdlWifiPWD, HTTP_GET, [](AsyncWebServerRequest *request) {
-    Serial.println("Wifi config pagina");
+    Print("Wifi config pagina");
     request->send_P(200, "text/html", config_html, html_processorWifi);
+    Print("webserver running on core ");
+    Println(String(xPortGetCoreID()));
   });
 
   // Opvangen als wifi data bewaard worden
   webserver.on(hdlWifiSave, HTTP_GET, [](AsyncWebServerRequest *request) {
-    Serial.println("Wifi connection parameters");
+    Println("Wifi connection parameters");
     if (request->hasParam(PARAM_ssid)) {
       wifi_ssid = request->getParam(PARAM_ssid)->value();
     }
@@ -27,12 +29,12 @@ void setup_AsyncWebserver(){
       wifi_pwd = "X";
     }
     Print("ssid ");
-    Serial.println(wifi_ssid);
+    Println(wifi_ssid);
     Print("pwd ");
-    Serial.println(wifi_pwd);
+    Println(wifi_pwd);
     
     save_WIFIdatato_eeprom (); 
-    Serial.println("Wifi SSID and PWD saved; please reboot ESP32");
+    Println("Wifi SSID and PWD saved; please reboot ESP32");
     request->send_P(200, "text/html", config_html, html_processorWifi);
   });
 
@@ -82,7 +84,7 @@ void setup_AsyncWebserver(){
     }
 
     Print("knop= ");
-    Serial.println(IDknop);
+    Println(String(IDknop));
     switch (IDknop) {
     //Kp
     case id_Kpdo:
@@ -126,7 +128,7 @@ void setup_AsyncWebserver(){
       break;
     //Gemeten hoek
     case id_ShowAngle:
-      Serial.println("Do nothing");
+      Println("Do nothing");
       break;
     //Save PID
     case id_SaveConfig:
