@@ -85,6 +85,7 @@ const char* PARAM_pwd    = "pwd" ;     // voor de asyncwebserver
 //#define hdlWifiScan   "/wifiscan"                // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
 #define hdlWifiSave   "/wifisave"                // om daarna op te vangen welke knop is ingedrukt.  Best niet wijzigen, wordt vast in html_sendPage gebruikt
 #define hdlWebSerial  "/webserial"               // Dit is niet te wijzigen, is om Serial Monitor via web te hebben
+#define hdlI2Cscan    "/i2cscan"                 // Om I2C apparaten te scannen.  In principe niet zoveel nodig
 
 // knoppen
 const char* oms_Kp = "Kp proportioneel";

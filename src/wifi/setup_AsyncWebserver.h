@@ -13,6 +13,13 @@ void setup_AsyncWebserver(){
     Println(String(xPortGetCoreID()));
   });
 
+  // Route forI2Cscan te doen
+  webserver.on(hdlI2Cscan, HTTP_GET, [](AsyncWebServerRequest *request) {
+    Print("I2Cscan uitvoeren");
+    i2cscan();
+    request->send_P(200, "text/html", config_html, html_processorConfig);
+  });
+
   // Opvangen als wifi data bewaard worden
   webserver.on(hdlWifiSave, HTTP_GET, [](AsyncWebServerRequest *request) {
     Println("Wifi connection parameters");
