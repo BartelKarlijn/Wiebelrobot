@@ -36,6 +36,9 @@
 #include <main/constr.h>
 
 // MPU
+#ifdef flag_I2Cscan
+  #include <mpu/i2cscan.h>
+#endif
 #ifdef flag_calibrateMPU
   #include <mpu\calibrateMPU.h>
 #else

@@ -142,8 +142,10 @@ bool calibration()
 ///////////////////////////////////   SETUP   ////////////////////////////////////
 void calibrateMPUsetup()
 {
+
     Wire.begin();
     Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
+
 
     // initialize device
     Println(F("Initializing I2C devices..."));

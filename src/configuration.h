@@ -43,8 +43,11 @@
 #define preset_ZAccelOffset 28
 
 ///////////////// MPU-6050 Calibration //////////////////////////
+// I2C scan.  Moet eigenlijk nooit gebeuren
+#define flag_I2Cscan        //Uncomment om I2Cscan te doen
 // Calibratie moet eigenlijk maar 1x gebeuren
 #define flag_calibrateMPU   //Uncomment om calibratie te doen
+
 #ifdef flag_calibrateMPU
   //Change this 3 variables if you want to fine tune the skecth to your needs.
   int buffersize=1500;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)

@@ -1,11 +1,9 @@
-void i2cscan_setup() {
-  Wire.begin();
-  Println("\nI2C Scanner");
-}
- 
 void i2cscan() {
   byte error, address;
   int nDevices;
+
+  Wire.begin();
+  Println("\nI2C Scanner");
   Println("Scanning...");
   nDevices = 0;
   for(address = 1; address < 127; address++ ) {
@@ -16,7 +14,7 @@ void i2cscan() {
       if (address<16) {
         Print("0");
       }
-      Println(address,HEX);
+      Println(String(address,HEX));
       nDevices++;
     }
     else if (error==4) {
@@ -24,7 +22,7 @@ void i2cscan() {
       if (address<16) {
         Print("0");
       }
-      Println(address,HEX);
+      Println(String(address,HEX));
     }    
   }
   if (nDevices == 0) {
