@@ -146,6 +146,8 @@ void calibrateMPUsetup()
     Wire.begin();
     Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
 
+    Println(F("mpu.dmpInititalize"));
+    mpu.dmpInitialize();
 
     // initialize device
     Println(F("Initializing I2C devices..."));
