@@ -35,6 +35,8 @@ void setup() {
 //    setupMPU();           // MPU en de DMP opstarten
   #endif
 
+  setupTask1_stepper();     //Stepper.run op andere core draaien
+
   loop_timer = micros() + PERIOD;
   setupIntledAllOK();
 }
@@ -64,11 +66,11 @@ void loop() {
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
 
-  stepperL.setSpeed(Kp*100);
-  stepperL.runSpeed();
-
-  stepperR.setSpeed(Ki*100);
-  stepperR.runSpeed();
+// Dit draait voortaan op andere core, zie task1
+//  stepperL.setSpeed(Kp*100);
+//  stepperL.runSpeed();
+//  stepperR.setSpeed(Ki*100);
+//  stepperR.runSpeed();
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 

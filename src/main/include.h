@@ -36,6 +36,9 @@
 #include <main/printPIDparams.h>
 #include <main/constr.h>
 
+//Meerdere cpu's gebruiken
+#include <main/setup_task1_stepper.h>
+
 // MPU
 #ifdef flag_I2Cscan
   #include <mpu/i2cscan.h>

@@ -75,6 +75,9 @@
 #define MAX_STEPPERSPEED 20000  //16x microstepping
 #define MAX_STEPPERACCEL 10000   //16x microstepping
 
+// ESP32 multicore
+#define STEPPER_CORE 0           // Op welke core moet stepper draaien?  0 of 1
+
 // PID
 float BASE_Kp = 0.0;
 float BASE_Ki = 0.0;
