@@ -8,31 +8,32 @@ void mpu9250we_loop() {
   corrAccRaw = myMPU9250.getCorrectedAccRawValues();
   corrGyrRaw = myMPU9250.getCorrectedGyrRawValues();
   
-  Serial.println("Acceleration raw values without offset:");
-  Serial.print(accRaw.x);
-  Serial.print("   ");
-  Serial.print(accRaw.y);
-  Serial.print("   ");
-  Serial.println(accRaw.z);
+  Print("Acceleration raw:");
+  Print(String(accRaw.x));
+  Print("   ");
+  Print(String(accRaw.y));
+  Print("   ");
+  Print(String(accRaw.z));
 
-  Serial.println("Gyroscope raw values without offset:");
-  Serial.print(gyrRaw.x);
-  Serial.print("   ");
-  Serial.print(gyrRaw.y);
-  Serial.print("   ");
-  Serial.println(gyrRaw.z);
+  Print("Gyroscope raw:");
+  Print(String(gyrRaw.x));
+  Print("   ");
+  Print(String(gyrRaw.y));
+  Print("   ");
+  Println(String(gyrRaw.z));
 
-  Serial.println("Acceleration raw values with offset:");
-  Serial.print(corrAccRaw.x);
-  Serial.print("   ");
-  Serial.print(corrAccRaw.y);
-  Serial.print("   ");
-  Serial.println(corrAccRaw.z);
-
-  Serial.println("Gyroscope raw values with offset:");
-  Serial.print(corrGyrRaw.x);
-  Serial.print("   ");
-  Serial.print(corrGyrRaw.y);
-  Serial.print("   ");
-  Serial.println(corrGyrRaw.z); delay(10000);
+//  Println("Acceleration raw values with offset:");
+//  Print(String(corrAccRaw.x));
+//  Print("   ");
+//  Print(String(corrAccRaw.y));
+//  Print("   ");
+//  Println(String(corrAccRaw.z));
+//
+//  Println("Gyroscope raw values with offset:");
+//  Print(String(corrGyrRaw.x));
+//  Print("   ");
+//  Print(String(corrGyrRaw.y));
+//  Print("   ");
+//  Println(String(corrGyrRaw.z)); 
+  delay(1000);
 }

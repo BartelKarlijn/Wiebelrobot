@@ -1,10 +1,10 @@
 void mpu9250we_calibrate(){
   Wire.begin();
   if(!myMPU9250.init()){
-    Serial.println("MPU9250 does not respond");
+    Println("MPU9250 does not respond");
   }
   else{
-    Serial.println("MPU9250 is connected");
+    Println("MPU9250 is connected");
   }
 
   /*  This is a more accurate method for calibration than the autoOffset. You have to 
@@ -48,14 +48,14 @@ void mpu9250we_calibrate(){
    */
   myMPU9250.setGyrDLPF(MPU9250_DLPF_6);  // lowest noise
   
-  /*  MPU9250_GYRO_RANGE_250       250 degrees per second (default)
+  /*  MPU9250_GYRO_RANGE_250       250 degrees per second (default) // het gevoeligste
    *  MPU9250_GYRO_RANGE_500       500 degrees per second
    *  MPU9250_GYRO_RANGE_1000     1000 degrees per second
    *  MPU9250_GYRO_RANGE_2000     2000 degrees per second
    */
   myMPU9250.setGyrRange(MPU9250_GYRO_RANGE_250);
 
-  /*  MPU9250_ACC_RANGE_2G      2 g   
+  /*  MPU9250_ACC_RANGE_2G      2 g   // = het gevoeligste
    *  MPU9250_ACC_RANGE_4G      4 g
    *  MPU9250_ACC_RANGE_8G      8 g   
    *  MPU9250_ACC_RANGE_16G    16 g
@@ -81,8 +81,8 @@ void mpu9250we_calibrate(){
    */
   myMPU9250.setAccDLPF(MPU9250_DLPF_6);  // lowest noise
 
-  Serial.print("Turn your MPU9250 slowly(!) in all directions to determine ");
-  Serial.println(" the min/max raw acceleration values.");
-  Serial.println("For the gyroscope offsets just note the gyro raw values for the unmoved sensor");
+  Print("Turn your MPU9250 slowly(!) in all directions to determine ");
+  Println(" the min/max raw acceleration values.");
+  Println("For the gyroscope offsets just note the gyro raw values for the unmoved sensor");
   delay(1000);
 }
