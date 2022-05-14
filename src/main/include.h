@@ -13,7 +13,6 @@
 #include <WiFi.h>           //
 #include <AsyncTCP.h>       // nodig voor de ESPAyncWebserver
 #include <ESPAsyncWebServer.h>
-//#include <ESPAsync_WiFiManager.h>   // Zorg dat systeem zelf paswoorden beheert
 #include <AsyncElegantOTA.h>
 #include <WebSerial.h>
 
@@ -35,9 +34,6 @@
 #include <main/setupIntled.h>
 #include <main/printPIDparams.h>
 #include <main/constr.h>
-
-//Meerdere cpu's gebruiken
-#include <main/setup_task1_stepper.h>
 
 // MPU
 #ifdef flag_I2Cscan
@@ -68,3 +64,7 @@
 #include <wifi\setup_AsyncWebserver.h> 
 #include <wifi\setup_ConnectKnownWifi.h>
 #include <wifi\setup_CreateAccessPoint.h>
+
+//Meerdere cpu's gebruiken
+#include <main/setup_task1_stepper.h>
+#include <main/setup_task2_async.h>

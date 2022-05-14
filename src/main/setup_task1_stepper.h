@@ -1,4 +1,4 @@
-void Task1_stepper_code( void * pvParameters ) {
+void task1_stepper_code( void * pvParameters ) {
   Serial.print("Task1 running on core ");
   Println(String(xPortGetCoreID()));
 
@@ -11,11 +11,11 @@ void Task1_stepper_code( void * pvParameters ) {
   }
 }
 
-void setupTask1_stepper() {
+void setup_task1_stepper() {
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
-                    Task1_stepper_code,   /* Task function. */
-                    "Task1_stepper",      /* name of task. */
+                    task1_stepper_code,   /* Task function. */
+                    "task1_stepper",      /* name of task. */
                     10000,                /* Stack size of task */
                     NULL,                 /* parameter of the task */
                     STEPPER_CORE_PRIO,    /* priority of the task. 0=idle, 1=lowest prio*/

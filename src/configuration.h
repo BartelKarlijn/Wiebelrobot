@@ -76,12 +76,20 @@
 #define MAX_STEPPERACCEL 10000   //16x microstepping
 
 // ESP32 multicore
-#define STEPPER_CORE 0           // Op welke core moet stepper draaien?  0 of 1
+#define STEPPER_CORE 1           // Op welke core moet stepper draaien?  0 of 1
 #define STEPPER_CORE_PRIO 1      // 0= idle, 1=hoger
 //testen op 14/05/2022:
 // CORE PRIO Resultaat
 //  0    0   Draaien aan 100 lukt, 200 bijna.  Toch wat gestutter ertussen
-//  0    1   
+//  0    1   Watchdog reboot om de +/-  5sec
+//  1    0   Watchdog reclammeert niet, maar aan veel gestutter
+//  1    1   Watchdog reclammeert niet, maar aan 100 draaien lukt, tot je webserver aanspreekt.  200 is veel te hoog gegrepen
+//  1    2   Als het draait, dan ok, maar zodra je webserver aanspreekt, stop het feest.
+
+// ESP32 multicore
+#define ASYNC_CORE 0           // Op welke core moet Async draaien?  0 of 1
+#define ASYNC_CORE_PRIO 0      // 0= idle, 1=hoger
+
 
 // PID
 float BASE_Kp = 0.0;

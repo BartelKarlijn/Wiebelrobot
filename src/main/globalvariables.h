@@ -72,7 +72,9 @@ String wifi_ssid ;
 String wifi_pwd  ;
 String wifi_scan;         //Lijst met scan van wifi netwerken
 
-TaskHandle_t Task1_stepper;    //Taskhandle om steppers op CPU 0 o 1 te draaien
+TaskHandle_t Task1_stepper;      //Taskhandle om steppers op CPU 0 o 1 te draaien
+TaskHandle_t task2_async;      //Taskhandle om steppers op CPU 0 o 1 te draaien
+
 const char* PARAM_output = "output";   // voor de asyncwebserver
 const char* PARAM_joyX   = "joyX";     // voor de asyncwebserver
 const char* PARAM_joyY   = "joyY";     // voor de asyncwebserver

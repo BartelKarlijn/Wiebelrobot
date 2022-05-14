@@ -23,7 +23,8 @@ void setup() {
   setup_steppers();       // Motors afzetten
   get_datafrom_eeprom (); // parameters uit eeprom halen (oa ssid/pw en PID)
   setup_ConnectKnownWifi();  // Aan gekende wifi connecteren
-  setup_AsyncWebserver();    // webserver om html te tonen 
+  //setup_AsyncWebserver();    // webserver om html te tonen 
+  setup_task2_async();     
   setup_CreateAccessPoint(); // Toch eigen AccessPoint opzetten als gekende wifi niet gelukt.
   #ifdef flag_I2Cscan
     i2cscan();
@@ -35,7 +36,7 @@ void setup() {
 //    setupMPU();           // MPU en de DMP opstarten
   #endif
 
-  setupTask1_stepper();     //Stepper.run op andere core draaien
+  setup_task1_stepper();     //Stepper.run op andere core draaien
 
   loop_timer = micros() + PERIOD;
   setupIntledAllOK();
