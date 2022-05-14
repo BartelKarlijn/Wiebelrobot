@@ -40,17 +40,17 @@ void meansensors()
     }
 
     Print("Results of measurements a/g:\t");
-    Print(mean_accX);
+    Print(String(mean_accX));
     Print("\t");
-    Print(mean_accY);
+    Print(String(mean_accY));
     Print("\t");
-    Print(mean_accZ);
+    Print(String(mean_accZ));
     Print("\t");
-    Print(mean_gyroX);
+    Print(String(mean_gyroX));
     Print("\t");
-    Print(mean_gyroY);
+    Print(String(mean_gyroY));
     Print("\t");
-    Println(mean_gyroZ);
+    Println(String(mean_gyroZ));
 }
 
 bool calibration()
@@ -117,20 +117,20 @@ bool calibration()
         }
 
         Print("Resulting offset calibration value a/g:\t");
-        Print(accX_offset + accX_offsetinit);
+        Print(String(accX_offset + accX_offsetinit));
         Print("\t");
-        Print(accY_offset + accY_offsetinit);
+        Print(String(accY_offset + accY_offsetinit));
         Print("\t");
-        Print(accZ_offset + accZ_offsetinit);
+        Print(String(accZ_offset + accZ_offsetinit));
         Print("\t");
-        Print(gyroX_offset + gyroX_offsetinit);
+        Print(String(gyroX_offset + gyroX_offsetinit));
         Print("\t");
-        Print(gyroY_offset + gyroY_offsetinit);
+        Print(String(gyroY_offset + gyroY_offsetinit));
         Print("\t");
-        Println(gyroZ_offset + gyroZ_offsetinit);
+        Println(String(gyroZ_offset + gyroZ_offsetinit));
         loopcount = loopcount + 1;
         Print("Loop Cnt: ");
-        Println(loopcount);
+        Println(String(loopcount));
         if (loopcount == maxloopCount)
         {
             return false;
@@ -219,29 +219,29 @@ void calibrateMPUloop() {
 
         Println("\nFINISHED!");
         Print("\nSensor readings with offsets:\t");
-        Print(mean_accX);
+        Print(String(mean_accX));
         Print("\t");
-        Print(mean_accY);
+        Print(String(mean_accY));
         Print("\t");
-        Print(mean_accZ);
+        Print(String(mean_accZ));
         Print("\t");
-        Print(mean_gyroX);
+        Print(String(mean_gyroX));
         Print("\t");
-        Print(mean_gyroY);
+        Print(String(mean_gyroY));
         Print("\t");
-        Println(mean_gyroZ);
+        Println(String(mean_gyroZ));
         Print("Your offsets:\t");
-        Print(accX_offset + accX_offsetinit);
+        Print(String(accX_offset + accX_offsetinit));
         Print("\t");
-        Print(accY_offset + accY_offsetinit);
+        Print(String(accY_offset + accY_offsetinit));
         Print("\t");
-        Print(accZ_offset + accZ_offsetinit);
+        Print(String(accZ_offset + accZ_offsetinit));
         Print("\t");
-        Print(gyroX_offset + gyroX_offsetinit);
+        Print(String(gyroX_offset + gyroX_offsetinit));
         Print("\t");
-        Print(gyroY_offset + gyroY_offsetinit);
+        Print(String(gyroY_offset + gyroY_offsetinit));
         Print("\t");
-        Print(gyroZ_offset + gyroZ_offsetinit);
+        Print(String(gyroZ_offset + gyroZ_offsetinit));
         Println("\nData is printed as: acelX acelY acelZ giroX giroY giroZ");
         Println("Check that your sensor readings are close to 0 0 16384 0 0 0");
         Println("If calibration was succesful write down your offsets so you can set them in your projects using something similar to mpu.setXAccelOffset(youroffset)");

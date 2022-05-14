@@ -24,7 +24,7 @@
 #define ACC_FULL_SCALE_RANGE          0 //2g, het meest gevoelige
 
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
-// om te calibreren, uncomment flag_calibrateMPU
+// om te calibreren, uncomment flag_calibrateMPU, zie verderop
 // 2021 05 08 mpu ondersteboven gecalibreerd
 /*
 #define preset_XGyroOffset -2261
@@ -44,7 +44,7 @@
 
 ///////////////// MPU-6050 Calibration //////////////////////////
 // Calibratie moet eigenlijk maar 1x gebeuren
-//#define flag_calibrateMPU   //Uncomment om calibratie te doen
+#define flag_calibrateMPU   //Uncomment om calibratie te doen
 #ifdef flag_calibrateMPU
   //Change this 3 variables if you want to fine tune the skecth to your needs.
   int buffersize=1500;     //Amount of readings used to average, make it higher to get more precision but sketch will be slower  (default:1000)
