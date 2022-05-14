@@ -4,8 +4,10 @@
 boolean startupError;
 
 ///////////////// MPU-6050 //////////////////////////
-MPU6050 mpu;         // Our MPU6050 uses default 0x68 adress
+//MPU6050 mpu;         // Our MPU6050 uses default 0x68 adress
 //MPU6050 mpu(0x69); // <-- use for other possible I2C adress
+MPU6500_WE myMPU6500 = MPU6500_WE(0x68);   // andere library proberen
+
 
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful
@@ -16,14 +18,14 @@ uint16_t fifoCount;     // count of all bytes currently in FIFO
 uint8_t fifoBuffer[64]; // FIFO storage buffer
 
 // orientation/motion vars
-Quaternion q;           // [w, x, y, z]         quaternion container
-VectorInt16 aa;         // [x, y, z]            accel sensor measurements
-VectorInt16 gy;         // [x, y, z]            gyro sensor measurements
-VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
-VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
-VectorFloat gravity;    // [x, y, z]            gravity vector
-float euler[3];         // [psi, theta, phi]    Euler angle container
-float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+//Quaternion q;           // [w, x, y, z]         quaternion container
+//VectorInt16 aa;         // [x, y, z]            accel sensor measurements
+//VectorInt16 gy;         // [x, y, z]            gyro sensor measurements
+//VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
+//VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
+//VectorFloat gravity;    // [x, y, z]            gravity vector
+//float euler[3];         // [psi, theta, phi]    Euler angle container
+//float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // MPU waarden, ook gebruikt voor Calibratie
 int16_t accX, accY, accZ, gyroX, gyroY, gyroZ;
