@@ -44,7 +44,7 @@
 
 ///////////////// MPU-6050 Calibration //////////////////////////
 // I2C scan.  Moet eigenlijk nooit gebeuren
-//#define flag_I2Cscan        //Uncomment om I2Cscan te doen
+#define flag_I2Cscan        //Uncomment om I2Cscan te doen
 // Calibratie moet eigenlijk maar 1x gebeuren
 #define flag_calibrateMPU   //Uncomment om calibratie te doen
 

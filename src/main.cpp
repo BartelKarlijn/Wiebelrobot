@@ -30,7 +30,7 @@ void setup() {
   #endif
   #ifdef flag_calibrateMPU 
 //    calibrateMPUsetup();  // als je MPU wil callibreren
-    mpu6500we_calibrate();
+    mpu9250we_calibrate();
   #else
 //    setupMPU();           // MPU en de DMP opstarten
   #endif
@@ -45,7 +45,7 @@ void loop() {
   #else
 //    loopMPU();
   #endif
-  mpu6500we_loop();
+  mpu9250we_loop();
 
   // apply PID algo
 //  currentAngle = - ypr[1] * 180 / PI;

@@ -6,7 +6,8 @@ boolean startupError;
 ///////////////// MPU-6050 //////////////////////////
 //MPU6050 mpu;         // Our MPU6050 uses default 0x68 adress
 //MPU6050 mpu(0x69); // <-- use for other possible I2C adress
-MPU6500_WE myMPU6500 = MPU6500_WE(0x68);   // andere library proberen
+// I2Cscan op MPU9250 gaf 3 adressen: 0x0c, 0x68, 0x76
+MPU9250_WE myMPU9250 = MPU9250_WE(0x68);
 
 
 // MPU control/status vars
