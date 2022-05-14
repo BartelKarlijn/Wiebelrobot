@@ -29,7 +29,8 @@ void setup() {
     i2cscan();
   #endif
   #ifdef flag_calibrateMPU 
-    calibrateMPUsetup();  // als je MPU wil callibreren
+//    calibrateMPUsetup();  // als je MPU wil callibreren
+    mpu9250we_calibrate();
   #else
 //    setupMPU();           // MPU en de DMP opstarten
   #endif
@@ -40,20 +41,21 @@ void setup() {
 
 void loop() {
   #ifdef flag_calibrateMPU 
-    calibrateMPUloop();
+//    calibrateMPUloop();
   #else
 //    loopMPU();
   #endif
+  mpu9250we_loop();
 
   // apply PID algo
-  currentAngle = - ypr[1] * 180 / PI;
-  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
-  integralErr += pidError;                                         // het I gedeelte  
-  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
-  errorDerivative = pidError - pidLastError;                       // het D gedeelte
-  pidLastError = pidError;
-
-  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+//  currentAngle = - ypr[1] * 180 / PI;
+//  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
+//  integralErr += pidError;                                         // het I gedeelte  
+//  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
+//  errorDerivative = pidError - pidLastError;                       // het D gedeelte
+//  pidLastError = pidError;
+//
+//  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
 
 
 // zorgen dat we vaste loop lengte hebben

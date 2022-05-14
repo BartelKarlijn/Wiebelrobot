@@ -5,8 +5,9 @@
 
 // MPU6050
 #include <Wire.h>           // voor I2C communicatie met MPU6050
-#include <I2Cdev.h>
-#include <MPU6050_6Axis_MotionApps20.h>
+//#include <I2Cdev.h>    //even oude mpu6050 uitgezet
+//#include <MPU6050_6Axis_MotionApps20.h> //even oude mpu6050 uitgezet
+ #include <MPU9250_WE.h>
 
 // Wifi
 #include <WiFi.h>           //
@@ -40,11 +41,13 @@
   #include <mpu/i2cscan.h>
 #endif
 #ifdef flag_calibrateMPU
-  #include <mpu\calibrateMPU.h>
+  //#include <mpu\calibrateMPU.h>
 #else
   #include <mpu\setupMPU.h>
   #include <mpu\loopMPU.h>
 #endif
+#include <mpu/mpu9250we_calibrate.h>
+#include <mpu/mpu9250we_loop.h>
 
 // motors
 #include <motors\steppermotor.h>
