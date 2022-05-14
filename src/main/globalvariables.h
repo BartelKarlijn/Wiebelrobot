@@ -4,7 +4,8 @@
 boolean startupError;
 
 ///////////////// MPU-6050 //////////////////////////
-MPU6050 mpu;
+MPU6050 mpu;         // Our MPU6050 uses default 0x68 adress
+//MPU6050 mpu(0x69); // <-- use for other possible I2C adress
 
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful
