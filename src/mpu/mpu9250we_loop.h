@@ -1,39 +1,26 @@
 void mpu9250we_loop() {
-  xyzFloat accRaw;
-  xyzFloat gyrRaw;
-  xyzFloat corrAccRaw;
-  xyzFloat corrGyrRaw;
-  accRaw = myMPU9250.getAccRawValues();
-  gyrRaw = myMPU9250.getGyrRawValues();
-  corrAccRaw = myMPU9250.getCorrectedAccRawValues();
-  corrGyrRaw = myMPU9250.getCorrectedGyrRawValues();
+  xyzFloat gValue = myMPU9250.getGValues();
+  xyzFloat gyr = myMPU9250.getGyrValues();
+  xyzFloat magValue = myMPU9250.getMagValues();
+  float temp = myMPU9250.getTemperature();
+  float resultantG = myMPU9250.getResultantG(gValue);
   
-  Print("Acceleration raw:");
-  Print(String(accRaw.x));
-  Print("   ");
-  Print(String(accRaw.y));
-  Print("   ");
-  Print(String(accRaw.z));
+  Serial.print("Acceleration in g (x,y,z):");
+  Serial.print(gValue.x);
+  Serial.print("   ");
+  Serial.print(gValue.y);
+  Serial.print("   ");
+  Serial.print(gValue.z);
 
-  Print("Gyroscope raw:");
-  Print(String(gyrRaw.x));
-  Print("   ");
-  Print(String(gyrRaw.y));
-  Print("   ");
-  Println(String(gyrRaw.z));
+  Serial.print("  Gyroscope data in degrees/s: ");
+  Serial.print(gyr.x);
+  Serial.print("   ");
+  Serial.print(gyr.y);
+  Serial.print("   ");
+  Serial.print(gyr.z);
 
-//  Println("Acceleration raw values with offset:");
-//  Print(String(corrAccRaw.x));
-//  Print("   ");
-//  Print(String(corrAccRaw.y));
-//  Print("   ");
-//  Println(String(corrAccRaw.z));
-//
-//  Println("Gyroscope raw values with offset:");
-//  Print(String(corrGyrRaw.x));
-//  Print("   ");
-//  Print(String(corrGyrRaw.y));
-//  Print("   ");
-//  Println(String(corrGyrRaw.z)); 
+  Serial.print("  Temperature in °C: ");
+  Serial.println(temp);
+
   delay(1000);
 }

@@ -14,6 +14,7 @@ void mpu9250we_calibrate(){
    *  Use either autoOffset or setAccOffsets, not both.
    */
   //myMPU9250.setAccOffsets(-14240.0, 18220.0, -17280.0, 15590.0, -20930.0, 12080.0);
+  myMPU9250.setAccOffsets(-21324.0, 16514.0, -19705.0, 16285.0, -12804.0, 24436.0);  // gemeten op 14/05/2022
 
   /*  The gyroscope data is not zero, even if don't move the MPU9250. 
    *  To start at zero, you can apply offset values. These are the gyroscope raw values you obtain
@@ -21,6 +22,7 @@ void mpu9250we_calibrate(){
    *  Use either autoOffset or setGyrOffsets, not both.
    */
   //myMPU9250.setGyrOffsets(45.0, 145.0, -105.0);
+  myMPU9250.setGyrOffsets(90.6, -180.0, -122.0);    // gemeten op 14/05/2022
 
  /*  You can enable or disable the digital low pass filter (DLPF). If you disable the DLPF, you 
    *  need to select the bandwidth, which can be either 8800 or 3600 Hz. 8800 Hz has a shorter delay,
@@ -81,8 +83,30 @@ void mpu9250we_calibrate(){
    */
   myMPU9250.setAccDLPF(MPU9250_DLPF_6);  // lowest noise
 
-  Print("Turn your MPU9250 slowly(!) in all directions to determine ");
-  Println(" the min/max raw acceleration values.");
-  Println("For the gyroscope offsets just note the gyro raw values for the unmoved sensor");
-  delay(1000);
+  /* You can enable or disable the axes for gyroscope and/or accelerometer measurements.
+   * By default all axes are enabled. Parameters are:  
+   * MPU9250_ENABLE_XYZ  //all axes are enabled (default)
+   * MPU9250_ENABLE_XY0  // X, Y enabled, Z disabled
+   * MPU9250_ENABLE_X0Z   
+   * MPU9250_ENABLE_X00
+   * MPU9250_ENABLE_0YZ
+   * MPU9250_ENABLE_0Y0
+   * MPU9250_ENABLE_00Z
+   * MPU9250_ENABLE_000  // all axes disabled
+   */
+  //myMPU9250.enableAccAxes(MPU9250_ENABLE_XYZ);
+  //myMPU9250.enableGyrAxes(MPU9250_ENABLE_XYZ);
+
+  Print("MPU9250 bewegingssensor opgestart");
+  
+  /*
+   * AK8963_PWR_DOWN       
+   * AK8963_CONT_MODE_8HZ         default
+   * AK8963_CONT_MODE_100HZ
+   * AK8963_FUSE_ROM_ACC_MODE 
+   */
+  //myMPU9250.setMagOpMode(AK8963_CONT_MODE_100HZ);
+  //Print("MPU9250 magneet sensor opgestart");
+  delay(100);
+
 }
