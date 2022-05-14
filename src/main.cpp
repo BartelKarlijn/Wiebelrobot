@@ -48,7 +48,7 @@ void loop() {
 //    loopMPU();
   #endif
   mpu9250we_loop();
-
+  delay(20);
   // apply PID algo
 //  currentAngle = - ypr[1] * 180 / PI;
 //  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte

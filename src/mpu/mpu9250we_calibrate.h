@@ -97,7 +97,7 @@ void mpu9250we_calibrate(){
   //myMPU9250.enableAccAxes(MPU9250_ENABLE_XYZ);
   //myMPU9250.enableGyrAxes(MPU9250_ENABLE_XYZ);
 
-  Print("MPU9250 bewegingssensor opgestart");
+  Println("MPU9250 bewegingssensor opgestart");
   
   /*
    * AK8963_PWR_DOWN       

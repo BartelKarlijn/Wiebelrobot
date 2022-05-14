@@ -77,6 +77,11 @@
 
 // ESP32 multicore
 #define STEPPER_CORE 0           // Op welke core moet stepper draaien?  0 of 1
+#define STEPPER_CORE_PRIO 1      // 0= idle, 1=hoger
+//testen op 14/05/2022:
+// CORE PRIO Resultaat
+//  0    0   Draaien aan 100 lukt, 200 bijna.  Toch wat gestutter ertussen
+//  0    1   
 
 // PID
 float BASE_Kp = 0.0;
