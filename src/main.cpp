@@ -14,7 +14,6 @@
  
 #include <main\include.h>
 
-//////// MAIN //////////
 
 //////// MAIN //////////
 
@@ -29,7 +28,7 @@ void setup() {
   #ifdef flag_calibrateMPU 
     calibrateMPUsetup();  // als je MPU wil callibreren
   #else
-    setupMPU();           // MPU en de DMP opstarten
+//    setupMPU();           // MPU en de DMP opstarten
   #endif
 
   loop_timer = micros() + PERIOD;
@@ -40,7 +39,7 @@ void loop() {
   #ifdef flag_calibrateMPU 
     calibrateMPUloop();
   #else
-    loopMPU();
+//    loopMPU();
   #endif
 
   // apply PID algo
@@ -50,17 +49,6 @@ void loop() {
   integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
   errorDerivative = pidError - pidLastError;                       // het D gedeelte
   pidLastError = pidError;
-  int16_t rotation = 0;
-  if (isValidJoystickValue(joystickX)) {
-    rotation = constrf((float)(joystickX - 130), -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT);
-  }
-  if (micros() >= print_timer) {
-    //Serial.print(positionErr); Serial.print("  -  "); Serial.print(rotation); Serial.print(" / "); Serial.println(serialControlErr);
-//even onderstaand uitgesterd    
-//    Serial.print(pitch); Serial.print(" / "); Serial.print(errorDerivative); Serial.print(" - "); Serial.println(selfBalanceAngleSetpoint);
-    //Serial.print(accX); Serial.print(" / "); Serial.print(accY); Serial.print(" / "); Serial.print(accZ); Serial.print(" / "); Serial.print(gyroX); Serial.print(" / "); Serial.print(gyroY); Serial.print(" / "); Serial.println(gyroZ);
-    print_timer += PRINT_PERIOD;
-  }
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
 
@@ -79,7 +67,4 @@ void loop() {
 
  //  setSpeed(constrf(pidOutput, -MAX_PID_OUTPUT, MAX_PID_OUTPUT) * (MAX_SPEED / MAX_PID_OUTPUT), rotation);
 
-  if (loop_timer <= micros()) Serial.println("ERROR loop too short !");
-  while (loop_timer > micros());
-  loop_timer += PERIOD;
 }

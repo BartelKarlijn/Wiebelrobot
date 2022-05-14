@@ -46,6 +46,8 @@ void setup_AsyncWebserver(){
 
   // Route for configuration
   webserver.on(hdlConfig, HTTP_GET, [](AsyncWebServerRequest *request) {
+    Print("webserver running on core ");
+    Println(String(xPortGetCoreID()));
     request->send_P(200, "text/html", config_html, html_processorConfig);
   });
 

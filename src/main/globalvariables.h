@@ -1,79 +1,46 @@
 // Global variables
 
-//////////////// MOTORS ////////////////////////////
-uint32_t prevSpeedStart;
-int16_t prevSpeed;
-int32_t currentPos = 0;
-
+//////////////// LED ///////////////////////
+boolean startupError;
 
 ///////////////// MPU-6050 //////////////////////////
-// MPU6050 specific
-#define MPU6050_FS_SEL0 3
-#define MPU6050_FS_SEL1 4
-#define MPU6050_AFS_SEL0 3
-#define MPU6050_AFS_SEL1 4
+MPU6050 mpu;
 
-// Combined definitions for the FS_SEL values.eg.  ±250 degrees/second
-#define MPU6050_FS_SEL_250  (0)
-#define MPU6050_FS_SEL_500  (bit(MPU6050_FS_SEL0))
-#define MPU6050_FS_SEL_1000 (bit(MPU6050_FS_SEL1))
-#define MPU6050_FS_SEL_2000 (bit(MPU6050_FS_SEL1) | bit(MPU6050_FS_SEL0))
+// MPU control/status vars
+bool dmpReady = false;  // set true if DMP init was successful
+uint8_t mpuIntStatus;   // holds actual interrupt status byte from MPU
+uint8_t devStatus;      // return status after each device operation (0 = success, !0 = error)
+uint16_t packetSize;    // expected DMP packet size (default is 42 bytes)
+uint16_t fifoCount;     // count of all bytes currently in FIFO
+uint8_t fifoBuffer[64]; // FIFO storage buffer
 
-// Combined definitions for the AFS_SEL values
-#define MPU6050_AFS_SEL_2G  (0)
-#define MPU6050_AFS_SEL_4G  (bit(MPU6050_AFS_SEL0))
-#define MPU6050_AFS_SEL_8G  (bit(MPU6050_AFS_SEL1))
-#define MPU6050_AFS_SEL_16G (bit(MPU6050_AFS_SEL1)|bit(MPU6050_AFS_SEL0))
+// orientation/motion vars
+Quaternion q;           // [w, x, y, z]         quaternion container
+VectorInt16 aa;         // [x, y, z]            accel sensor measurements
+VectorInt16 gy;         // [x, y, z]            gyro sensor measurements
+VectorInt16 aaReal;     // [x, y, z]            gravity-free accel sensor measurements
+VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measurements
+VectorFloat gravity;    // [x, y, z]            gravity vector
+float euler[3];         // [psi, theta, phi]    Euler angle container
+float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
-// See page 12 & 13 of MPU-6050 datasheet for sensitivities config and corresponding output
-#define GYRO_FULL_SCALE_RANGE         MPU6050_FS_SEL_250
-#define GYRO_SCALE_FACTOR             131     // LSB / (degs per seconds)
-#define ACC_FULL_SCALE_RANGE          MPU6050_AFS_SEL_4G
-#define ACC_SCALE_FACTOR              8192    // LSB / g
-
-static float GYRO_RAW_TO_DEGS = 1.0 / (1000000.0 / PERIOD) / GYRO_SCALE_FACTOR;
-
-int16_t accX, accY, accZ;
-int16_t gyroX, gyroY, gyroZ;
-int16_t gyroX_calibration, gyroY_calibration, gyroZ_calibration;
-
-#define ACCEL_XOUT_H 0x3B
-#define ACCEL_XOUT_L 0x3C
-#define ACCEL_YOUT_H 0x3D
-#define ACCEL_YOUT_L 0x3E
-#define ACCEL_ZOUT_H 0x3F
-#define ACCEL_ZOUT_L 0x40
-
-#define GYRO_XOUT_H 0x43
-#define GYRO_XOUT_L 0x44
-#define GYRO_YOUT_H 0x45
-#define GYRO_YOUT_L 0x46
-#define GYRO_ZOUT_H 0x47
-#define GYRO_ZOUT_L 0x48
-
-uint8_t retval;   //Return value mpu6050
-
-
-//////// Controller //////////
-
-// populated in the SerialControl part
-uint8_t joystickX;
-uint8_t joystickY;
-uint32_t loop_timer;
-uint32_t print_timer;
-float roll, pitch, rollAcc, pitchAcc;
-float speeed;
-
+// MPU waarden, ook gebruikt voor Calibratie
+int16_t accX, accY, accZ, gyroX, gyroY, gyroZ;
+int accX_offset, accY_offset, accZ_offset, gyroX_offset, gyroY_offset, gyroZ_offset;
+int mean_accX, mean_accY, mean_accZ, mean_gyroX, mean_gyroY, mean_gyroZ = 0;
+int accX_offsetinit, accY_offsetinit, accZ_offsetinit, gyroX_offsetinit, gyroY_offsetinit, gyroZ_offsetinit;
+int state_calibration = 0;
+unsigned int calibratedOffsetAdress = 0;
+unsigned int loopcount=0;
 
 //////// PID //////////
-
-#define MAX_PID_OUTPUT 1
+Preferences pref_eeprom;
 
 volatile float Kp;  // Volatile is necessary so that variables can be shared between cores
 volatile float Ki;
 volatile float Kd;
-float angleSetpoint = 0, selfBalanceAngleSetpoint = 0;
-float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
+volatile float selfBalanceAngleSetpoint;
+volatile float pidOutput, pidError, pidLastError, integralErr, positionErr, serialControlErr, prevSerialControlErr, errorDerivative;
 
 float MAX_CONTROL_OR_POSITION_ERR = MAX_PID_OUTPUT / Kp;
 float MAX_CONTROL_ERR_INCREMENT = MAX_CONTROL_OR_POSITION_ERR / 400;
@@ -121,12 +88,14 @@ const char* PARAM_pwd    = "pwd" ;     // voor de asyncwebserver
 
 // knoppen
 const char* oms_Kp = "Kp proportioneel";
-const char* hdl_Kpup = "butkpup";
-const char* hdl_Kpdo = "butkpdo";
+const int   id_Kpup = 111;            // knop ID, moet uniek zijn, zie html_processor
+const int   id_Kpdo = 112; 
+const int   id_Kpra = 113;  
 
 const char* oms_Ki = "Ki Integraal";
-const char* hdl_Kiup = "butkiup";
-const char* hdl_Kido = "butkido";
+const int   id_Kiup = 121;
+const int   id_Kido = 122; 
+const int   id_Kira = 123;  
 
 const char* oms_Kd = "Kd Derivation";
 const int   id_Kdup = 131;
@@ -164,7 +133,3 @@ float prevAngle;
 float AngleX, AngleY, AngleZ;
 volatile int16_t rotation = 0;         // om te kunnen draaien
 float speeed;
-
-
-const char* oms_Save = "Save PID";
-const char* hdl_Save = "butSave";
