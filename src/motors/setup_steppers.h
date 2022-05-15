@@ -9,6 +9,10 @@ void  setup_steppers() {
   //           Formule is valid for MICROSTEPPING; for FULLSTEP multipy by 1.4
   // Vref = 1.68 x 8 x 0.068 = 0.67V
 
+  // Motoren aan of af zetten
+  pinMode(motorPinENA, OUTPUT);
+  digitalWrite(motorPinENA, HIGH );  // Motoren af zetten
+
   // Set the maximum speed in steps per second:
   stepperL.setMaxSpeed(MAX_STEPPERSPEED);
   stepperR.setMaxSpeed(MAX_STEPPERSPEED);

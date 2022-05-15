@@ -52,7 +52,8 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
-  
+  Serial.println(pidOutput);
+
   setSpeed(pidOutput, 0);
 
 // zorgen dat we vaste loop lengte hebben

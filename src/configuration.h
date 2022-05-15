@@ -68,9 +68,10 @@
 #define motorLpinSTEP 27  //orange
 #define motorRpinDIR  33  //pink
 #define motorRpinSTEP 25  //orange
+#define motorPinENA   14  //grey  Wordt gebruikt om motoren aan of af te zetten
 
 #define StepperL_reverse false  // als motor verkeerde kant op draait
-#define StepperR_reverse false  // als motor verkeerde kant op draait
+#define StepperR_reverse true   // als motor verkeerde kant op draait
 
 #define FlagNotMotor false  //true: motoren niet laten draaien
 

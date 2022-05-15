@@ -58,6 +58,8 @@ uint8_t PrintPIDloopCounter = 0;
 uint32_t prevSpeedStart;
 int16_t prevSpeed;
 int32_t currentPos = 0;
+bool motorENA;  // motoren aan of af zetten
+
 // Define stepper motor connections and motor interface type. Motor interface type must be set to 1 when using a driver:
 #define motorInterfaceType 1  
 // Create a new instance of the AccelStepper class:
@@ -115,7 +117,7 @@ const int   id_Anup = 141;
 const int   id_Ando = 142; 
 const int   id_Anra = 143;  
 
-const char* oms_ShowAngle = "Gemeten Hoek= ";
+const char* oms_ShowAngle = "Gemeten Hoek=";
 const int   id_ShowAngle = 21;
 
 const char* oms_SaveConfig = "Save PID";
@@ -123,6 +125,9 @@ const int   id_SaveConfig = 22;
 
 const char* oms_Restart = "Restart";
 const int   id_Restart = 23;
+
+const char* oms_MotorENA = "Motoren aan/uit";
+const int   id_MotorENA = 24;
 
 volatile float Kp_change = 1.0;      // Elke druk in wifi app, verhoogt/verlaagt met waarde
 volatile float Ki_change = 1.0;

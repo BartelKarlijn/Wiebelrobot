@@ -10,17 +10,17 @@ void forward(int16_t speed, int motorcha1, int motorcha2) {
 void setSpeed(int16_t s, int16_t rotation) {
   // Links
   #ifdef StepperL_reverse
-    stepperL.setSpeed(-pidOutput);
+    stepperL.setSpeed(-s);
   #else 
-    stepperL.setSpeed(pidOutput);
+    stepperL.setSpeed(s);
   #endif
   stepperL.runSpeed();
 
   // Rechts
   #ifdef StepperR_reverse
-    stepperR.setSpeed(-pidOutput);
+    stepperR.setSpeed(-s);
   #else 
-    stepperR.setSpeed(pidOutput);
+    stepperR.setSpeed(s);
   #endif
   stepperR.runSpeed();
 
