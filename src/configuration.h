@@ -73,8 +73,6 @@
 #define StepperL_reverse false  // als motor verkeerde kant op draait
 #define StepperR_reverse true   // als motor verkeerde kant op draait
 
-#define FlagNotMotor false  //true: motoren niet laten draaien
-
 // speed
 #define MAX_STEPPERSPEED 20000  //16x microstepping
 #define MAX_STEPPERACCEL 10000   //16x microstepping

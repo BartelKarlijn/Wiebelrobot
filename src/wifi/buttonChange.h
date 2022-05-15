@@ -18,9 +18,10 @@ float  buttonChangeUp(float var, float var_Change, String Change_Oms) {
 }
 
 void buttonChangeMotorENA(){
-  Println("Motor status wijzigen");
+  Print("Motoren zijn nu ");
   motorENA = not(motorENA);
-  digitalWrite(motorPinENA, motorENA);
+  Println(motorENA ? "Aan" : "Uit");
+  digitalWrite(motorPinENA, motorENA ? HIGH : LOW);
 }
 
 void buttonChangeSavePID() {
