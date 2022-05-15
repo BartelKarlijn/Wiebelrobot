@@ -5,11 +5,11 @@ const char config_html[] PROGMEM = R"rawliteral(
 <link rel="icon" href="data:,">
 <style>
   html { font-family:Helvetica; display:inline-block; margin:50px auto; text-align:left;color:#444444;}
-  body{margin-top:50px;}
+  body{margin-top:10px;}
   h1 {text-align:center;}
   h4 {text-align:right;}
-  tr td {height:50px}
-  .button {display: inline;width: 60px;background-color: #3498db;border: none;color: white;padding: 10px 10px;text-decoration: none;font-size: 25px;margin: 10px auto 25px;cursor: pointer;border-radius: 4px; margin-bottom: 50px;}
+  tr td {height:40px}
+  .button {display: inline;width: 60px;background-color: #3498db;border: none;color: white;padding: 10px 10px;text-decoration: none;font-size: 20px;margin: 5px;cursor: pointer;border-radius: 4px; margin-bottom: 20px;}
   .button-on {background-color: #3498db;}
   .button-on:active {background-color: #2980b9;}
   .button-of {background-color: #34495e;}

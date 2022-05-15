@@ -9,6 +9,7 @@ String html_processorConfig(const String& var){
     buttons += html_buttonUpDown(oms_An, id_Anra, id_Anup, id_Ando, selfBalanceAngleSetpoint, An_change);
 
     buttons += html_buttonSimple(id_ShowAngle, String(currentAngle), oms_ShowAngle);
+    buttons += html_buttonSimple(id_MotorENA, String(motorENA), oms_MotorENA);
     buttons += html_buttonSimple(id_SaveConfig, "SAVE", oms_SaveConfig);
     buttons += html_buttonSimple(id_Restart, "/!\\", oms_Restart);
     buttons += "</table>";
