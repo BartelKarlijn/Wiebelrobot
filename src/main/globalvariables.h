@@ -27,15 +27,16 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 //VectorFloat gravity;    // [x, y, z]            gravity vector
 //float euler[3];         // [psi, theta, phi]    Euler angle container
 //float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+float Pitch;
 
 // MPU waarden, ook gebruikt voor Calibratie
-int16_t accX, accY, accZ, gyroX, gyroY, gyroZ;
-int accX_offset, accY_offset, accZ_offset, gyroX_offset, gyroY_offset, gyroZ_offset;
-int mean_accX, mean_accY, mean_accZ, mean_gyroX, mean_gyroY, mean_gyroZ = 0;
-int accX_offsetinit, accY_offsetinit, accZ_offsetinit, gyroX_offsetinit, gyroY_offsetinit, gyroZ_offsetinit;
-int state_calibration = 0;
-unsigned int calibratedOffsetAdress = 0;
-unsigned int loopcount=0;
+//int16_t accX, accY, accZ, gyroX, gyroY, gyroZ;
+//int accX_offset, accY_offset, accZ_offset, gyroX_offset, gyroY_offset, gyroZ_offset;
+//int mean_accX, mean_accY, mean_accZ, mean_gyroX, mean_gyroY, mean_gyroZ = 0;
+//int accX_offsetinit, accY_offsetinit, accZ_offsetinit, gyroX_offsetinit, gyroY_offsetinit, gyroZ_offsetinit;
+//int state_calibration = 0;
+//unsigned int calibratedOffsetAdress = 0;
+//unsigned int loopcount=0;
 
 //////// PID //////////
 Preferences pref_eeprom;

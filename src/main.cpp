@@ -31,7 +31,7 @@ void setup() {
   #endif
   mpu9250we_setup();         // settings van MPU instellen & opstarten
 
-  setup_task1_stepper();     //Stepper.run op andere core draaien
+//  setup_task1_stepper();     //Stepper.run op andere core draaien
 
   loop_timer = micros() + PERIOD;
   setupIntledAllOK();
@@ -43,17 +43,19 @@ void loop() {
   #else
   //  loopMPU();
   #endif
-  mpu9250we_loop();
-  delay(20);
   // apply PID algo
-//  currentAngle = - ypr[1] * 180 / PI;
-//  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
-//  integralErr += pidError;                                         // het I gedeelte  
-//  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);           // zorgen dat het de spuigaten niet uitloopt
-//  errorDerivative = pidError - pidLastError;                       // het D gedeelte
-//  pidLastError = pidError;
-//
-//  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+  currentAngle = mpu9250we_loop();
+  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
+  integralErr += pidError;                                                // het I gedeelte  
+  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);    // zorgen dat het de spuigaten niet uitloopt
+  errorDerivative = pidError - pidLastError;                              // het D gedeelte
+  pidLastError = pidError;
+
+  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+  stepperL.setSpeed(pidOutput);
+  stepperL.runSpeed();
+  stepperR.setSpeed(pidOutput);
+  stepperR.runSpeed();
 
 
 // zorgen dat we vaste loop lengte hebben
