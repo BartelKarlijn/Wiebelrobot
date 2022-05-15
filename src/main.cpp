@@ -23,18 +23,13 @@ void setup() {
   setup_steppers();       // Motors afzetten
   get_datafrom_eeprom (); // parameters uit eeprom halen (oa ssid/pw en PID)
   setup_ConnectKnownWifi();  // Aan gekende wifi connecteren
-  //setup_AsyncWebserver();    // webserver om html te tonen 
-  setup_task2_async();     
+  setup_AsyncWebserver();    // webserver om html te tonen 
+  //setup_task2_async();     
   setup_CreateAccessPoint(); // Toch eigen AccessPoint opzetten als gekende wifi niet gelukt.
   #ifdef flag_I2Cscan
     i2cscan();
   #endif
-  #ifdef flag_calibrateMPU 
-//    calibrateMPUsetup();  // als je MPU wil callibreren
-    mpu9250we_calibrate();
-  #else
-//    setupMPU();           // MPU en de DMP opstarten
-  #endif
+  mpu9250we_setup();         // settings van MPU instellen & opstarten
 
   setup_task1_stepper();     //Stepper.run op andere core draaien
 
@@ -46,7 +41,7 @@ void loop() {
   #ifdef flag_calibrateMPU 
 //    calibrateMPUloop();
   #else
-//    loopMPU();
+  //  loopMPU();
   #endif
   mpu9250we_loop();
   delay(20);
