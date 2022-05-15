@@ -46,7 +46,7 @@
 // I2C scan.  Moet eigenlijk nooit gebeuren
 //#define flag_I2Cscan        //Uncomment om I2Cscan te doen
 // Calibratie moet eigenlijk maar 1x gebeuren
-#define flag_calibrateMPU   //Uncomment om calibratie te doen
+// #define flag_calibrateMPU   //Uncomment om calibratie te doen; maar dat stuk code is er uit gehaald
 
 #ifdef flag_calibrateMPU
   //Change this 3 variables if you want to fine tune the skecth to your needs.

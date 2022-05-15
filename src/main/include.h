@@ -39,13 +39,7 @@
 #ifdef flag_I2Cscan
   #include <mpu/i2cscan.h>
 #endif
-#ifdef flag_calibrateMPU
-  //#include <mpu\calibrateMPU.h>
-#else
-  #include <mpu\setupMPU.h>
-  #include <mpu\loopMPU.h>
-#endif
-#include <mpu/mpu9250we_calibrate.h>
+#include <mpu/mpu9250we_setup.h>
 #include <mpu/mpu9250we_loop.h>
 
 // motors

@@ -1,4 +1,4 @@
-void mpu9250we_calibrate(){
+void mpu9250we_setup(){
   Wire.begin();
   if(!myMPU9250.init()){
     Println("MPU9250 does not respond");
