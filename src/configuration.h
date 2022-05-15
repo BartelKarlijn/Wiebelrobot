@@ -70,8 +70,8 @@
 #define motorRpinSTEP 25  //orange
 #define motorPinENA   14  //grey  Wordt gebruikt om motoren aan of af te zetten
 
-//#define StepperL_reverse  // uncomment als motor verkeerde kant op draait
-#define StepperR_reverse  // uncomment als motor verkeerde kant op draait
+#define StepperL_reverse  // uncomment als motor verkeerde kant op draait
+//#define StepperR_reverse  // uncomment als motor verkeerde kant op draait
 
 // speed
 #define MAX_STEPPERSPEED 20000  //16x microstepping
@@ -99,7 +99,7 @@ float BASE_Ki = 0.0;
 float BASE_Kd = 0.0;
 float BASE_Angle = 0.0;
 
-#define MAX_PID_OUTPUT 1000     // bepaalt hoe groot PID params kunnen zijn
+#define MAX_PID_OUTPUT MAX_STEPPERSPEED     // bepaalt hoe groot PID params kunnen zijn
 float MAXintegralErr = 100.0;   // zorgt dat de I niet belachelijk groot wordt
 volatile float angleSetpoint = 0;  //rechtop staan.
 

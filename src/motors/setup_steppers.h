@@ -11,7 +11,7 @@ void  setup_steppers() {
 
   // Motoren aan of af zetten
   pinMode(motorPinENA, OUTPUT);
-  digitalWrite(motorPinENA, motorENA );  // Motoren af zetten
+  digitalWrite(motorPinENA, motorENA ? LOW : HIGH);   // Motoren af zetten
 
   // Set the maximum speed in steps per second:
   stepperL.setMaxSpeed(MAX_STEPPERSPEED);
