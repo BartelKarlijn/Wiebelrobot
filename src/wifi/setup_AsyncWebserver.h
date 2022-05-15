@@ -9,8 +9,8 @@ void setup_AsyncWebserver(){
   webserver.on(hdlWifiPWD, HTTP_GET, [](AsyncWebServerRequest *request) {
     Print("Wifi config pagina");
     request->send_P(200, "text/html", config_html, html_processorWifi);
-    Print("webserver running on core ");
-    Println(String(xPortGetCoreID()));
+//    Print("webserver running on core ");
+//    Println(String(xPortGetCoreID()));
   });
 
   // Opvangen als wifi data bewaard worden
@@ -46,8 +46,6 @@ void setup_AsyncWebserver(){
 
   // Route for configuration
   webserver.on(hdlConfig, HTTP_GET, [](AsyncWebServerRequest *request) {
-    Print("webserver running on core ");
-    Println(String(xPortGetCoreID()));
     request->send_P(200, "text/html", config_html, html_processorConfig);
   });
 
@@ -85,8 +83,8 @@ void setup_AsyncWebserver(){
       IDknop = 0;
     }
 
-    Print("knop= ");
-    Println(String(IDknop));
+    //Print("knop= ");
+    //Println(String(IDknop));
     switch (IDknop) {
     //Kp
     case id_Kpdo:
@@ -130,7 +128,7 @@ void setup_AsyncWebserver(){
       break;
     //Gemeten hoek
     case id_ShowAngle:
-      Println("Do nothing");
+      buttonChangeAngle();
       break;
     //Motor aan of uit zetten
     case id_MotorENA:

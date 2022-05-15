@@ -17,11 +17,18 @@ float  buttonChangeUp(float var, float var_Change, String Change_Oms) {
   return var;
 }
 
+void buttonChangeAngle(){
+  Print("Hoek= ");
+  Print(String(currentAngle));
+  Print("   pidOutput= ");
+  Println(String(pidOutput));
+}
+
 void buttonChangeMotorENA(){
   Print("Motoren zijn nu ");
   motorENA = not(motorENA);
   Println(motorENA ? "uit" : "Aan");
-  digitalWrite(motorPinENA, motorENA ? LOW : HIGH;
+  digitalWrite(motorPinENA, motorENA ? LOW : HIGH);
 }
 
 void buttonChangeSavePID() {

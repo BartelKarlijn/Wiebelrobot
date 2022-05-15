@@ -70,8 +70,8 @@
 #define motorRpinSTEP 25  //orange
 #define motorPinENA   14  //grey  Wordt gebruikt om motoren aan of af te zetten
 
-#define StepperL_reverse false  // als motor verkeerde kant op draait
-#define StepperR_reverse true   // als motor verkeerde kant op draait
+//#define StepperL_reverse  // uncomment als motor verkeerde kant op draait
+#define StepperR_reverse  // uncomment als motor verkeerde kant op draait
 
 // speed
 #define MAX_STEPPERSPEED 20000  //16x microstepping

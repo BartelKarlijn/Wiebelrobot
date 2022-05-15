@@ -38,25 +38,26 @@ void setup() {
 }
 
 void loop() {
-  #ifdef flag_calibrateMPU 
-//    calibrateMPUloop();
-  #else
-  //  loopMPU();
-  #endif
   // apply PID algo
-  currentAngle = mpu9250we_loop();
-  pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
-  integralErr += pidError;                                                // het I gedeelte  
-  integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);    // zorgen dat het de spuigaten niet uitloopt
-  errorDerivative = pidError - pidLastError;                              // het D gedeelte
-  pidLastError = pidError;
-
-  pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+  // zorgen dat we vaste loop lengte hebben
   
-  setSpeed(pidOutput, 0);
+  if (loop_timer > micros()) {
+    loop_timer += PERIOD;
+    currentAngle = mpu9250we_loop();
+    pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte
+    integralErr += pidError;                                                // het I gedeelte  
+    integralErr = constrf(integralErr, -MAXintegralErr, MAXintegralErr);    // zorgen dat het de spuigaten niet uitloopt
+    errorDerivative = pidError - pidLastError;                              // het D gedeelte
+    pidLastError = pidError;
+  
+    pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
+  
+    setSpeed(pidOutput, 0);
+  }
+  stepperL.runSpeed();
+  stepperR.runSpeed();
 
-// zorgen dat we vaste loop lengte hebben
-  delay(10);
+
 //  if (loop_timer <= micros()) Println("ERROR loop too short !");
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;
