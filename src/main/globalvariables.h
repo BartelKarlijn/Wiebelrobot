@@ -58,7 +58,7 @@ uint8_t PrintPIDloopCounter = 0;
 uint32_t prevSpeedStart;
 int16_t prevSpeed;
 int32_t currentPos = 0;
-bool motorENA;  // motoren aan of af zetten
+bool motorENA = false;  // motoren aan of af zetten
 
 // Define stepper motor connections and motor interface type. Motor interface type must be set to 1 when using a driver:
 #define motorInterfaceType 1  

@@ -134,8 +134,7 @@ void setup_AsyncWebserver(){
       break;
     //Motor aan of uit zetten
     case id_MotorENA:
-      Println("Motor status wijzigen");
-      motorENA = not(motorENA);
+      buttonChangeMotorENA();
       break;
     //Save PID
     case id_SaveConfig:

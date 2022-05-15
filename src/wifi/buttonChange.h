@@ -17,6 +17,12 @@ float  buttonChangeUp(float var, float var_Change, String Change_Oms) {
   return var;
 }
 
+void buttonChangeMotorENA(){
+  Println("Motor status wijzigen");
+  motorENA = not(motorENA);
+  digitalWrite(motorPinENA, motorENA);
+}
+
 void buttonChangeSavePID() {
   save_PIDdatato_eeprom ();  
   resetPID();
