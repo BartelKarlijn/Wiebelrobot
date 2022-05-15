@@ -52,14 +52,11 @@ void loop() {
   pidLastError = pidError;
 
   pidOutput = Kp*pidError + Ki*integralErr + Kd*errorDerivative;
-  stepperL.setSpeed(pidOutput);
-  stepperL.runSpeed();
-  stepperR.setSpeed(pidOutput);
-  stepperR.runSpeed();
-
+  
+  setSpeed(pidOutput, 0);
 
 // zorgen dat we vaste loop lengte hebben
-//  delay(10);
+  delay(10);
 //  if (loop_timer <= micros()) Println("ERROR loop too short !");
 //  while (loop_timer > micros());
 //  loop_timer += PERIOD;

@@ -69,6 +69,9 @@
 #define motorRpinDIR  33  //pink
 #define motorRpinSTEP 25  //orange
 
+#define StepperL_reverse false  // als motor verkeerde kant op draait
+#define StepperR_reverse false  // als motor verkeerde kant op draait
+
 #define FlagNotMotor false  //true: motoren niet laten draaien
 
 // speed
