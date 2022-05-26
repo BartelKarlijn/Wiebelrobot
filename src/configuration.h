@@ -19,9 +19,9 @@
 // Used I2Cscanner to find adress.  It's 0x68
 // See page 12 & 13 of MPU-6050 datasheet for sensitivities config and corresponding output
 // Dit definieert de gevoeligheid;  0: 250 degrees/second | 1: 500deg/s | 2: 1000deg/s | 3: 2000deg/s
-#define GYRO_FULL_SCALE_RANGE         0 // 250 deg/sec, het meest gevoelige
+//#define GYRO_FULL_SCALE_RANGE         0 // 250 deg/sec, het meest gevoelige
 // Dit definieert de gevoeligheid;  0: 2g | 1: 4g | 2: 8g | 3: 16g
-#define ACC_FULL_SCALE_RANGE          0 //2g, het meest gevoelige
+//#define ACC_FULL_SCALE_RANGE          0 //2g, het meest gevoelige
 
 // we willen niet elke keer gyro calibreren, daarom hieronder preset waarden 
 // om te calibreren, uncomment flag_calibrateMPU, zie verderop

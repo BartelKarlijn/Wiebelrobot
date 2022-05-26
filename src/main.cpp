@@ -40,8 +40,8 @@ void setup() {
 void loop() {
   // apply PID algo
   // zorgen dat we vaste loop lengte hebben
-  
-  if (loop_timer > micros()) {
+
+  if (micros() > loop_timer ) {
     loop_timer += PERIOD;
     currentAngle = mpu9250we_loop();
     pidError = currentAngle - angleSetpoint - selfBalanceAngleSetpoint;     // het P gedeelte

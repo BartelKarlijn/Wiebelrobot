@@ -1,4 +1,4 @@
-void setSpeed(int16_t s, int16_t rotation) {
+void setSpeed(float s, int rotation) {
   // Links
   #ifdef StepperL_reverse
     stepperL.setSpeed(-s);

@@ -27,7 +27,7 @@ void buttonChangeAngle(){
 void buttonChangeMotorENA(){
   Print("Motoren zijn nu ");
   motorENA = not(motorENA);
-  Println(motorENA ? "uit" : "Aan");
+  Println(motorENA ? "aan" : "uit");
   digitalWrite(motorPinENA, motorENA ? LOW : HIGH);
 }
 
